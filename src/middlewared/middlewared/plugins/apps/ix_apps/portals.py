@@ -1,3 +1,5 @@
+from typing import Any
+
 from apps_validation.portals import IX_NOTES_KEY, IX_PORTAL_KEY, validate_portals_and_notes, ValidationErrors
 
 from .lifecycle import get_rendered_template_config_of_app
@@ -13,14 +15,14 @@ def normalized_host_value(host: str) -> str:
     return host
 
 
-def get_portals_and_app_notes(app_name: str, version: str) -> dict:
+def get_portals_and_app_notes(app_name: str, version: str) -> dict[str, Any]:
     rendered_config = get_rendered_template_config_of_app(app_name, version)
     portal_and_notes_config = {
         k: rendered_config[k]
         for k in (IX_NOTES_KEY, IX_PORTAL_KEY)
         if k in rendered_config
     }
-    config = {
+    config: dict[str, Any] = {
         'portals': {},
         'notes': None,
     }
