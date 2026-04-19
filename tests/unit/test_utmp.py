@@ -8,8 +8,8 @@ from contextlib import contextmanager
 from middlewared.utils.account import authenticator, faillock
 from middlewared.utils.auth import AUID_UNSET, OTPW_MANAGER
 from middlewared.utils.origin import ConnectionOrigin
-from truenas_api_client import Client
-from truenas_pypam import PAMCode
+from xnas_api_client import Client
+from xnas_pypam import PAMCode
 
 
 v4_origin = ConnectionOrigin(

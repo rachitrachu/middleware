@@ -2,8 +2,8 @@ from ipaddress import ip_network
 
 from middlewared.service import ServiceContext
 
-from truenas_pynetif.address.constants import AddressFamily
-from truenas_pynetif.address.netlink import (
+from xnas_pynetif.address.constants import AddressFamily
+from xnas_pynetif.address.netlink import (
     add_route,
     delete_route,
     get_default_route,

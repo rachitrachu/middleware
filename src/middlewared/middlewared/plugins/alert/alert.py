@@ -14,7 +14,7 @@ import uuid
 
 import html2text
 
-from truenas_api_client.exc import ReserveFDException
+from xnas_api_client.exc import ReserveFDException
 
 from middlewared.alert.base import (
     AlertCategory,

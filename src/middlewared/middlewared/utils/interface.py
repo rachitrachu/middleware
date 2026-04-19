@@ -2,8 +2,8 @@ import contextlib
 import os
 import time
 
-from truenas_pynetif.address.constants import AddressFamily
-from truenas_pynetif.address.netlink import get_default_route, netlink_route
+from xnas_pynetif.address.constants import AddressFamily
+from xnas_pynetif.address.netlink import get_default_route, netlink_route
 
 from middlewared.utils import MIDDLEWARE_RUN_DIR
 

@@ -4,7 +4,7 @@ import subprocess
 import uuid
 
 from middlewared.plugins.disk_.disk_info import DiskService
-from truenas_api_client import Client
+from xnas_api_client import Client
 
 import pytest
 

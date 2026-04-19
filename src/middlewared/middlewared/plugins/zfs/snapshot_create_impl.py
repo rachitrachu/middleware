@@ -3,7 +3,7 @@ import dataclasses
 import errno
 from typing import Any
 
-import truenas_pylibzfs
+import xnas_pylibzfs
 
 from .exceptions import (
     ZFSPathAlreadyExistsException,
@@ -82,8 +82,8 @@ def create_snapshots_impl(
     # Open the primary dataset to verify it exists
     try:
         ds_hdl = tls.lzh.open_resource(name=dataset)
-    except truenas_pylibzfs.ZFSException as e:
-        if e.code == truenas_pylibzfs.ZFSError.EZFS_NOENT:
+    except xnas_pylibzfs.ZFSException as e:
+        if e.code == xnas_pylibzfs.ZFSError.EZFS_NOENT:
             raise ZFSPathNotFoundException(dataset)
         raise
 
@@ -111,8 +111,8 @@ def create_snapshots_impl(
         kwargs["user_properties"] = user_properties
 
     try:
-        truenas_pylibzfs.lzc.create_snapshots(**kwargs)
-    except truenas_pylibzfs.lzc.ZFSCoreException as e:
+        xnas_pylibzfs.lzc.create_snapshots(**kwargs)
+    except xnas_pylibzfs.lzc.ZFSCoreException as e:
         # errors is tuple of (snapshot_path, error_code) pairs
         for snap_path, err_code in (e.errors or ()):
             if err_code == errno.EEXIST:

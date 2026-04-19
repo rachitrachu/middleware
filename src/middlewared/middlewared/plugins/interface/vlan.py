@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import socket
 
-from truenas_pynetif.configure import (
+from xnas_pynetif.configure import (
     VlanConfig,
     configure_vlan as pynetif_configure_vlan,
 )
-from truenas_pynetif.netlink import LinkInfo, ParentInterfaceNotFound
+from xnas_pynetif.netlink import LinkInfo, ParentInterfaceNotFound
 from middlewared.service import ServiceContext
 
 from .sync_data import SyncData

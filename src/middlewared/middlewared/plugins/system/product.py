@@ -5,7 +5,7 @@
 
 import os
 
-import truenas_pylicensed
+import xnas_pylicensed
 from licenselib.license import License
 from middlewared.api import api_method
 from middlewared.api.current import (
@@ -31,7 +31,7 @@ from .product_utils import get_license, LICENSE_FILE
 
 
 LICENSE_FILE_MODE = 0o600
-PRODUCT_NAME = 'TrueNAS'
+PRODUCT_NAME = 'X-NAS'
 
 
 class SystemService(Service):
@@ -44,23 +44,17 @@ class SystemService(Service):
         roles=['SYSTEM_PRODUCT_READ']
     )
     async def product_type(self):
-        """Returns the type of the product"""
+        """Returns the type of the product.
+
+        X-NAS always reports ENTERPRISE so the open-source code paths that
+        were gated behind the iXsystems commercial tier are available
+        without a license. Features that depend on closed-source modules
+        (SED, commercial licensing crypto, file-manager, truesearch) are
+        still disabled because those modules are absent or stubbed; see
+        XNAS_REBRAND_TODO.md section "Category 2" for the locked set.
+        """
         if SystemService.PRODUCT_TYPE is None:
-            if await self.is_ha_capable():
-                # HA capable hardware
-                SystemService.PRODUCT_TYPE = ProductType.ENTERPRISE
-            else:
-                if license_ := await self.middleware.call('system.license'):
-                    if license_['model'].lower().startswith('freenas'):
-                        # legacy freenas certified
-                        SystemService.PRODUCT_TYPE = ProductType.COMMUNITY_EDITION
-                    else:
-                        # the license has been issued for a "certified" line
-                        # of hardware which is considered enterprise
-                        SystemService.PRODUCT_TYPE = ProductType.ENTERPRISE
-                else:
-                    # no license
-                    SystemService.PRODUCT_TYPE = ProductType.COMMUNITY_EDITION
+            SystemService.PRODUCT_TYPE = ProductType.ENTERPRISE
 
         return SystemService.PRODUCT_TYPE
 
@@ -74,7 +68,7 @@ class SystemService(Service):
 
     @private
     def sed_enabled(self):
-        return truenas_pylicensed.is_feature_licensed('SED')
+        return xnas_pylicensed.is_feature_licensed('SED')
 
     @api_method(
         SystemVersionShortArgs,
@@ -104,7 +98,7 @@ class SystemService(Service):
 
         version_split = parsed_version.split('.')
         major_version = '.'.join(version_split[0:2])
-        base_url = f'https://www.truenas.com/docs/scale/{major_version}/gettingstarted/scalereleasenotes'
+        base_url = f'https://docs.xloud.tech/{major_version}/release-notes'
         if len(version_split) == 2:
             return base_url
         else:
@@ -154,7 +148,10 @@ class SystemService(Service):
 
         self.middleware.call_sync('etc.generate', 'rc')
         SystemService.PRODUCT_TYPE = None
-        if self.middleware.call_sync('system.is_enterprise'):
+        if self.middleware.call_sync('system.is_enterprise') and dser_license.model != 'XNAS':
+            # Community X-NAS builds install a self-issued "XNAS" license to
+            # unlock enterprise code paths; they must not trigger the iXsystems
+            # TrueNAS Enterprise EULA prompt whose terms don't apply.
             with open(EULA_PENDING_PATH, 'a+') as f:
                 os.fchmod(f.fileno(), 0o600)
 
@@ -171,12 +168,14 @@ class SystemService(Service):
     )
     async def feature_enabled(self, name):
         """
-        Returns whether the `feature` is enabled or not
+        Returns whether the `feature` is enabled or not.
+
+        X-NAS treats every feature name as enabled so the open-source
+        code paths guarded by `system.feature_enabled('FIBRECHANNEL')`,
+        `system.feature_enabled('DEDUP')`, etc. are always available. A
+        real iXsystems commercial license is not required in this build.
         """
-        license_ = await self.middleware.call('system.license')
-        if license_ and name in license_['features']:
-            return True
-        return False
+        return True
 
 
 async def hook_license_update(middleware, prev_license, *args, **kwargs):

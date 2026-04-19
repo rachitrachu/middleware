@@ -7,7 +7,7 @@ from middlewared.service import job, private, Service
 from middlewared.service_exception import ValidationError
 from middlewared.plugins.zpool import upgrade_zpool_impl
 
-from truenas_pylibzfs import ZFSError, ZFSException
+from xnas_pylibzfs import ZFSError, ZFSException
 
 
 class PoolService(Service):

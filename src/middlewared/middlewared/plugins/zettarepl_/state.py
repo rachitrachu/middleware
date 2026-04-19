@@ -1,7 +1,7 @@
 from collections import defaultdict
 import re
 
-from truenas_api_client import json as ejson
+from xnas_api_client import json as ejson
 
 from middlewared.plugins.datastore.write import NoRowsWereUpdatedException
 from middlewared.service import Service

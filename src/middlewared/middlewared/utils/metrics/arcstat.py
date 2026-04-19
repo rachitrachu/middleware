@@ -1,6 +1,6 @@
 from types import MappingProxyType
 
-from truenas_pylibzfs.kstat import ArcStats, get_arcstats
+from xnas_pylibzfs.kstat import ArcStats, get_arcstats
 
 # We are essentially
 # copying the same logic in the upstream `arc_summary.py`

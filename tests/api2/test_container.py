@@ -10,7 +10,7 @@ import time
 import pytest
 import websocket
 
-from truenas_api_client import ValidationErrors
+from xnas_api_client import ValidationErrors
 from middlewared.test.integration.assets.pool import another_pool, pool
 from middlewared.test.integration.utils import call, host, ssh, websocket_url
 

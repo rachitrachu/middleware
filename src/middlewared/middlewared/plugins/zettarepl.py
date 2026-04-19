@@ -17,7 +17,7 @@ import types
 
 import paramiko.ssh_exception
 
-from truenas_api_client import Client, ClientException
+from xnas_api_client import Client, ClientException
 from zettarepl.dataset.create import create_dataset
 from zettarepl.dataset.list import list_datasets
 from zettarepl.definition.definition import (

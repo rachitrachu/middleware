@@ -4,7 +4,7 @@ from middlewared.test.integration.assets.directory_service import directoryservi
 from middlewared.test.integration.assets.product import product_type
 from middlewared.test.integration.utils import call, client, ssh
 from middlewared.test.integration.utils.client import truenas_server
-from truenas_api_client import ClientException
+from xnas_api_client import ClientException
 
 
 @pytest.fixture(scope="module")

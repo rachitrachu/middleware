@@ -26,6 +26,13 @@ class ProactiveSupportAlertSource(AlertSource):
     run_on_backup_node = False
 
     async def check(self) -> list[Alert[Any]] | Alert[Any] | None:
+        # Community X-NAS builds do not use the vendor proactive-support
+        # subsystem (it phones home to the commercial support portal). Skip
+        # the nag when the installed license is a self-issued XNAS one.
+        local_license = await self.middleware.call('system.license')
+        if local_license and local_license['model'] == 'XNAS':
+            return None
+
         webui_page = 'System Settings->General->Support page'
         support = await self.middleware.call('support.config')
         available = await self.middleware.call('support.is_available')

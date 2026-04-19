@@ -9,7 +9,7 @@ import time
 from typing import Literal
 
 import pyinotify
-import truenas_os
+import xnas_os
 
 from itertools import product
 from middlewared.api import api_method
@@ -39,8 +39,8 @@ from middlewared.utils.filesystem import attrs, stat_x
 from middlewared.utils.filesystem.acl import acl_is_present, ACL_UNDEFINED_ID
 from middlewared.utils.filesystem.constants import FileType
 from middlewared.utils.filesystem.directory import DirectoryIterator, DirectoryRequestMask
-from truenas_os_pyutils.io import safe_open
-from truenas_os_pyutils.mount import iter_mountinfo, statmount
+from xnas_os_pyutils.io import safe_open
+from xnas_os_pyutils.mount import iter_mountinfo, statmount
 from middlewared.utils.nss import pwd, grp
 from middlewared.utils.path import FSLocation, path_location, is_child_realpath
 
@@ -189,7 +189,7 @@ class FilesystemService(Service):
         Get the current ZFS attributes for the file at the given path
         """
         try:
-            fd = truenas_os.openat2(path, os.O_RDONLY, resolve=truenas_os.RESOLVE_NO_SYMLINKS)
+            fd = xnas_os.openat2(path, os.O_RDONLY, resolve=xnas_os.RESOLVE_NO_SYMLINKS)
         except OSError as e:
             if e.errno == errno.ELOOP:
                 raise CallError('Symlinks are not permitted.', errno.ELOOP)
@@ -579,7 +579,7 @@ class FilesystemService(Service):
             CallError(ENOENT) - Path not found
         """
         try:
-            fd = truenas_os.openat2(path, os.O_PATH, resolve=truenas_os.RESOLVE_NO_SYMLINKS)
+            fd = xnas_os.openat2(path, os.O_PATH, resolve=xnas_os.RESOLVE_NO_SYMLINKS)
             try:
                 st = os.fstatvfs(fd)
                 mntinfo = statmount(fd=fd)

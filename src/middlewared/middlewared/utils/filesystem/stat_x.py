@@ -6,7 +6,7 @@
 # NOTE: tests for these utils are in src/middlewared/middlewared/pytest/unit/utils/test_statx.py
 
 import stat as statlib
-import truenas_os
+import xnas_os
 from enum import IntFlag, StrEnum
 from pathlib import Path
 from typing import TypedDict
@@ -33,18 +33,18 @@ class StatxAttr(IntFlag):
     DAX = 0x00200000
 
 
-STATX_DEFAULT_MASK = truenas_os.STATX_BASIC_STATS | truenas_os.STATX_BTIME | truenas_os.STATX_MNT_ID_UNIQUE
+STATX_DEFAULT_MASK = xnas_os.STATX_BASIC_STATS | xnas_os.STATX_BTIME | xnas_os.STATX_MNT_ID_UNIQUE
 
 
 class StatxEntryResult(TypedDict, total=False):
     """Return type for statx_entry_impl"""
-    st: truenas_os.StatxResult
+    st: xnas_os.StatxResult
     etype: str | None
     attributes: list[str]
     is_ctldir: bool  # Optional: only present if entry is absolute
 
 
-def statx_entry_impl(entry: Path, dir_fd: int = truenas_os.AT_FDCWD) -> StatxEntryResult | None:
+def statx_entry_impl(entry: Path, dir_fd: int = xnas_os.AT_FDCWD) -> StatxEntryResult | None:
     """
     This is a convenience wrapper around stat_x that was originally
     located within the filesystem plugin
@@ -67,10 +67,10 @@ def statx_entry_impl(entry: Path, dir_fd: int = truenas_os.AT_FDCWD) -> StatxEnt
     path = entry.as_posix()
     try:
         # This is equivalent to lstat() call
-        st = truenas_os.statx(
+        st = xnas_os.statx(
             path,
             dir_fd=dir_fd,
-            flags=truenas_os.AT_SYMLINK_NOFOLLOW,
+            flags=xnas_os.AT_SYMLINK_NOFOLLOW,
             mask=STATX_DEFAULT_MASK
         )
     except FileNotFoundError:
@@ -89,7 +89,7 @@ def statx_entry_impl(entry: Path, dir_fd: int = truenas_os.AT_FDCWD) -> StatxEnt
     elif statlib.S_ISLNK(out['st'].stx_mode):
         out['etype'] = StatxEtype.SYMLINK.name
         try:
-            out['st'] = truenas_os.statx(path, dir_fd=dir_fd, mask=STATX_DEFAULT_MASK)
+            out['st'] = xnas_os.statx(path, dir_fd=dir_fd, mask=STATX_DEFAULT_MASK)
         except FileNotFoundError:
             return None
 

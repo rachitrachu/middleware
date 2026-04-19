@@ -219,8 +219,8 @@ if __name__ == "__main__":
 
     # BEGIN LAZY IMPORTS
     # ------------------
-    from truenas_pylibvirt.utils.gpu import get_gpus
-    from truenas_os_pyutils.io import atomic_write
+    from xnas_pylibvirt.utils.gpu import get_gpus
+    from xnas_os_pyutils.io import atomic_write
 
     from middlewared.service_exception import CallError
     from middlewared.utils.db import FREENAS_DATABASE, query_config_table, query_table

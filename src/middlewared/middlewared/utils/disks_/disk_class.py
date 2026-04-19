@@ -13,7 +13,7 @@ import subprocess
 import typing
 import uuid
 
-import truenas_pylibsed as sed
+import xnas_pylibsed as sed
 
 from .disk_io import read_gpt, wipe_disk_quick, create_gpt_partition
 from .gpt_parts import GptPartEntry, PART_TYPES
@@ -596,7 +596,7 @@ class DiskEntry:
 
             pw_bytes = password.encode("utf-8")
 
-            # 1) Try raw password (drives provisioned with truenas_pylibsed)
+            # 1) Try raw password (drives provisioned with xnas_pylibsed)
             try:
                 sed.unlock(fd, pw_bytes, device_info=info)
                 return True, None

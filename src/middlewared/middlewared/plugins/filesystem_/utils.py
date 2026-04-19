@@ -4,10 +4,10 @@ import os
 import time
 import types
 
-import truenas_os
+import xnas_os
 
 from middlewared.service_exception import CallError
-from truenas_os_pyutils.mount import statmount as _statmount
+from xnas_os_pyutils.mount import statmount as _statmount
 from middlewared.plugins.zfs.object_count_impl import estimate_object_count_impl
 from middlewared.utils.filesystem.acl import (
     ACL_UNDEFINED_ID,
@@ -79,7 +79,7 @@ def _get_mount_info(fd: int):
 class AclTool:
     """
     Perform recursive ACL-related operations using fd-based operations via the
-    truenas_os extension.
+    xnas_os extension.
 
     `fd` must be an open O_RDONLY descriptor for the root path of the
     operation.  AclTool reads from it but does NOT close it; the caller owns
@@ -140,11 +140,11 @@ class AclTool:
             if self.options.traverse:
                 real_path = os.readlink(f'/proc/self/fd/{self.fd}')
                 _sm_flags = (
-                    truenas_os.STATMOUNT_MNT_POINT |
-                    truenas_os.STATMOUNT_SB_SOURCE |
-                    truenas_os.STATMOUNT_FS_TYPE
+                    xnas_os.STATMOUNT_MNT_POINT |
+                    xnas_os.STATMOUNT_SB_SOURCE |
+                    xnas_os.STATMOUNT_FS_TYPE
                 )
-                for entry in truenas_os.iter_mount(mnt_id=mnt_id, statmount_flags=_sm_flags):
+                for entry in xnas_os.iter_mount(mnt_id=mnt_id, statmount_flags=_sm_flags):
                     if not entry.mnt_point.startswith(real_path + '/'):
                         continue
                     if entry.fs_type == 'zfs' and entry.sb_source and '@' in entry.sb_source:
@@ -172,7 +172,7 @@ class AclTool:
         os.fchown(fd, self.uid, self.gid)
 
     def _do_strip(self, fd, isdir, depth):
-        truenas_os.fsetacl(fd, None)
+        xnas_os.fsetacl(fd, None)
         if self.uid != ACL_UNDEFINED_ID or self.gid != ACL_UNDEFINED_ID:
             os.fchown(fd, self.uid, self.gid)
         if self.options.target_mode is not None:
@@ -181,13 +181,13 @@ class AclTool:
     def _do_acl(self, fd, isdir, depth):
         if self.nfs4_inh is not None:
             # NFS4: use precomputed depth/type-specific inherited ACL
-            truenas_os.fsetacl(fd, self.nfs4_inh.pick(depth, isdir))
+            xnas_os.fsetacl(fd, self.nfs4_inh.pick(depth, isdir))
         elif not isdir:
             # POSIX1E file: use precomputed file-inherited ACL
-            truenas_os.fsetacl(fd, self.posix_file_acl)
+            xnas_os.fsetacl(fd, self.posix_file_acl)
         else:
             # POSIX1E dir: apply root ACL directly
-            truenas_os.fsetacl(fd, self.options.target_acl)
+            xnas_os.fsetacl(fd, self.options.target_acl)
         if self.uid != ACL_UNDEFINED_ID or self.gid != ACL_UNDEFINED_ID:
             os.fchown(fd, self.uid, self.gid)
 
@@ -196,7 +196,7 @@ class AclTool:
 
     def _process_mount(self, mnt_point, fs, rel, depth_offset=0):
         reporting_cb = self._report_progress if self.job is not None else None
-        with truenas_os.iter_filesystem_contents(
+        with xnas_os.iter_filesystem_contents(
             mnt_point, fs,
             relative_path=rel,
             reporting_increment=1000,
@@ -217,9 +217,9 @@ class AclTool:
         self._estimate_total(fs_name, mnt_id)
 
         if self.action in (AclToolAction.CLONE, AclToolAction.INHERIT):
-            if isinstance(self.options.target_acl, truenas_os.NFS4ACL):
+            if isinstance(self.options.target_acl, xnas_os.NFS4ACL):
                 self.nfs4_inh = _NFS4InheritedAcls.from_root(self.options.target_acl)
-            elif isinstance(self.options.target_acl, truenas_os.POSIXACL):
+            elif isinstance(self.options.target_acl, xnas_os.POSIXACL):
                 self.posix_file_acl = self.options.target_acl.generate_inherited_acl(is_dir=False)
 
         self._process_mount(mountpoint, fs_name, rel_path)
@@ -227,11 +227,11 @@ class AclTool:
         if self.options.traverse:
             real_path = os.readlink(f'/proc/self/fd/{self.fd}')
             _sm_flags = (
-                truenas_os.STATMOUNT_MNT_POINT |
-                truenas_os.STATMOUNT_SB_SOURCE |
-                truenas_os.STATMOUNT_FS_TYPE
+                xnas_os.STATMOUNT_MNT_POINT |
+                xnas_os.STATMOUNT_SB_SOURCE |
+                xnas_os.STATMOUNT_FS_TYPE
             )
-            for entry in truenas_os.iter_mount(mnt_id=mnt_id, statmount_flags=_sm_flags):
+            for entry in xnas_os.iter_mount(mnt_id=mnt_id, statmount_flags=_sm_flags):
                 child_mnt = entry.mnt_point
                 if not child_mnt.startswith(real_path + '/'):
                     continue
@@ -242,8 +242,8 @@ class AclTool:
                     continue
 
                 child_depth = len(child_mnt[len(real_path):].strip('/').split('/'))
-                child_fd = truenas_os.openat2(
-                    child_mnt, flags=os.O_RDONLY, resolve=truenas_os.RESOLVE_NO_SYMLINKS
+                child_fd = xnas_os.openat2(
+                    child_mnt, flags=os.O_RDONLY, resolve=xnas_os.RESOLVE_NO_SYMLINKS
                 )
                 try:
                     try:

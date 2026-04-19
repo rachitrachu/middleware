@@ -7,8 +7,8 @@ import socket
 import requests
 
 from middlewared.service_exception import CallError
-from truenas_api_client import Client as TNClient, ClientException
-from truenas_api_client.utils import undefined
+from xnas_api_client import Client as TNClient, ClientException
+from xnas_api_client.utils import undefined
 
 from .pytest import fail
 

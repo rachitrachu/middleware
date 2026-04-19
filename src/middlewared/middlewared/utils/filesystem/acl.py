@@ -3,7 +3,7 @@ import errno
 import os
 from types import MappingProxyType
 
-import truenas_os
+import xnas_os
 
 from typing import Any
 
@@ -184,47 +184,47 @@ def normalize_acl_ids(setacl_data: dict[str, Any]) -> None:
 
 
 # ---------------------------------------------------------------------------
-# truenas_os integration
+# xnas_os integration
 # ---------------------------------------------------------------------------
 
 # NFS4 "BASIC" permission shortcuts (all 14 permission bits)
 _NFS4_BASIC_FULL = (
-    truenas_os.NFS4Perm.READ_DATA |
-    truenas_os.NFS4Perm.WRITE_DATA |
-    truenas_os.NFS4Perm.APPEND_DATA |
-    truenas_os.NFS4Perm.READ_NAMED_ATTRS |
-    truenas_os.NFS4Perm.WRITE_NAMED_ATTRS |
-    truenas_os.NFS4Perm.EXECUTE |
-    truenas_os.NFS4Perm.DELETE_CHILD |
-    truenas_os.NFS4Perm.READ_ATTRIBUTES |
-    truenas_os.NFS4Perm.WRITE_ATTRIBUTES |
-    truenas_os.NFS4Perm.DELETE |
-    truenas_os.NFS4Perm.READ_ACL |
-    truenas_os.NFS4Perm.WRITE_ACL |
-    truenas_os.NFS4Perm.WRITE_OWNER |
-    truenas_os.NFS4Perm.SYNCHRONIZE
+    xnas_os.NFS4Perm.READ_DATA |
+    xnas_os.NFS4Perm.WRITE_DATA |
+    xnas_os.NFS4Perm.APPEND_DATA |
+    xnas_os.NFS4Perm.READ_NAMED_ATTRS |
+    xnas_os.NFS4Perm.WRITE_NAMED_ATTRS |
+    xnas_os.NFS4Perm.EXECUTE |
+    xnas_os.NFS4Perm.DELETE_CHILD |
+    xnas_os.NFS4Perm.READ_ATTRIBUTES |
+    xnas_os.NFS4Perm.WRITE_ATTRIBUTES |
+    xnas_os.NFS4Perm.DELETE |
+    xnas_os.NFS4Perm.READ_ACL |
+    xnas_os.NFS4Perm.WRITE_ACL |
+    xnas_os.NFS4Perm.WRITE_OWNER |
+    xnas_os.NFS4Perm.SYNCHRONIZE
 )
 _NFS4_BASIC_MODIFY = _NFS4_BASIC_FULL & ~(
-    truenas_os.NFS4Perm.WRITE_ACL | truenas_os.NFS4Perm.WRITE_OWNER
+    xnas_os.NFS4Perm.WRITE_ACL | xnas_os.NFS4Perm.WRITE_OWNER
 )
 _NFS4_BASIC_READ = (
-    truenas_os.NFS4Perm.READ_DATA |
-    truenas_os.NFS4Perm.READ_NAMED_ATTRS |
-    truenas_os.NFS4Perm.READ_ATTRIBUTES |
-    truenas_os.NFS4Perm.READ_ACL |
-    truenas_os.NFS4Perm.EXECUTE |
-    truenas_os.NFS4Perm.SYNCHRONIZE
+    xnas_os.NFS4Perm.READ_DATA |
+    xnas_os.NFS4Perm.READ_NAMED_ATTRS |
+    xnas_os.NFS4Perm.READ_ATTRIBUTES |
+    xnas_os.NFS4Perm.READ_ACL |
+    xnas_os.NFS4Perm.EXECUTE |
+    xnas_os.NFS4Perm.SYNCHRONIZE
 )
 _NFS4_BASIC_TRAVERSE = (
-    truenas_os.NFS4Perm.READ_NAMED_ATTRS |
-    truenas_os.NFS4Perm.READ_ATTRIBUTES |
-    truenas_os.NFS4Perm.EXECUTE |
-    truenas_os.NFS4Perm.SYNCHRONIZE
+    xnas_os.NFS4Perm.READ_NAMED_ATTRS |
+    xnas_os.NFS4Perm.READ_ATTRIBUTES |
+    xnas_os.NFS4Perm.EXECUTE |
+    xnas_os.NFS4Perm.SYNCHRONIZE
 )
 
 # Lookup tables used by the conversion helpers below
 _NFS4_PERM_NAMES = tuple(NFS4ACE_Mask)
-# Input flag names: our enum members plus audit flags that live only in truenas_os
+# Input flag names: our enum members plus audit flags that live only in xnas_os
 _NFS4_FLAG_NAMES = (
     NFS4ACE_Flag.FILE_INHERIT, NFS4ACE_Flag.DIRECTORY_INHERIT,
     NFS4ACE_Flag.NO_PROPAGATE_INHERIT, NFS4ACE_Flag.INHERIT_ONLY,
@@ -241,50 +241,50 @@ _NFS4_BASIC_PERMS = MappingProxyType({
 })
 _NFS4_BASIC_PERMS_REV = MappingProxyType({v: k for k, v in _NFS4_BASIC_PERMS.items()})
 _NFS4_BASIC_FLAGS = MappingProxyType({
-    NFS4ACE_FlagSimple.INHERIT: truenas_os.NFS4Flag.FILE_INHERIT | truenas_os.NFS4Flag.DIRECTORY_INHERIT,
-    NFS4ACE_FlagSimple.NOINHERIT: truenas_os.NFS4Flag(0),
+    NFS4ACE_FlagSimple.INHERIT: xnas_os.NFS4Flag.FILE_INHERIT | xnas_os.NFS4Flag.DIRECTORY_INHERIT,
+    NFS4ACE_FlagSimple.NOINHERIT: xnas_os.NFS4Flag(0),
 })
 _NFS4_BASIC_FLAGS_REV = MappingProxyType({v: k for k, v in _NFS4_BASIC_FLAGS.items()})
 _NFS4_ACL_FLAGS = MappingProxyType({
-    NFS4ACL_Flag.AUTOINHERIT: truenas_os.NFS4ACLFlag.AUTO_INHERIT,
-    NFS4ACL_Flag.PROTECTED: truenas_os.NFS4ACLFlag.PROTECTED,
-    NFS4ACL_Flag.DEFAULTED: truenas_os.NFS4ACLFlag.DEFAULTED,
+    NFS4ACL_Flag.AUTOINHERIT: xnas_os.NFS4ACLFlag.AUTO_INHERIT,
+    NFS4ACL_Flag.PROTECTED: xnas_os.NFS4ACLFlag.PROTECTED,
+    NFS4ACL_Flag.DEFAULTED: xnas_os.NFS4ACLFlag.DEFAULTED,
 })
 _NFS4_TAG_TO_WHO = MappingProxyType({
-    NFS4ACE_Tag.SPECIAL_OWNER: truenas_os.NFS4Who.OWNER,
-    NFS4ACE_Tag.SPECIAL_GROUP: truenas_os.NFS4Who.GROUP,
-    NFS4ACE_Tag.SPECIAL_EVERYONE: truenas_os.NFS4Who.EVERYONE,
+    NFS4ACE_Tag.SPECIAL_OWNER: xnas_os.NFS4Who.OWNER,
+    NFS4ACE_Tag.SPECIAL_GROUP: xnas_os.NFS4Who.GROUP,
+    NFS4ACE_Tag.SPECIAL_EVERYONE: xnas_os.NFS4Who.EVERYONE,
 })
 _NFS4_WHO_TO_TAG = MappingProxyType({v: k for k, v in _NFS4_TAG_TO_WHO.items()})
 _POSIX_PERM_NAMES = tuple(POSIXACE_Mask)
 
 
 # ---------------------------------------------------------------------------
-# Internal helpers (only valid when truenas_os is available)
+# Internal helpers (only valid when xnas_os is available)
 # ---------------------------------------------------------------------------
 
-def _perm_obj_to_full_dict(perm: 'truenas_os.NFS4Perm') -> dict:
-    return {n: bool(perm & getattr(truenas_os.NFS4Perm, n)) for n in _NFS4_PERM_NAMES}
+def _perm_obj_to_full_dict(perm: 'xnas_os.NFS4Perm') -> dict:
+    return {n: bool(perm & getattr(xnas_os.NFS4Perm, n)) for n in _NFS4_PERM_NAMES}
 
 
-def _flags_obj_to_dict(flags: 'truenas_os.NFS4Flag') -> dict:
+def _flags_obj_to_dict(flags: 'xnas_os.NFS4Flag') -> dict:
     # SUCCESSFUL_ACCESS and FAILED_ACCESS are intentionally omitted from output
-    return {n: bool(flags & getattr(truenas_os.NFS4Flag, n)) for n in _NFS4_OUTPUT_FLAG_NAMES}
+    return {n: bool(flags & getattr(xnas_os.NFS4Flag, n)) for n in _NFS4_OUTPUT_FLAG_NAMES}
 
 
-def _perm_dict_to_obj(perms_dict: dict) -> 'truenas_os.NFS4Perm':
-    perm = truenas_os.NFS4Perm(0)
+def _perm_dict_to_obj(perms_dict: dict) -> 'xnas_os.NFS4Perm':
+    perm = xnas_os.NFS4Perm(0)
     for n in _NFS4_PERM_NAMES:
         if perms_dict.get(n):
-            perm |= getattr(truenas_os.NFS4Perm, n)
+            perm |= getattr(xnas_os.NFS4Perm, n)
     return perm
 
 
-def _flags_dict_to_obj(flags_dict: dict) -> 'truenas_os.NFS4Flag':
-    flags = truenas_os.NFS4Flag(0)
+def _flags_dict_to_obj(flags_dict: dict) -> 'xnas_os.NFS4Flag':
+    flags = xnas_os.NFS4Flag(0)
     for n in _NFS4_FLAG_NAMES:
         if flags_dict.get(n):
-            flags |= getattr(truenas_os.NFS4Flag, n)
+            flags |= getattr(xnas_os.NFS4Flag, n)
     return flags
 
 
@@ -292,21 +292,21 @@ def _flags_dict_to_obj(flags_dict: dict) -> 'truenas_os.NFS4Flag':
 # Public conversion helpers
 # ---------------------------------------------------------------------------
 
-def nfs4ace_dict_to_obj(ace: dict) -> 'truenas_os.NFS4Ace':
-    """Convert a middleware NFS4 ACE dict to a truenas_os.NFS4Ace object."""
+def nfs4ace_dict_to_obj(ace: dict) -> 'xnas_os.NFS4Ace':
+    """Convert a middleware NFS4 ACE dict to a xnas_os.NFS4Ace object."""
     tag = ace['tag']
-    extra_flags = truenas_os.NFS4Flag(0)
+    extra_flags = xnas_os.NFS4Flag(0)
     if who_type := _NFS4_TAG_TO_WHO.get(tag):
         who_id = -1
     elif tag == 'USER':
-        who_type, who_id = truenas_os.NFS4Who.NAMED, ace['id']
+        who_type, who_id = xnas_os.NFS4Who.NAMED, ace['id']
     elif tag == 'GROUP':
-        who_type, who_id = truenas_os.NFS4Who.NAMED, ace['id']
-        extra_flags = truenas_os.NFS4Flag.IDENTIFIER_GROUP
+        who_type, who_id = xnas_os.NFS4Who.NAMED, ace['id']
+        extra_flags = xnas_os.NFS4Flag.IDENTIFIER_GROUP
     else:
         raise ValueError(f'{tag!r}: unknown NFS4 ACE tag')
 
-    ace_type = truenas_os.NFS4AceType.ALLOW if ace['type'] == 'ALLOW' else truenas_os.NFS4AceType.DENY
+    ace_type = xnas_os.NFS4AceType.ALLOW if ace['type'] == 'ALLOW' else xnas_os.NFS4AceType.DENY
 
     perms = ace['perms']
     if 'BASIC' in perms:
@@ -322,27 +322,27 @@ def nfs4ace_dict_to_obj(ace: dict) -> 'truenas_os.NFS4Ace':
     else:
         ace_flags = _flags_dict_to_obj(flags_in)
 
-    return truenas_os.NFS4Ace(ace_type, ace_flags | extra_flags, access_mask, who_type, who_id)
+    return xnas_os.NFS4Ace(ace_type, ace_flags | extra_flags, access_mask, who_type, who_id)
 
 
-def nfs4acl_dict_to_obj(acl_list: list, aclflags: dict | None) -> 'truenas_os.NFS4ACL':
-    """Convert a list of middleware NFS4 ACE dicts to a truenas_os.NFS4ACL."""
-    acl_flag_obj = truenas_os.NFS4ACLFlag(0)
+def nfs4acl_dict_to_obj(acl_list: list, aclflags: dict | None) -> 'xnas_os.NFS4ACL':
+    """Convert a list of middleware NFS4 ACE dicts to a xnas_os.NFS4ACL."""
+    acl_flag_obj = xnas_os.NFS4ACLFlag(0)
     if aclflags:
         for key, flag in _NFS4_ACL_FLAGS.items():
             if aclflags.get(key):
                 acl_flag_obj |= flag
-    return truenas_os.NFS4ACL.from_aces([nfs4ace_dict_to_obj(ace) for ace in acl_list], acl_flag_obj)
+    return xnas_os.NFS4ACL.from_aces([nfs4ace_dict_to_obj(ace) for ace in acl_list], acl_flag_obj)
 
 
-def nfs4acl_obj_to_dict(acl: 'truenas_os.NFS4ACL', uid: int, gid: int, simplified: bool) -> dict:
-    """Convert a truenas_os.NFS4ACL to the middleware API dict format."""
+def nfs4acl_obj_to_dict(acl: 'xnas_os.NFS4ACL', uid: int, gid: int, simplified: bool) -> dict:
+    """Convert a xnas_os.NFS4ACL to the middleware API dict format."""
     ace_list = []
     for ace in acl.aces:
         ace_flags = ace.ace_flags
         if tag := _NFS4_WHO_TO_TAG.get(ace.who_type):
             out_id = -1
-        elif ace_flags & truenas_os.NFS4Flag.IDENTIFIER_GROUP:
+        elif ace_flags & xnas_os.NFS4Flag.IDENTIFIER_GROUP:
             tag, out_id = 'GROUP', ace.who_id
         else:
             tag, out_id = 'USER', ace.who_id
@@ -353,7 +353,7 @@ def nfs4acl_obj_to_dict(acl: 'truenas_os.NFS4ACL', uid: int, gid: int, simplifie
         else:
             perms_dict = _perm_obj_to_full_dict(perm)
 
-        clean_flags = ace_flags & ~truenas_os.NFS4Flag.IDENTIFIER_GROUP
+        clean_flags = ace_flags & ~xnas_os.NFS4Flag.IDENTIFIER_GROUP
         if simplified and (basic_flag := _NFS4_BASIC_FLAGS_REV.get(clean_flags)):
             flags_dict = {'BASIC': basic_flag}
         else:
@@ -373,27 +373,27 @@ def nfs4acl_obj_to_dict(acl: 'truenas_os.NFS4ACL', uid: int, gid: int, simplifie
     }
 
 
-def posixace_dict_to_obj(ace: dict) -> 'truenas_os.POSIXAce':
-    """Convert a middleware POSIX ACE dict to a truenas_os.POSIXAce object."""
-    perm_obj = truenas_os.POSIXPerm(0)
+def posixace_dict_to_obj(ace: dict) -> 'xnas_os.POSIXAce':
+    """Convert a middleware POSIX ACE dict to a xnas_os.POSIXAce object."""
+    perm_obj = xnas_os.POSIXPerm(0)
     for n in _POSIX_PERM_NAMES:
         if ace['perms'].get(n):
-            perm_obj |= getattr(truenas_os.POSIXPerm, n)
+            perm_obj |= getattr(xnas_os.POSIXPerm, n)
     ace_id = -1 if (v := ace.get('id')) is None else v
-    return truenas_os.POSIXAce(truenas_os.POSIXTag[ace['tag']], perm_obj, ace_id, bool(ace.get('default', False)))
+    return xnas_os.POSIXAce(xnas_os.POSIXTag[ace['tag']], perm_obj, ace_id, bool(ace.get('default', False)))
 
 
-def posixacl_dict_to_obj(acl_list: list) -> 'truenas_os.POSIXACL':
-    """Convert a list of middleware POSIX ACE dicts to a truenas_os.POSIXACL."""
-    return truenas_os.POSIXACL.from_aces([posixace_dict_to_obj(ace) for ace in acl_list])
+def posixacl_dict_to_obj(acl_list: list) -> 'xnas_os.POSIXACL':
+    """Convert a list of middleware POSIX ACE dicts to a xnas_os.POSIXACL."""
+    return xnas_os.POSIXACL.from_aces([posixace_dict_to_obj(ace) for ace in acl_list])
 
 
-def posixacl_obj_to_dict(acl: 'truenas_os.POSIXACL', uid: int, gid: int) -> dict:
-    """Convert a truenas_os.POSIXACL to the middleware API dict format."""
+def posixacl_obj_to_dict(acl: 'xnas_os.POSIXACL', uid: int, gid: int) -> dict:
+    """Convert a xnas_os.POSIXACL to the middleware API dict format."""
     def _ace_to_dict(ace):
         return {
             'default': ace.default, 'tag': ace.tag.name, 'id': ace.id,
-            'perms': {n: bool(ace.perms & getattr(truenas_os.POSIXPerm, n)) for n in _POSIX_PERM_NAMES},
+            'perms': {n: bool(ace.perms & getattr(xnas_os.POSIXPerm, n)) for n in _POSIX_PERM_NAMES},
         }
     return {
         'uid': uid, 'gid': gid, 'trivial': acl.trivial,
@@ -402,8 +402,8 @@ def posixacl_obj_to_dict(acl: 'truenas_os.POSIXACL', uid: int, gid: int) -> dict
 
 
 def strip_acl_path(path: str) -> None:
-    fd = truenas_os.openat2(path, flags=os.O_RDONLY, resolve=truenas_os.RESOLVE_NO_SYMLINKS)
+    fd = xnas_os.openat2(path, flags=os.O_RDONLY, resolve=xnas_os.RESOLVE_NO_SYMLINKS)
     try:
-        truenas_os.fsetacl(fd, None)
+        xnas_os.fsetacl(fd, None)
     finally:
         os.close(fd)

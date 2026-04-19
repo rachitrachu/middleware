@@ -7,11 +7,11 @@ import textwrap
 from middlewared.service import ServiceContext
 from middlewared.utils.cgroups import move_to_root_cgroups
 
-from truenas_pynetif.address.address import add_address
-from truenas_pynetif.address.get_links import get_link
-from truenas_pynetif.address.netlink import netlink_route
-from truenas_pynetif.configure import BridgeConfig, configure_bridge
-from truenas_pynetif.netlink import DeviceNotFound
+from xnas_pynetif.address.address import add_address
+from xnas_pynetif.address.get_links import get_link
+from xnas_pynetif.address.netlink import netlink_route
+from xnas_pynetif.configure import BridgeConfig, configure_bridge
+from xnas_pynetif.netlink import DeviceNotFound
 
 BRIDGE_AUTO = '[AUTO]'
 BRIDGE_NAME = "truenasbr0"

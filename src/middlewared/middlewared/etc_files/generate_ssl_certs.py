@@ -4,7 +4,7 @@ import subprocess
 
 from middlewared.main import Middleware
 from middlewared.service import CallError, Service
-from truenas_os_pyutils.io import atomic_write
+from xnas_os_pyutils.io import atomic_write
 
 
 def write_certificates(certs: list) -> set:

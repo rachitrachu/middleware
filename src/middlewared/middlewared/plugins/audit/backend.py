@@ -28,7 +28,7 @@ from middlewared.plugins.audit.table import AUDIT_TABLES
 from middlewared.plugins.datastore.filter import FilterMixin
 from middlewared.plugins.datastore.schema import SchemaMixin
 from middlewared.utils.jsonpath import json_path_parse, JSON_PATH_PREFIX
-from truenas_api_client import ejson
+from xnas_api_client import ejson
 
 
 class AuditBackendQueryArgs(BaseModel):

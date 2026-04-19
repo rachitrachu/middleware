@@ -6,7 +6,7 @@ import shutil
 import tempfile
 import truenas_pypwenc
 
-from truenas_api_client import Client
+from xnas_api_client import Client
 from middlewared.utils.db import FREENAS_DATABASE
 from middlewared.utils.pwenc import (
     encrypt,

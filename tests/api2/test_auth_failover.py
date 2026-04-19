@@ -1,7 +1,7 @@
 import pytest
 
 from middlewared.test.integration.utils import call, password, truenas_server
-from truenas_api_client import Client
+from xnas_api_client import Client
 
 from auto_config import ha
 

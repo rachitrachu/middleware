@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Self, TypeAlias
 
-from truenas_pylibzfs import property_sets, ZFSProperty, ZFSType
+from xnas_pylibzfs import property_sets, ZFSProperty, ZFSType
 
 __all__ = ("build_set_of_zfs_props", "build_set_of_zfs_snapshot_props", "DeterminedProperties")
 
@@ -32,7 +32,7 @@ class ZFSPropertyTemplates:
 
         Returns:
             ZFSPropertyTemplates: A new instance with property sets populated
-                from truenas_pylibzfs if available, otherwise empty templates.
+                from xnas_pylibzfs if available, otherwise empty templates.
         """
         if property_sets is not None:
             return cls(

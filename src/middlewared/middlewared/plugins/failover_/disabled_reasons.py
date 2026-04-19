@@ -2,8 +2,8 @@
 #
 # Licensed under the terms of the TrueNAS Enterprise License Agreement
 # See the file LICENSE.IX for complete terms and conditions
-from truenas_pynetif.address.constants import IFOperState
-from truenas_pynetif.address.netlink import get_links, netlink_route
+from xnas_pynetif.address.constants import IFOperState
+from xnas_pynetif.address.netlink import get_links, netlink_route
 
 from middlewared.api import api_method, Event
 from middlewared.api.current import (

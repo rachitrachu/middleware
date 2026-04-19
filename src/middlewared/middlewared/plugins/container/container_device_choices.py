@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from truenas_pylibvirt.utils.usb import get_all_usb_devices
+from xnas_pylibvirt.utils.usb import get_all_usb_devices
 
 from middlewared.api.current import ContainerDeviceNicAttachChoices, USBPassthroughDevice
 from middlewared.service import ServiceContext

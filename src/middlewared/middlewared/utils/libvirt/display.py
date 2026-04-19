@@ -2,7 +2,7 @@ from typing import Any
 
 from urllib.parse import urlencode, quote_plus
 
-from truenas_pylibvirt.device import Device, DisplayDevice
+from xnas_pylibvirt.device import Device, DisplayDevice
 
 from middlewared.service_exception import ValidationErrors
 

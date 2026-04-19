@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import Literal
 
-from truenas_pynetif.address.address import add_address, remove_address
-from truenas_pynetif.address.link import set_link_up, set_link_down, set_link_mtu
-from truenas_pynetif.address.netlink import IFOperState, get_link, get_link_addresses
-from truenas_pynetif.netlink import AddressAlreadyExists, AddressDoesNotExist, DeviceNotFound, netlink_route
+from xnas_pynetif.address.address import add_address, remove_address
+from xnas_pynetif.address.link import set_link_up, set_link_down, set_link_mtu
+from xnas_pynetif.address.netlink import IFOperState, get_link, get_link_addresses
+from xnas_pynetif.netlink import AddressAlreadyExists, AddressDoesNotExist, DeviceNotFound, netlink_route
 
 from middlewared.api import api_method
 from middlewared.api.base import BaseModel, Excluded, excluded_field, ForUpdateMetaclass, IPvAnyAddress

@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import socket
 
-from truenas_pynetif.configure import (
+from xnas_pynetif.configure import (
     BridgeConfig,
     configure_bridge as pynetif_configure_bridge,
 )
-from truenas_pynetif.netlink import LinkInfo
+from xnas_pynetif.netlink import LinkInfo
 from middlewared.service import ServiceContext
 
 from .sync_data import SyncData

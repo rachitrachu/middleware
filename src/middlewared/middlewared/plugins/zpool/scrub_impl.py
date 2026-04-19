@@ -2,7 +2,7 @@ from __future__ import annotations
 import time
 from typing import Callable, Literal, TYPE_CHECKING
 
-from truenas_pylibzfs import ZFSError, ZFSException, ZPOOLProperty, libzfs_types
+from xnas_pylibzfs import ZFSError, ZFSException, ZPOOLProperty, libzfs_types
 
 from middlewared.plugins.zfs_.zfs_events import ScrubNotStartedAlert, ScrubStartedAlert
 from .exceptions import (

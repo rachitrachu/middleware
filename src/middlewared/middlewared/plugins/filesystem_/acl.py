@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 from typing import Literal
 
-import truenas_os
+import xnas_os
 
 from pydantic import Field
 
@@ -34,7 +34,7 @@ from middlewared.utils.filesystem.acl import (
     strip_acl_path,
 )
 from middlewared.utils.filesystem.directory import directory_is_empty
-from truenas_os_pyutils.mount import iter_mountinfo, statmount
+from xnas_os_pyutils.mount import iter_mountinfo, statmount
 from middlewared.utils.path import FSLocation, path_location
 from .utils import (
     AclTool, AclToolAction, ATAclOptions, ATChownOptions, ATPermOptions,
@@ -213,8 +213,8 @@ class FilesystemService(Service):
         self._common_perm_path_validate("filesystem.chown", data, verrors)
         verrors.check()
 
-        fd = truenas_os.openat2(
-            data['path'], flags=os.O_RDONLY, resolve=truenas_os.RESOLVE_NO_SYMLINKS
+        fd = xnas_os.openat2(
+            data['path'], flags=os.O_RDONLY, resolve=xnas_os.RESOLVE_NO_SYMLINKS
         )
         try:
             os.fchown(fd, uid, gid)
@@ -309,8 +309,8 @@ class FilesystemService(Service):
 
         strip_acl_path(data['path'])
 
-        fd = truenas_os.openat2(
-            data['path'], flags=os.O_RDONLY, resolve=truenas_os.RESOLVE_NO_SYMLINKS
+        fd = xnas_os.openat2(
+            data['path'], flags=os.O_RDONLY, resolve=xnas_os.RESOLVE_NO_SYMLINKS
         )
         try:
             if mode:
@@ -328,9 +328,9 @@ class FilesystemService(Service):
 
     @private
     def getacl_nfs4(self, path, simplified, resolve_ids):
-        fd = truenas_os.openat2(path, flags=os.O_RDONLY, resolve=truenas_os.RESOLVE_NO_SYMLINKS)
+        fd = xnas_os.openat2(path, flags=os.O_RDONLY, resolve=xnas_os.RESOLVE_NO_SYMLINKS)
         try:
-            acl_obj = truenas_os.fgetacl(fd)
+            acl_obj = xnas_os.fgetacl(fd)
             st = os.fstat(fd)
         finally:
             os.close(fd)
@@ -353,9 +353,9 @@ class FilesystemService(Service):
 
     @private
     def getacl_posix1e(self, path, simplified, resolve_ids):
-        fd = truenas_os.openat2(path, flags=os.O_RDONLY, resolve=truenas_os.RESOLVE_NO_SYMLINKS)
+        fd = xnas_os.openat2(path, flags=os.O_RDONLY, resolve=xnas_os.RESOLVE_NO_SYMLINKS)
         try:
-            acl_obj = truenas_os.fgetacl(fd)
+            acl_obj = xnas_os.fgetacl(fd)
             st = os.fstat(fd)
         finally:
             os.close(fd)
@@ -509,8 +509,8 @@ class FilesystemService(Service):
                 data['path'], data['dacl'], uid_to_check, gid_to_check, True
             )
 
-        fd = truenas_os.openat2(
-            data['path'], flags=os.O_RDONLY, resolve=truenas_os.RESOLVE_NO_SYMLINKS
+        fd = xnas_os.openat2(
+            data['path'], flags=os.O_RDONLY, resolve=xnas_os.RESOLVE_NO_SYMLINKS
         )
         try:
             if not do_strip:
@@ -520,12 +520,12 @@ class FilesystemService(Service):
                     verrors.add('filesystem_acl.dacl', str(e))
                     verrors.check()
                 try:
-                    truenas_os.validate_acl(fd, acl_obj)
+                    xnas_os.validate_acl(fd, acl_obj)
                 except ValueError as e:
                     verrors.add('filesystem_acl.dacl', str(e))
                     verrors.check()
                 try:
-                    truenas_os.fsetacl(fd, acl_obj)
+                    xnas_os.fsetacl(fd, acl_obj)
                 except (OSError, ValueError) as e:
                     raise CallError(str(e))
                 acl_opts = ATAclOptions(traverse=data['options']['traverse'], target_acl=acl_obj)
@@ -598,18 +598,18 @@ class FilesystemService(Service):
         if do_strip:
             strip_acl_path(data['path'])
 
-        fd = truenas_os.openat2(
-            data['path'], flags=os.O_RDONLY, resolve=truenas_os.RESOLVE_NO_SYMLINKS
+        fd = xnas_os.openat2(
+            data['path'], flags=os.O_RDONLY, resolve=xnas_os.RESOLVE_NO_SYMLINKS
         )
         try:
             if acl_obj is not None:
                 try:
-                    truenas_os.validate_acl(fd, acl_obj)
+                    xnas_os.validate_acl(fd, acl_obj)
                 except ValueError as e:
                     verrors.add('filesystem_acl.dacl', str(e))
                     verrors.check()
                 try:
-                    truenas_os.fsetacl(fd, acl_obj)
+                    xnas_os.fsetacl(fd, acl_obj)
                 except (OSError, ValueError) as e:
                     raise CallError(f'Failed to set ACL on path [{data["path"]}]: {e}')
                 acl_opts = ATAclOptions(traverse=options['traverse'], target_acl=acl_obj)

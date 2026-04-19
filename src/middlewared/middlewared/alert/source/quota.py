@@ -6,7 +6,7 @@ from typing import Any
 
 from middlewared.alert.base import AlertClass, AlertClassConfig, AlertCategory, AlertLevel, Alert, ThreadedAlertSource
 from middlewared.alert.schedule import IntervalSchedule
-from truenas_os_pyutils.mount import iter_mountinfo
+from xnas_os_pyutils.mount import iter_mountinfo
 from middlewared.utils.size import format_size
 from middlewared.plugins.zfs_.utils import TNUserProp
 

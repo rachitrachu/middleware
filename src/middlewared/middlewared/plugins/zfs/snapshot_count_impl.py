@@ -3,7 +3,7 @@ import logging
 import os
 from typing import Any
 
-from truenas_pylibzfs import ZFSProperty, ZFSType
+from xnas_pylibzfs import ZFSProperty, ZFSType
 
 from middlewared.api.current import ZFSResourceSnapshotCountQuery
 from middlewared.service_exception import MatchNotFound

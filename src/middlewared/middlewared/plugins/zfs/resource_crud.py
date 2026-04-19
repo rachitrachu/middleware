@@ -136,7 +136,7 @@ class ZFSResourceService(Service):
                 library user should rely on the ZFS mountpoint property.
             recursive: Recursively mount all child filesystems. Default is False.
             mount_options: List of mount options to use when mounting the ZFS dataset.
-                These may be any of MNTOPT constants in the truenas_pylibzfs.constants
+                These may be any of MNTOPT constants in the xnas_pylibzfs.constants
                 module. Defaults to None.
 
                 NOTE: it's generally preferable to set these as ZFS properties rather

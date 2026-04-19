@@ -14,7 +14,7 @@ from middlewared.utils.origin import ConnectionOrigin
 from truenas_authenticator import UserPamAuthenticator as TrueNASUserPamAuthenticator
 from truenas_authenticator import AuthenticatorStage as TrueNASAuthenticatorStage
 from truenas_authenticator import AuthenticatorResponse as TrueNASAuthenticatorResponse
-from truenas_pypam import MSGStyle, PAMCode
+from xnas_pypam import MSGStyle, PAMCode
 from socket import AF_INET, AF_INET6, AF_UNIX
 from .faillock import is_tally_locked
 

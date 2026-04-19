@@ -6,7 +6,7 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
-from truenas_pylibzfs import ZFSError, ZFSException
+from xnas_pylibzfs import ZFSError, ZFSException
 
 from middlewared.api import api_method
 from middlewared.api.current import (

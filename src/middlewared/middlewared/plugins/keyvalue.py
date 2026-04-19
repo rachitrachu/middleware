@@ -1,6 +1,6 @@
 from typing import Any
 
-from truenas_api_client import json
+from xnas_api_client import json
 
 from middlewared.service import Service
 import middlewared.sqlalchemy as sa

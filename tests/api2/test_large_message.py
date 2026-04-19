@@ -2,7 +2,7 @@ import pytest
 
 from middlewared.service_exception import ValidationErrors
 from middlewared.test.integration.utils.client import client
-from truenas_api_client import ClientException
+from xnas_api_client import ClientException
 
 
 MSG_TOO_BIG_ERR = 'Max message length is 64 kB'

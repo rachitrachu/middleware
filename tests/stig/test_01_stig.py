@@ -8,7 +8,7 @@ from middlewared.test.integration.assets.two_factor_auth import (
     enabled_twofactor_auth, get_user_secret, get_2fa_totp_token
 )
 from middlewared.test.integration.utils import busy_wait_on_job, call, client, mock, password
-from truenas_api_client import ValidationErrors
+from xnas_api_client import ValidationErrors
 
 from auto_config import ha
 

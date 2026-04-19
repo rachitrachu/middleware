@@ -6,7 +6,7 @@ from json import JSONDecodeError
 from threading import Lock
 from middlewared.utils.io import write_if_changed
 from middlewared.utils.time_utils import utc_now
-from truenas_api_client import ejson as json
+from xnas_api_client import ejson as json
 from .constants import DS_HA_STATE_DIR
 
 

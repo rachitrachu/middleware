@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from truenas_pylibvirt.utils.pci import get_pci_device_details
+from xnas_pylibvirt.utils.pci import get_pci_device_details
 
 
 @pytest.mark.parametrize('pcidevs,results', [

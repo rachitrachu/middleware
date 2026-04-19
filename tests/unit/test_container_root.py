@@ -1,7 +1,7 @@
 import os
 import pytest
 
-from truenas_api_client import Client
+from xnas_api_client import Client
 from middlewared.plugins.account_.constants import SYNTHETIC_CONTAINER_ROOT
 
 

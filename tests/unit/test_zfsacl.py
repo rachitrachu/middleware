@@ -2,10 +2,10 @@ import os
 import pwd
 import pytest
 import shutil
-import truenas_pylibzfs
+import xnas_pylibzfs
 import zfsacl
 from contextlib import contextmanager
-from truenas_api_client import Client, ClientException
+from xnas_api_client import Client, ClientException
 
 
 @pytest.fixture(scope='module')
@@ -30,11 +30,11 @@ def create_dataset():
     with Client() as c:
         mnt = c.call('filesystem.mount_info', [['mountpoint', '=', '/var']], {'get': True})
 
-    lz = truenas_pylibzfs.open_handle()
+    lz = xnas_pylibzfs.open_handle()
     ds_name = f'{mnt["mount_source"]}/nfsv4'
-    lz.create_resource(name=ds_name, type=truenas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM, properties={
-        truenas_pylibzfs.ZFSProperty.ACLTYPE: 'nfsv4',
-        truenas_pylibzfs.ZFSProperty.ACLMODE: 'restricted',
+    lz.create_resource(name=ds_name, type=xnas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM, properties={
+        xnas_pylibzfs.ZFSProperty.ACLTYPE: 'nfsv4',
+        xnas_pylibzfs.ZFSProperty.ACLMODE: 'restricted',
     })
     rsrc = lz.open_resource(name=ds_name)
     try:

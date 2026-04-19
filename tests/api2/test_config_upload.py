@@ -7,7 +7,7 @@ import os
 
 import pytest
 
-from truenas_api_client import ClientException
+from xnas_api_client import ClientException
 from middlewared.test.integration.utils import call, session, url
 
 

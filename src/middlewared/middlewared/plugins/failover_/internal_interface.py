@@ -5,14 +5,14 @@
 
 from pathlib import Path
 
-from truenas_pynetif.address.address import add_address
-from truenas_pynetif.address.constants import RTNType
-from truenas_pynetif.address.get_links import get_link
-from truenas_pynetif.address.link import set_link_up
-from truenas_pynetif.address.route import add_route
-from truenas_pynetif.netlink._core import netlink_route
-from truenas_pynetif.netlink._exceptions import NetlinkError, RouteAlreadyExists
-from truenas_pynetif.netlink import DeviceNotFound
+from xnas_pynetif.address.address import add_address
+from xnas_pynetif.address.constants import RTNType
+from xnas_pynetif.address.get_links import get_link
+from xnas_pynetif.address.link import set_link_up
+from xnas_pynetif.address.route import add_route
+from xnas_pynetif.netlink._core import netlink_route
+from xnas_pynetif.netlink._exceptions import NetlinkError, RouteAlreadyExists
+from xnas_pynetif.netlink import DeviceNotFound
 
 from middlewared.service import Service
 from middlewared.utils.functools_ import cache

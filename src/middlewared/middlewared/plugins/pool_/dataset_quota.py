@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-import truenas_pylibzfs
+import xnas_pylibzfs
 
 from middlewared.api import api_method
 from middlewared.api.current import (
@@ -19,23 +19,23 @@ from middlewared.utils.nss import pwd, grp
 
 def quota_cb(quota, state):
     if quota.quota_type in (
-        truenas_pylibzfs.ZFSUserQuota.USER_USED,
-        truenas_pylibzfs.ZFSUserQuota.GROUP_USED,
+        xnas_pylibzfs.ZFSUserQuota.USER_USED,
+        xnas_pylibzfs.ZFSUserQuota.GROUP_USED,
     ):
         value_key = 'used_bytes'
     elif quota.quota_type in (
-        truenas_pylibzfs.ZFSUserQuota.USER_QUOTA,
-        truenas_pylibzfs.ZFSUserQuota.GROUP_QUOTA,
+        xnas_pylibzfs.ZFSUserQuota.USER_QUOTA,
+        xnas_pylibzfs.ZFSUserQuota.GROUP_QUOTA,
     ):
         value_key = 'quota'
     elif quota.quota_type in (
-        truenas_pylibzfs.ZFSUserQuota.USEROBJ_USED,
-        truenas_pylibzfs.ZFSUserQuota.GROUPOBJ_USED,
+        xnas_pylibzfs.ZFSUserQuota.USEROBJ_USED,
+        xnas_pylibzfs.ZFSUserQuota.GROUPOBJ_USED,
     ):
         value_key = 'obj_used'
     elif quota.quota_type in (
-        truenas_pylibzfs.ZFSUserQuota.USEROBJ_QUOTA,
-        truenas_pylibzfs.ZFSUserQuota.GROUPOBJ_QUOTA,
+        xnas_pylibzfs.ZFSUserQuota.USEROBJ_QUOTA,
+        xnas_pylibzfs.ZFSUserQuota.GROUPOBJ_QUOTA,
     ):
         value_key = 'obj_quota'
     else:
@@ -61,18 +61,18 @@ def quota_cb(quota, state):
 
 
 def quota_alert_cb(hdl, state):
-    if hdl.type == truenas_pylibzfs.ZFSType.ZFS_TYPE_VOLUME:
+    if hdl.type == xnas_pylibzfs.ZFSType.ZFS_TYPE_VOLUME:
         return True
 
     info = hdl.asdict(
         properties={
-            truenas_pylibzfs.ZFSProperty.USED,
-            truenas_pylibzfs.ZFSProperty.USEDBYDATASET,
-            truenas_pylibzfs.ZFSProperty.QUOTA,
-            truenas_pylibzfs.ZFSProperty.REFQUOTA,
-            truenas_pylibzfs.ZFSProperty.AVAILABLE,
-            truenas_pylibzfs.ZFSProperty.MOUNTED,
-            truenas_pylibzfs.ZFSProperty.MOUNTPOINT,
+            xnas_pylibzfs.ZFSProperty.USED,
+            xnas_pylibzfs.ZFSProperty.USEDBYDATASET,
+            xnas_pylibzfs.ZFSProperty.QUOTA,
+            xnas_pylibzfs.ZFSProperty.REFQUOTA,
+            xnas_pylibzfs.ZFSProperty.AVAILABLE,
+            xnas_pylibzfs.ZFSProperty.MOUNTED,
+            xnas_pylibzfs.ZFSProperty.MOUNTPOINT,
         },
         get_user_properties=True,
     )
@@ -117,9 +117,9 @@ class PoolDatasetService(Service):
             case 'DATASET':
                 info = rsrc.asdict(
                     properties={
-                        truenas_pylibzfs.ZFSProperty.QUOTA,
-                        truenas_pylibzfs.ZFSProperty.REFQUOTA,
-                        truenas_pylibzfs.ZFSProperty.USED,
+                        xnas_pylibzfs.ZFSProperty.QUOTA,
+                        xnas_pylibzfs.ZFSProperty.REFQUOTA,
+                        xnas_pylibzfs.ZFSProperty.USED,
                     }
                 )
                 return [{
@@ -133,10 +133,10 @@ class PoolDatasetService(Service):
             case 'USER' | 'GROUP':
                 state = {'qt': quota_type, 'quotas': defaultdict(dict)}
                 for qt in (
-                    getattr(truenas_pylibzfs.ZFSUserQuota, f'{quota_type}_USED'),
-                    getattr(truenas_pylibzfs.ZFSUserQuota, f'{quota_type}_QUOTA'),
-                    getattr(truenas_pylibzfs.ZFSUserQuota, f'{quota_type}OBJ_USED'),
-                    getattr(truenas_pylibzfs.ZFSUserQuota, f'{quota_type}OBJ_QUOTA'),
+                    getattr(xnas_pylibzfs.ZFSUserQuota, f'{quota_type}_USED'),
+                    getattr(xnas_pylibzfs.ZFSUserQuota, f'{quota_type}_QUOTA'),
+                    getattr(xnas_pylibzfs.ZFSUserQuota, f'{quota_type}OBJ_USED'),
+                    getattr(xnas_pylibzfs.ZFSUserQuota, f'{quota_type}OBJ_QUOTA'),
                 ):
                     rsrc.iter_userspace(callback=quota_cb, quota_type=qt, state=state)
                 return list(state['quotas'].values())
@@ -169,9 +169,9 @@ class PoolDatasetService(Service):
         ds_quotas, quotas = dict(), list()
         for i in inquotas:
             if i['quota_type'] == 'DATASET':
-                ds_quotas[truenas_pylibzfs.ZFSProperty[i['id']]] = i['quota_value']
+                ds_quotas[xnas_pylibzfs.ZFSProperty[i['id']]] = i['quota_value']
             else:
-                qt = truenas_pylibzfs.ZFSUserQuota[f'{i["quota_type"]}_QUOTA']
+                qt = xnas_pylibzfs.ZFSUserQuota[f'{i["quota_type"]}_QUOTA']
                 quotas.append(
                     {
                         'xid': i['id'],

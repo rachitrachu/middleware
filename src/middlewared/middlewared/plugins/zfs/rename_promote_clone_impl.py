@@ -1,6 +1,6 @@
 from typing import Any
 
-from truenas_pylibzfs import ZFSProperty, ZFSType
+from xnas_pylibzfs import ZFSProperty, ZFSType
 
 from .exceptions import (
     ZFSPathAlreadyExistsException,

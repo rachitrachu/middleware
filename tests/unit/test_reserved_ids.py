@@ -3,7 +3,7 @@ from middlewared.utils import reserved_ids
 from multiprocessing import Pool
 from threading import Lock
 from time import monotonic
-from truenas_api_client import Client
+from xnas_api_client import Client
 
 
 @pytest.fixture(scope='function')

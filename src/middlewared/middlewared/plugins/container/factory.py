@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from truenas_pylibvirt.device import FilesystemDevice, GPUDevice, NICDevice, USBDevice
+from xnas_pylibvirt.device import FilesystemDevice, GPUDevice, NICDevice, USBDevice
 
 from middlewared.api.current import (
     ContainerFilesystemDevice, ContainerGPUDevice, ContainerNICDevice, ContainerUSBDevice,

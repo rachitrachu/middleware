@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 
 from aiohttp.web import Request
 
-from truenas_pynetif.diag import netlink_diag, get_inet_diag
+from xnas_pynetif.diag import netlink_diag, get_inet_diag
 
 from .auth import get_login_uid, AUID_UNSET
 

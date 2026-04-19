@@ -2,7 +2,7 @@ import errno
 import os
 import pathlib
 
-from truenas_pylibzfs import ZFSError, ZFSException, ZFSType
+from xnas_pylibzfs import ZFSError, ZFSException, ZFSType
 
 from middlewared.api import api_method
 from middlewared.api.current import (
@@ -388,7 +388,7 @@ class PoolDatasetService(CRUDService):
 
         if args.create_ancestors:
             # If we need to create ancestors, we need to handle this differently
-            # truenas_pylibzfs doesn't have a direct create_ancestors flag
+            # xnas_pylibzfs doesn't have a direct create_ancestors flag
             # So we'll create parent datasets first if needed
             for parent in reversed(pathlib.Path(kwargs["name"]).parents):
                 pp = parent.as_posix()

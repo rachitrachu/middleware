@@ -1,7 +1,7 @@
 import time
 from typing import Callable
 
-from truenas_pylibvirt import BaseDomain, Connection, ConnectionManager, DomainManagers, ServiceDelegate
+from xnas_pylibvirt import BaseDomain, Connection, ConnectionManager, DomainManagers, ServiceDelegate
 
 __all__ = ["create_pylibvirt_domains_manager", "gather_pylibvirt_domains_states", "get_pylibvirt_domain_state"]
 

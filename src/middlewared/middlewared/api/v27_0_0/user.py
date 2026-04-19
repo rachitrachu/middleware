@@ -329,7 +329,7 @@ class UserSetupLocalAdministratorOptions(BaseModel):
 
 
 class UserSetupLocalAdministratorArgs(BaseModel):
-    username: Literal['root', 'truenas_admin']
+    username: Literal['root', 'xnas_admin']
     """Administrator username to configure."""
     password: Secret[str]
     """Password for the administrator account."""

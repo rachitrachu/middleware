@@ -437,7 +437,7 @@ class IPAJoinMixin:
         # because that was the default netbiosname. This isn't a great choice because if another device
         # joins AD with same generic name then it will clobber this one's computer account in AD, and so
         # we want to discourage that.
-        if smb['netbiosname'] != hostname and smb['netbiosname'] == 'truenas':
+        if smb['netbiosname'] != hostname and smb['netbiosname'] == 'xnas':
             # Default netbiosname. We *really* don't want to collide with other servers.
             # We'll start by trying to truncate to max netbiosname length
             smb['netbiosname'] = hostname[:NETBIOSNAME_MAX_LEN - 1]

@@ -4,9 +4,9 @@
 import enum
 import os
 import stat
-import truenas_os
+import xnas_os
 
-from truenas_os_pyutils.io import atomic_replace
+from xnas_os_pyutils.io import atomic_replace
 
 
 ID_MAX = 2 ** 32 - 2
@@ -99,7 +99,7 @@ def write_if_changed(path: str, data: str | bytes, uid: int = 0, gid: int = 0, p
     changes = 0
 
     try:
-        with open(truenas_os.openat2(path, os.O_RDONLY, resolve=truenas_os.RESOLVE_NO_SYMLINKS), 'rb+') as f:
+        with open(xnas_os.openat2(path, os.O_RDONLY, resolve=xnas_os.RESOLVE_NO_SYMLINKS), 'rb+') as f:
             current = f.read()
             if current != data:
                 changes |= FileChanges.CONTENTS

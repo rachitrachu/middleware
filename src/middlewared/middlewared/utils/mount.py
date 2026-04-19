@@ -1,13 +1,13 @@
 # NOTE: iter_mountinfo, statmount, umount, and related types were previously defined
-# here and have been moved to truenas_os_pyutils:
-# https://github.com/truenas/truenas_pyos/tree/master/src/truenas_os_pyutils
+# here and have been moved to xnas_os_pyutils:
+# https://github.com/truenas/truenas_pyos/tree/master/src/xnas_os_pyutils
 from __future__ import annotations
 
 import logging
 import os
 from typing import TYPE_CHECKING
 
-import truenas_os
+import xnas_os
 
 if TYPE_CHECKING:
     from middlewared.main import Middleware
@@ -45,13 +45,13 @@ def resolve_dataset_path(path: str, middleware: Middleware | None = None) -> tup
     try:
         # Get file stats with mount ID and attributes
         path = os.path.normpath(path)
-        fd = truenas_os.openat2(path, os.O_RDONLY, resolve=truenas_os.RESOLVE_NO_SYMLINKS)
+        fd = xnas_os.openat2(path, os.O_RDONLY, resolve=xnas_os.RESOLVE_NO_SYMLINKS)
         try:
-            stx = truenas_os.statx(
+            stx = xnas_os.statx(
                 "",
                 dir_fd=fd,
-                flags=truenas_os.AT_EMPTY_PATH,
-                mask=truenas_os.STATX_BASIC_STATS | truenas_os.STATX_MNT_ID_UNIQUE
+                flags=xnas_os.AT_EMPTY_PATH,
+                mask=xnas_os.STATX_BASIC_STATS | xnas_os.STATX_MNT_ID_UNIQUE
             )
         finally:
             os.close(fd)
@@ -64,19 +64,19 @@ def resolve_dataset_path(path: str, middleware: Middleware | None = None) -> tup
         return None, None
 
     # Extract attributes
-    is_mountroot = bool(stx.stx_attributes & truenas_os.STATX_ATTR_MOUNT_ROOT)
-    is_immutable = bool(stx.stx_attributes & truenas_os.STATX_ATTR_IMMUTABLE)
+    is_mountroot = bool(stx.stx_attributes & xnas_os.STATX_ATTR_MOUNT_ROOT)
+    is_immutable = bool(stx.stx_attributes & xnas_os.STATX_ATTR_IMMUTABLE)
 
     # Case 1: Mounted and accessible
     if not is_immutable:
         try:
-            mntinfo = truenas_os.statmount(
+            mntinfo = xnas_os.statmount(
                 stx.stx_mnt_id,
                 mask=(
-                    truenas_os.STATMOUNT_SB_BASIC |
-                    truenas_os.STATMOUNT_MNT_POINT |
-                    truenas_os.STATMOUNT_FS_TYPE |
-                    truenas_os.STATMOUNT_SB_SOURCE
+                    xnas_os.STATMOUNT_SB_BASIC |
+                    xnas_os.STATMOUNT_MNT_POINT |
+                    xnas_os.STATMOUNT_FS_TYPE |
+                    xnas_os.STATMOUNT_SB_SOURCE
                 )
             )
 

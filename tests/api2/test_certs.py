@@ -4,7 +4,7 @@ import pytest
 
 from middlewared.test.integration.assets.crypto import certificate_signing_request
 from middlewared.test.integration.utils import call
-from truenas_api_client import ValidationErrors
+from xnas_api_client import ValidationErrors
 
 
 # We would like to test the following cases

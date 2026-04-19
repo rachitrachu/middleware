@@ -9,7 +9,7 @@ from middlewared.api.current import (
 from middlewared.service import private, Service, ValidationError
 from middlewared.plugins.zpool import get_zpool_disks_impl, get_zpool_features_impl
 
-from truenas_pylibzfs import ZFSException, ZFSError
+from xnas_pylibzfs import ZFSException, ZFSError
 
 
 class PoolService(Service):

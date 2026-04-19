@@ -12,7 +12,7 @@ from middlewared.utils.account.authenticator import (
 )
 from middlewared.utils.auth import AuthMech, AuthenticatorAssuranceLevel
 from time import monotonic
-from truenas_pypam import PAMCode
+from xnas_pypam import PAMCode
 
 if TYPE_CHECKING:
     from middlewared.plugins.auth import TokenManager, Token

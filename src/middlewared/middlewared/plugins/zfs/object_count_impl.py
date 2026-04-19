@@ -1,7 +1,7 @@
 import logging
 import typing
 
-import truenas_pylibzfs
+import xnas_pylibzfs
 
 from .exceptions import ZFSPathNotFoundException
 from .utils import open_resource
@@ -27,7 +27,7 @@ def estimate_object_count_impl(tls: typing.Any, dataset_name: str) -> int:
         logger.warning('%s: failed to open ZFS resource for object count estimate', dataset_name, exc_info=True)
         return 0
 
-    if rsrc.type != truenas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM:
+    if rsrc.type != xnas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM:
         return 0
 
     cnt = 0
@@ -42,7 +42,7 @@ def estimate_object_count_impl(tls: typing.Any, dataset_name: str) -> int:
     # callback is invoked fewer times while still yielding the same total count.
     try:
         rsrc.iter_userspace(
-            quota_type=truenas_pylibzfs.ZFSUserQuota.GROUPOBJ_USED,
+            quota_type=xnas_pylibzfs.ZFSUserQuota.GROUPOBJ_USED,
             callback=_cb,
             state=None,
         )

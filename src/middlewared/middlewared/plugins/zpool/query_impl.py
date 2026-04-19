@@ -3,7 +3,7 @@ import typing
 
 from middlewared.utils import BOOT_POOL_NAME_VALID
 
-from truenas_pylibzfs import libzfs_types, property_sets, ZFSException, ZFSError, ZPOOLProperty
+from xnas_pylibzfs import libzfs_types, property_sets, ZFSException, ZFSError, ZPOOLProperty
 
 from .exceptions import ZpoolNotFoundException
 from .get_zpool_features_impl import get_zpool_features_impl
@@ -72,7 +72,7 @@ def _format_scan(s: libzfs_types.struct_zpool_scrub | None) -> dict | None:
     """Transform a struct_zpool_scrub into a scan dict, or None.
 
     Args:
-        s: A truenas_pylibzfs.struct_zpool_scrub or None.
+        s: A xnas_pylibzfs.struct_zpool_scrub or None.
 
     Returns:
         dict with keys: function, state, start_time, end_time, percentage,
@@ -122,7 +122,7 @@ def _format_expand(e: libzfs_types.struct_zpool_expand | None) -> dict | None:
     """Transform a struct_zpool_expand into an expansion dict, or None.
 
     Args:
-        e: A truenas_pylibzfs.struct_zpool_expand or None.
+        e: A xnas_pylibzfs.struct_zpool_expand or None.
 
     Returns:
         dict with keys: state, expanding_vdev, start_time, end_time,
@@ -269,7 +269,7 @@ def query_impl(lzh: libzfs_types.ZFS, data: dict) -> list[dict]:
     """Query zpools status.
 
     Args:
-        lzh: pylibzfs handle (from tls.lzh or truenas_pylibzfs.open_handle()).
+        lzh: pylibzfs handle (from tls.lzh or xnas_pylibzfs.open_handle()).
         data: dict with keys matching ZPoolQuery fields:
             pool_names, properties, topology, scan, expand, features.
 

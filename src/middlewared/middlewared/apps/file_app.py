@@ -18,8 +18,8 @@ from middlewared.plugins.auth_.login_ex_impl import login_ex_password_plain
 from middlewared.service_exception import CallError
 from middlewared.utils.auth import AA_LEVEL1, CURRENT_AAL
 from middlewared.utils.origin import ConnectionOrigin
-from truenas_api_client import json
-from truenas_pypam import PAMCode
+from xnas_api_client import json
+from xnas_pypam import PAMCode
 
 if TYPE_CHECKING:
     from aiohttp import BodyPartReader

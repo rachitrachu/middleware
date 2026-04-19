@@ -1,7 +1,7 @@
 """
 Tests for filesystem.setacl covering recursive, traverse, and strip behaviour.
 
-Functional validation of the truenas_os-based ACL engine is in
+Functional validation of the xnas_os-based ACL engine is in
 tests/unit/test_filesystem_acl.py; these tests focus on the middleware API
 surface (job execution, option propagation, dataset boundary handling).
 """
@@ -10,7 +10,7 @@ import pytest
 
 from middlewared.test.integration.assets.pool import dataset
 from middlewared.test.integration.utils import call, ssh
-from truenas_api_client import ClientException
+from xnas_api_client import ClientException
 
 
 # ---------------------------------------------------------------------------

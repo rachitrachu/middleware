@@ -16,7 +16,7 @@ class FakeModule(types.ModuleType):
 
 class FakeImporter(importlib.abc.MetaPathFinder, importlib.abc.Loader):
     def find_spec(self, fullname, path, target=None):
-        if fullname.startswith(("truenas_pylibzfs",)):
+        if fullname.startswith(("xnas_pylibzfs",)):
             return importlib.util.spec_from_loader(fullname, self)
         return None
 
@@ -28,6 +28,6 @@ class FakeImporter(importlib.abc.MetaPathFinder, importlib.abc.Loader):
 
 
 def setup_fake_middleware_env():
-    # Run this on the systems where truenas_pylibzfs (or other packages) are not available to prevent trying to import
+    # Run this on the systems where xnas_pylibzfs (or other packages) are not available to prevent trying to import
     # then. Mock modules and variables will be imported instead.
     sys.meta_path.insert(0, FakeImporter())

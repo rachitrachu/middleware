@@ -3,7 +3,7 @@ import string
 
 import pytest
 
-from truenas_api_client import Client
+from xnas_api_client import Client
 
 from middlewared.test.integration.assets.account import unprivileged_user
 from middlewared.test.integration.assets.cloud_sync import credential

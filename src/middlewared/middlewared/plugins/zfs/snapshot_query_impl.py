@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Any
 
-from truenas_pylibzfs import ZFSError, ZFSException, ZFSType
+from xnas_pylibzfs import ZFSError, ZFSException, ZFSType
 
 from .exceptions import ZFSPathNotFoundException
 from .property_management import build_set_of_zfs_snapshot_props, DeterminedProperties

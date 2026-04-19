@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import socket
 
-from truenas_pynetif.configure import (
+from xnas_pynetif.configure import (
     BondConfig,
     configure_bond as pynetif_configure_bond,
 )
-from truenas_pynetif.address.bond import BondXmitHashPolicy, BondLacpRate
-from truenas_pynetif.netlink import LinkInfo
+from xnas_pynetif.address.bond import BondXmitHashPolicy, BondLacpRate
+from xnas_pynetif.netlink import LinkInfo
 from middlewared.service import ServiceContext
 
 from .sync_data import SyncData

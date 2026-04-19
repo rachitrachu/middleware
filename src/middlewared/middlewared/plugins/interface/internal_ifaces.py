@@ -1,4 +1,4 @@
-from truenas_pynetif.utils import INTERNAL_INTERFACES
+from xnas_pynetif.utils import INTERNAL_INTERFACES
 
 from middlewared.service import private, Service
 

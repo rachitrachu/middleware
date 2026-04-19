@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, TYPE_CHECKING
 
-from truenas_pylibvirt.device.delegate import DeviceDelegate as BaseDeviceDelegate
+from xnas_pylibvirt.device.delegate import DeviceDelegate as BaseDeviceDelegate
 
 from middlewared.service_exception import ValidationErrors
 

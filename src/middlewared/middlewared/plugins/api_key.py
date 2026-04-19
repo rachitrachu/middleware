@@ -15,7 +15,7 @@ from middlewared.plugins.auth_.login_ex_impl import login_ex_api_key_plain
 from middlewared.service import CRUDService, pass_app, private, ValidationErrors
 from middlewared.service_exception import CallError
 import middlewared.sqlalchemy as sa
-import truenas_pyfilter as _tf
+import xnas_pyfilter as _tf
 from middlewared.utils.auth import LEGACY_API_KEY_USERNAME
 from middlewared.utils.crypto import generate_api_key_auth_data, generate_string
 from middlewared.utils.filter_list import compile_filters, compile_options
@@ -23,7 +23,7 @@ from middlewared.utils.origin import ConnectionOrigin
 from middlewared.utils.privilege import credential_has_full_admin
 from middlewared.utils.sid import sid_is_valid
 from middlewared.utils.time_utils import utc_now
-from truenas_pypam import PAMCode
+from xnas_pypam import PAMCode
 
 _ADMIN_UID_FILTER = compile_filters([['uid', '=', 950]])
 _ADMIN_UID_GET_OPTS = compile_options({'get': True})

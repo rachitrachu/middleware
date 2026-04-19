@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 import typing
 
-from truenas_pylibvirt import VmBootloader, VmCpuMode
+from xnas_pylibvirt import VmBootloader, VmCpuMode
 
 from middlewared.api.current import QueryOptions, VMStartOptions, VMStopOptions
 from middlewared.service import CallError, ServiceContext

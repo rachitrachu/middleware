@@ -8,7 +8,7 @@ from .factory_utils import get_device
 
 if TYPE_CHECKING:
     from middlewared.main import Middleware
-    from truenas_pylibvirt.device.base import Device
+    from xnas_pylibvirt.device.base import Device
     from .delegate import DeviceDelegate
 
 

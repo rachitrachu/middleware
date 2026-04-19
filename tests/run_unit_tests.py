@@ -15,7 +15,7 @@ from collections.abc import Generator
 from dataclasses import dataclass
 from junitparser import JUnitXml
 from shutil import copytree, rmtree
-from truenas_api_client import Client
+from xnas_api_client import Client
 from uuid import uuid4
 
 DESCRIPTION = (

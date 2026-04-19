@@ -1,7 +1,7 @@
 import pytest
 import truenas_pyscram
 from base64 import b64decode
-from truenas_api_client import Client
+from xnas_api_client import Client
 
 
 @pytest.fixture(scope='module')

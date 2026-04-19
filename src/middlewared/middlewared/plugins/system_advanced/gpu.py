@@ -1,4 +1,4 @@
-from truenas_pylibvirt.utils.gpu import get_gpus
+from xnas_pylibvirt.utils.gpu import get_gpus
 
 from middlewared.alert.source.gpu_isolation import InvalidGpuPciIdsAlert
 from middlewared.api import api_method

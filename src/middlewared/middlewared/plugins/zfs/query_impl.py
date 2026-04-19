@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Any
 
-from truenas_pylibzfs import ZFSError, ZFSException
+from xnas_pylibzfs import ZFSError, ZFSException
 
 from .exceptions import ZFSPathNotFoundException
 from .normalization import normalize_asdict_result

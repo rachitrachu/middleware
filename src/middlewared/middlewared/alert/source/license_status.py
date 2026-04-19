@@ -20,7 +20,7 @@ class LicenseAlert(NonDataclassAlertClass[str], AlertClass):
     config = AlertClassConfig(
         category=AlertCategory.SYSTEM,
         level=AlertLevel.CRITICAL,
-        title="TrueNAS License Issue",
+        title="X-NAS License Issue",
         text="%s",
         products=(ProductType.ENTERPRISE,),
     )
@@ -30,7 +30,7 @@ class LicenseIsExpiringAlert(NonDataclassAlertClass[str], AlertClass):
     config = AlertClassConfig(
         category=AlertCategory.SYSTEM,
         level=AlertLevel.WARNING,
-        title="TrueNAS License Is Expiring",
+        title="X-NAS License Is Expiring",
         text="%s",
         products=(ProductType.ENTERPRISE,),
     )
@@ -40,7 +40,7 @@ class LicenseHasExpiredAlert(NonDataclassAlertClass[str], AlertClass):
     config = AlertClassConfig(
         category=AlertCategory.SYSTEM,
         level=AlertLevel.CRITICAL,
-        title="TrueNAS License Has Expired",
+        title="X-NAS License Has Expired",
         text="%s",
         products=(ProductType.ENTERPRISE,),
     )
@@ -56,11 +56,24 @@ class LicenseStatusAlertSource(ThreadedAlertSource):
 
         local_license = self.middleware.call_sync('system.license')
         if local_license is None:
-            return Alert(LicenseAlert("Your TrueNAS has no license, contact support."))
+            return Alert(LicenseAlert("Your X-NAS has no license, contact support."))
+
+        # Community X-NAS builds ship a self-issued "XNAS" license. Their
+        # purpose is to enable the enterprise-gated code paths, not to
+        # enforce hardware binding or vendor-support contracts, so skip the
+        # hardware-match / support-status checks below in that case.
+        xnas_community = local_license['model'] == 'XNAS'
 
         # check if this node's system serial matches the serial in the license
+        # (licenselib stores a 16-char serial; DMI reports up to 36 chars, so
+        # allow either side to be a prefix of the other for the match)
         local_serial = self.middleware.call_sync('system.dmidecode_info')['system-serial-number']
-        if local_serial not in (local_license['system_serial'], local_license['system_serial_ha']):
+        license_serials = [s for s in (local_license['system_serial'], local_license['system_serial_ha']) if s]
+        serial_match = any(
+            local_serial == s or local_serial.startswith(s) or s.startswith(local_serial)
+            for s in license_serials
+        )
+        if not xnas_community and not serial_match:
             alerts.append(Alert(LicenseAlert('System serial does not match license.')))
 
         standby_license = standby_serial = None
@@ -78,8 +91,11 @@ class LicenseStatusAlertSource(ThreadedAlertSource):
                 alerts.append(Alert(LicenseAlert('System serial of standby node does not match license.')))
 
         model = self.middleware.call_sync('truenas.get_chassis_hardware').removeprefix('TRUENAS-').split('-')[0]
-        if model == 'UNKNOWN':
-            alerts.append(Alert(LicenseAlert('TrueNAS is running on unsupported hardware.')))
+        if xnas_community:
+            # Community build -- no vendor hardware enforcement.
+            pass
+        elif model == 'UNKNOWN':
+            alerts.append(Alert(LicenseAlert('X-NAS is running on unsupported hardware.')))
         elif model != local_license['model']:
             alerts.append(Alert(
                 LicenseAlert(
@@ -132,54 +148,52 @@ class LicenseStatusAlertSource(ThreadedAlertSource):
                 if days == 0:
                     alert_klass = LicenseHasExpiredAlert
                     alert_text = textwrap.dedent("""\
-                        SUPPORT CONTRACT EXPIRATION: Please reactivate and continue to receive technical support and
-                        assistance. Contact by email: sales@TrueNAS.com, or telephone: 1-855-473-7449
+                        SUPPORT CONTRACT EXPIRATION: Please reactivate to continue receiving technical
+                        support. Contact Xloud at info@xloud.tech.
                     """)
-                    subject = "Your TrueNAS support contract has expired"
+                    subject = "Your X-NAS support contract has expired"
                     opening = textwrap.dedent("""\
-                        Your support contract has ended. A support contract may be renewed after contract expiration.
-                        Please contact your authorized reseller or TrueNAS (sales@TrueNAS.com).
+                        Your support contract has ended. A support contract may be renewed after contract
+                        expiration. Please contact Xloud at info@xloud.tech.
                     """)
                     encouraging = textwrap.dedent("""\
-                        Please renew the support contract for your TrueNAS product as soon as possible to maintain
-                        support services. Contact your authorized reseller or TrueNAS
-                        (email: sales@TrueNAS.com, phone: 1-855-473-7449).
+                        Please renew the support contract for your X-NAS product as soon as possible to
+                        maintain support services. Contact Xloud at info@xloud.tech.
                     """)
                 else:
                     alert_klass = LicenseIsExpiringAlert
                     alert_text = textwrap.dedent(f"""\
-                        RENEW YOUR SUPPORT CONTRACT:  The support contract for this product will expire
-                        on {contract_expiration}. Please avoid service interruptions, contact your
-                        authorized reseller or email: sales@TrueNAS.com, phone: 1-855-473-7449.
+                        RENEW YOUR SUPPORT CONTRACT: The support contract for this product will expire
+                        on {contract_expiration}. To avoid service interruptions, contact Xloud at
+                        info@xloud.tech.
                     """)
                     days_left = (local_license['contract_end'] - date.today()).days
-                    subject = f"Your TrueNAS support contract will expire in {days_left} days"
+                    subject = f"Your X-NAS support contract will expire in {days_left} days"
                     if days == 14:
                         opening = textwrap.dedent(f"""\
-                            The support contracts for the following TrueNAS products are expiring in 14 days:
+                            The support contracts for the following X-NAS products are expiring in 14 days:
                             {serial_numbers}
-                            This is a reminder regarding the impending expiration of your TrueNAS
+                            This is a reminder regarding the impending expiration of your X-NAS
                             {contract_type} support contract.
                         """)
                         encouraging = textwrap.dedent("""\
-                            We encourage you to urgently contact your authorized reseller or TrueNAS
-                            (email: sales@TrueNAS.com, telephone: 1-855-473-7449) and renew your support contracts.
+                            We encourage you to urgently contact Xloud at info@xloud.tech to renew your
+                            support contracts.
                         """)
                     else:
                         opening = textwrap.dedent(f"""\
-                            Your TrueNAS {contract_type} support contract will expire in {days_left} days.
-                            Please consider renewing your support contract now.  Contact your authorized
-                            reseller or TrueNAS.  email: sales@TrueNAS.com, telephone: 1-855-473-7449.
+                            Your X-NAS {contract_type} support contract will expire in {days_left} days.
+                            Please consider renewing your support contract now. Contact Xloud at
+                            info@xloud.tech.
                         """)
                         encouraging = textwrap.dedent("""\
-                            Please contact your authorized reseller or TrueNAS (email: sales@TrueNAS.com,
-                            telephone: 1-855-473-7449) to renew your contract before expiration.
+                            Please contact Xloud at info@xloud.tech to renew your contract before expiration.
                         """)
 
                 alerts.append(Alert(
                     alert_klass(alert_text),
                     mail={
-                        "cc": ["support-renewal@truenas.com"],
+                        "cc": ["info@xloud.tech"],
                         "subject": subject,
                         "text": textwrap.dedent("""\
                             Hello, {customer_name}
@@ -194,17 +208,16 @@ class LicenseStatusAlertSource(ThreadedAlertSource):
 
                             {encouraging}
 
-                            Your TrueNAS system will remain accessible after the support contract expires.
-                            However, after expiration it will no longer be eligible for support from TrueNAS.
+                            Your X-NAS system will remain accessible after the support contract expires.
+                            However, after expiration it will no longer be eligible for support from Xloud.
                             A support contract may be renewed after it has expired and there may be additional
                             costs associated with contract reactivation and lapsed-contract fees.
 
                             Sincerely,
 
-                            TrueNAS
-                            Web: support.TrueNAS.com
-                            Email: support@TrueNAS.com
-                            Telephone: 1-855-473-7449
+                            Xloud
+                            Web: https://xloud.tech/
+                            Email: info@xloud.tech
                         """).format(**{
                             "customer_name": customer_name,
                             "opening": opening,

@@ -17,7 +17,7 @@ from typing import Any, TypedDict
 
 from websocket._exceptions import WebSocketBadStatusException
 
-from truenas_api_client import Client, ClientException, CALL_TIMEOUT
+from xnas_api_client import Client, ClientException, CALL_TIMEOUT
 from middlewared.service import CallError, Service, private
 from middlewared.service_exception import ValidationError
 from middlewared.utils.threading import set_thread_name, start_daemon_thread

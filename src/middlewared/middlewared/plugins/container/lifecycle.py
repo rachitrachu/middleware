@@ -1,7 +1,7 @@
 import errno
 import typing
 
-from truenas_pylibvirt import (
+from xnas_pylibvirt import (
     ContainerCapabilitiesPolicy, ContainerDomain, ContainerDomainConfiguration, ContainerIdmapConfiguration,
     ContainerIdmapConfigurationItem, NICDevice, NICDeviceType, Time,
 )

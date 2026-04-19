@@ -51,7 +51,7 @@ from middlewared.utils.auth import (
 )
 from middlewared.utils.crypto import generate_token
 from middlewared.utils.time_utils import utc_now
-from truenas_pypam import PAMCode
+from xnas_pypam import PAMCode
 
 if TYPE_CHECKING:
     from middlewared.api.base.server.app import App

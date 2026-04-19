@@ -2,7 +2,7 @@ import asyncio
 import errno
 import itertools
 
-import truenas_pylibzfs
+import xnas_pylibzfs
 
 from middlewared.api import api_method
 from middlewared.api.current import (
@@ -210,7 +210,7 @@ class PoolService(Service):
         # Wait until the removal operation has fully completed. Some removals may not be
         # synchronous (e.g., removing top-level vdevs), except for SLOG and L2ARC devices.
         await self.middleware.run_in_thread(
-            truenas_pylibzfs.lzc.wait, pool_name=pool['name'], activity=truenas_pylibzfs.lzc.ZpoolWaitActivity.REMOVE
+            xnas_pylibzfs.lzc.wait, pool_name=pool['name'], activity=xnas_pylibzfs.lzc.ZpoolWaitActivity.REMOVE
         )
         job.set_progress(60, 'Removal of ZFS device complete')
 

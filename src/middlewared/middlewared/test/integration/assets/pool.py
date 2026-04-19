@@ -2,7 +2,7 @@ import contextlib
 import errno
 import time
 
-from truenas_api_client import ValidationErrors
+from xnas_api_client import ValidationErrors
 
 from middlewared.plugins.zfs.exceptions import ZFSPathNotFoundException
 from middlewared.service_exception import CallError, InstanceNotFound, MatchNotFound

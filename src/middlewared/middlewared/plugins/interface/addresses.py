@@ -4,12 +4,12 @@ import ipaddress
 import os
 import socket
 
-from truenas_pynetif.address.address import add_address, remove_address, replace_address
-from truenas_pynetif.address.constants import AddressFamily, IFFlags
-from truenas_pynetif.address.get_ipaddresses import get_link_addresses
-from truenas_pynetif.address.link import set_link_alias, set_link_mtu, set_link_up
-from truenas_pynetif.ethtool import DeviceNotFound, get_ethtool, OperationNotSupported
-from truenas_pynetif.netlink import AddressDoesNotExist, AddressInfo, LinkInfo
+from xnas_pynetif.address.address import add_address, remove_address, replace_address
+from xnas_pynetif.address.constants import AddressFamily, IFFlags
+from xnas_pynetif.address.get_ipaddresses import get_link_addresses
+from xnas_pynetif.address.link import set_link_alias, set_link_mtu, set_link_up
+from xnas_pynetif.ethtool import DeviceNotFound, get_ethtool, OperationNotSupported
+from xnas_pynetif.netlink import AddressDoesNotExist, AddressInfo, LinkInfo
 
 from middlewared.plugins.interface.dhcp import dhcp_leases, dhcp_status, dhcp_stop
 from middlewared.service import ServiceContext

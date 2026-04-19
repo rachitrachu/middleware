@@ -2,7 +2,7 @@
 Functional permission-enforcement tests for NFS4 ACLs and POSIX mode bits.
 
 These tests run locally on the NAS, create real ZFS datasets, set ACLs or
-mode bits directly via truenas_os / os.chmod, then drop privileges with
+mode bits directly via xnas_os / os.chmod, then drop privileges with
 os.seteuid to verify that the kernel allows or denies the operations as
 expected.
 
@@ -18,12 +18,12 @@ import subprocess
 import tempfile
 
 import pytest
-import truenas_os as t
+import xnas_os as t
 from contextlib import contextmanager
 from datetime import datetime
-from truenas_api_client import Client
+from xnas_api_client import Client
 
-import truenas_pylibzfs
+import xnas_pylibzfs
 
 
 # ── NFS4 permission masks ─────────────────────────────────────────────────────
@@ -160,7 +160,7 @@ _INHERIT = t.NFS4Flag.FILE_INHERIT | t.NFS4Flag.DIRECTORY_INHERIT
 def _full_allow_all(inherit=False):
     """Full control for owner@, group@, everyone@.
 
-    Pass inherit=True on directory ACLs: truenas_os requires at least one
+    Pass inherit=True on directory ACLs: xnas_os requires at least one
     ACE with FILE_INHERIT or DIRECTORY_INHERIT on directories, and rejects
     those flags entirely on files.
     """
@@ -213,14 +213,14 @@ def nfs4_dataset():
             [['mountpoint', '=', '/var']], {'get': True},
         )
 
-    lz = truenas_pylibzfs.open_handle()
+    lz = xnas_pylibzfs.open_handle()
     ds_name = f'{mnt["mount_source"]}/acl_enforce_nfs4'
     lz.create_resource(
         name=ds_name,
-        type=truenas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM,
+        type=xnas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM,
         properties={
-            truenas_pylibzfs.ZFSProperty.ACLTYPE: 'nfsv4',
-            truenas_pylibzfs.ZFSProperty.ACLMODE: 'passthrough',
+            xnas_pylibzfs.ZFSProperty.ACLTYPE: 'nfsv4',
+            xnas_pylibzfs.ZFSProperty.ACLMODE: 'passthrough',
         },
     )
     rsrc = lz.open_resource(name=ds_name)

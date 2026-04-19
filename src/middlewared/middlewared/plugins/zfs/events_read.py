@@ -3,7 +3,7 @@ from __future__ import annotations
 import time
 import typing
 
-import truenas_pylibzfs
+import xnas_pylibzfs
 
 from middlewared.utils.threading import set_thread_name, start_daemon_thread
 from middlewared.utils.zfs.event import parse_zfs_event
@@ -16,7 +16,7 @@ def zfs_events_thread(middleware: Middleware) -> None:
     set_thread_name('retrieve_zfs_events_thread')
     while True:
         try:
-            z = truenas_pylibzfs.open_handle()
+            z = xnas_pylibzfs.open_handle()
             for data in z.zpool_events(blocking=True, skip_existing_events=True):
                 try:
                     event = parse_zfs_event(data["event"])

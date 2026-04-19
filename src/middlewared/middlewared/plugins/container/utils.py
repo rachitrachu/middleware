@@ -1,6 +1,6 @@
 import os
 
-from truenas_os_pyutils.io import atomic_write
+from xnas_os_pyutils.io import atomic_write
 
 __all__ = (
     "CONTAINER_DS_NAME",

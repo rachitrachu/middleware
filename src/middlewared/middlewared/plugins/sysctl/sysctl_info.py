@@ -1,6 +1,6 @@
 import os
 
-from truenas_pylibzfs import kstat
+from xnas_pylibzfs import kstat
 
 from middlewared.service import CallError, Service
 from middlewared.utils import run, MIDDLEWARE_RUN_DIR

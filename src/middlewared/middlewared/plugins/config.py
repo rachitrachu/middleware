@@ -22,9 +22,12 @@ from middlewared.utils.pwenc import pwenc_generate_secret, pwenc_rename, PWENC_F
 CONFIG_FILES = {
     'pwenc_secret': PWENC_FILE_SECRET,
     'admin_authorized_keys': '/home/admin/.ssh/authorized_keys',
-    'truenas_admin_authorized_keys': '/home/truenas_admin/.ssh/authorized_keys',
+    # Kept key name "truenas_admin_authorized_keys" for tarball/on-disk
+    # compatibility with existing backups; the on-disk path follows the
+    # user rename to /home/xnas_admin.
+    'truenas_admin_authorized_keys': '/home/xnas_admin/.ssh/authorized_keys',
     'root_authorized_keys': '/root/.ssh/authorized_keys',
-    'snmp_engine_id': '/data/subsystems/snmp/truenas_pysnmp.conf',
+    'snmp_engine_id': '/data/subsystems/snmp/xnas_pysnmp.conf',
 }
 RE_CONFIG_BACKUP = re.compile(r'.*(\d{4}-\d{2}-\d{2})-(\d+)\.db$')
 UPLOADED_DB_PATH = '/data/uploaded.db'

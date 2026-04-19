@@ -6,7 +6,7 @@ from middlewared.api.current import QueryOptions
 
 
 if TYPE_CHECKING:
-    from truenas_pylibvirt.libvirtd.connection import DomainEvent
+    from xnas_pylibvirt.libvirtd.connection import DomainEvent
 
     from middlewared.main import Middleware
 

@@ -4,12 +4,12 @@ Round-trip conversion tests for NFS4 and POSIX ACL dict<->obj helpers.
   nfs4acl_dict_to_obj  / nfs4acl_obj_to_dict
   posixacl_dict_to_obj / posixacl_obj_to_dict
 
-These tests require truenas_os (only available on a TrueNAS system) but do
+These tests require xnas_os (only available on a TrueNAS system) but do
 not touch the filesystem: they only exercise the pure-Python data-
 transformation logic in middlewared.utils.filesystem.acl.
 """
 
-import truenas_os as t
+import xnas_os as t
 
 from middlewared.utils.filesystem.acl import (
     nfs4acl_dict_to_obj,
@@ -200,7 +200,7 @@ class TestNFS4RoundTrip:
     def test_multi_ace_ordering_preserved(self):
         """Relative ordering within DENY/ALLOW groups is preserved.
 
-        truenas_os.NFS4ACL canonicalizes ACEs to DENY-before-ALLOW order
+        xnas_os.NFS4ACL canonicalizes ACEs to DENY-before-ALLOW order
         while preserving relative order within each group.  The input must
         already be in canonical order for the round-trip to be stable.
         """

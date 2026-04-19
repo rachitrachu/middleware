@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import socket
 
-from truenas_pynetif.address.address import flush_addresses
-from truenas_pynetif.address.link import delete_link, set_link_down
-from truenas_pynetif.netlink import DeviceNotFound, LinkInfo
+from xnas_pynetif.address.address import flush_addresses
+from xnas_pynetif.address.link import delete_link, set_link_down
+from xnas_pynetif.netlink import DeviceNotFound, LinkInfo
 
 from middlewared.plugins.interface.dhcp import dhcp_status, dhcp_stop
 from middlewared.service import ServiceContext

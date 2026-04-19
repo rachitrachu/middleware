@@ -1,7 +1,7 @@
 import os
 from typing import Any
 
-from truenas_pylibvirt.device import (
+from xnas_pylibvirt.device import (
     Device, CDROMDevice, DisplayDevice, DisplayDeviceType, FilesystemDevice, NICDevice, NICDeviceType, NICDeviceModel,
     PCIDevice, DiskStorageDevice, GPUDevice, RawStorageDevice, StorageDeviceType, StorageDeviceIoType, USBDevice
 )

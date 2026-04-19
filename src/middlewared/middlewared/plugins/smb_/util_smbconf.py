@@ -4,7 +4,7 @@ import os
 import enum
 
 from logging import getLogger
-import truenas_pyfilter as _tf
+import xnas_pyfilter as _tf
 from middlewared.utils.directoryservices.constants import DSType
 from middlewared.utils.directoryservices.krb5_constants import SAMBA_KEYTAB_DIR
 from middlewared.utils.filesystem.acl import FS_ACL_Type, path_get_acltype

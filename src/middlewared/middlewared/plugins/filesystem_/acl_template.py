@@ -11,7 +11,7 @@ from middlewared.service import filterable_api_method, private
 from middlewared.utils.filter_list import filter_list
 from middlewared.plugins.smb_.constants import SMBBuiltin
 from middlewared.utils.directoryservices.constants import DSStatus, DSType
-import truenas_os
+import xnas_os
 
 from middlewared.utils.filesystem.acl import (
     ACL_UNDEFINED_ID,
@@ -103,7 +103,7 @@ class ACLTemplateService(CRUDService):
         if acltype is FS_ACL_Type.POSIX1E:
             try:
                 acl_obj = posixacl_dict_to_obj(data['acl'])
-                truenas_os.validate_acl(-1, acl_obj)
+                xnas_os.validate_acl(-1, acl_obj)
             except (ValueError, KeyError) as e:
                 verrors.add(schema, str(e))
 

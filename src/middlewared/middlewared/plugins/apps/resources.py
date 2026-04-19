@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from truenas_pylibvirt.utils.gpu import get_nvidia_gpus
+from xnas_pylibvirt.utils.gpu import get_nvidia_gpus
 
 from middlewared.api import api_method
 from middlewared.api.current import (

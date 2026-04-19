@@ -1,6 +1,6 @@
 import pytest
 
-from truenas_api_client import ClientException
+from xnas_api_client import ClientException
 
 from middlewared.test.integration.assets.pool import another_pool, pool as pool_name
 from middlewared.test.integration.utils import call, disable_failover, mock

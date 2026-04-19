@@ -2,8 +2,8 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import TypeAlias
 
-import truenas_pylibzfs
-import truenas_pyfilter as _tf
+import xnas_pylibzfs
+import xnas_pyfilter as _tf
 
 from middlewared.plugins.container.utils import CONTAINER_DS_NAME
 from middlewared.plugins.zfs_.utils import TNUserProp
@@ -30,15 +30,15 @@ from user interfaces. Used by is_internal_dataset() to perform efficient
 string prefix matching.
 """
 # String type annotations to prevent github CI
-# from exploding since truenas_pylibzfs module
+# from exploding since xnas_pylibzfs module
 # isn't installed
-ZFSPropSetType: TypeAlias = frozenset["truenas_pylibzfs.ZFSProperty"]
+ZFSPropSetType: TypeAlias = frozenset["xnas_pylibzfs.ZFSProperty"]
 ZFSDefaultPropSet = frozenset()
-if truenas_pylibzfs is not None:
+if xnas_pylibzfs is not None:
     # NOTE: this is initialized this way so
     # github CI doesn't explode since this module
     # isn't installed in the CI VM.
-    ZFSDefaultPropSet = truenas_pylibzfs.property_sets.ZFS_SPACE_PROPERTIES
+    ZFSDefaultPropSet = xnas_pylibzfs.property_sets.ZFS_SPACE_PROPERTIES
 
 
 def _format_bytes(value):
@@ -146,54 +146,54 @@ class QueryFiltersCallbackState:
 BASE_PROPS = frozenset()
 BASE_FS_PROPS = frozenset()
 BASE_VOL_PROPS = frozenset()
-if truenas_pylibzfs is not None:
+if xnas_pylibzfs is not None:
     BASE_PROPS = frozenset(
         {
-            truenas_pylibzfs.ZFSProperty.AVAILABLE,
-            truenas_pylibzfs.ZFSProperty.CHECKSUM,
-            truenas_pylibzfs.ZFSProperty.COMPRESSION,
-            truenas_pylibzfs.ZFSProperty.COMPRESSRATIO,
-            truenas_pylibzfs.ZFSProperty.COPIES,
-            truenas_pylibzfs.ZFSProperty.CREATION,
-            truenas_pylibzfs.ZFSProperty.DEDUP,  # deduplication
-            truenas_pylibzfs.ZFSProperty.ENCRYPTION,  # encryption_algorithm
+            xnas_pylibzfs.ZFSProperty.AVAILABLE,
+            xnas_pylibzfs.ZFSProperty.CHECKSUM,
+            xnas_pylibzfs.ZFSProperty.COMPRESSION,
+            xnas_pylibzfs.ZFSProperty.COMPRESSRATIO,
+            xnas_pylibzfs.ZFSProperty.COPIES,
+            xnas_pylibzfs.ZFSProperty.CREATION,
+            xnas_pylibzfs.ZFSProperty.DEDUP,  # deduplication
+            xnas_pylibzfs.ZFSProperty.ENCRYPTION,  # encryption_algorithm
             # encryption_root is just a string at top of dict
-            truenas_pylibzfs.ZFSProperty.ENCRYPTIONROOT,  # encryption_root
-            truenas_pylibzfs.ZFSProperty.KEYFORMAT,  # key_format
-            truenas_pylibzfs.ZFSProperty.ORIGIN,
-            truenas_pylibzfs.ZFSProperty.PBKDF2ITERS,
-            truenas_pylibzfs.ZFSProperty.READONLY,
-            truenas_pylibzfs.ZFSProperty.REFRESERVATION,
-            truenas_pylibzfs.ZFSProperty.RESERVATION,
-            truenas_pylibzfs.ZFSProperty.SNAPDEV,
-            truenas_pylibzfs.ZFSProperty.SYNC,
-            truenas_pylibzfs.ZFSProperty.USED,
-            truenas_pylibzfs.ZFSProperty.USEDBYCHILDREN,
-            truenas_pylibzfs.ZFSProperty.USEDBYDATASET,
-            truenas_pylibzfs.ZFSProperty.USEDBYREFRESERVATION,
-            truenas_pylibzfs.ZFSProperty.USEDBYSNAPSHOTS,
-            truenas_pylibzfs.ZFSProperty.SPECIAL_SMALL_BLOCKS,
+            xnas_pylibzfs.ZFSProperty.ENCRYPTIONROOT,  # encryption_root
+            xnas_pylibzfs.ZFSProperty.KEYFORMAT,  # key_format
+            xnas_pylibzfs.ZFSProperty.ORIGIN,
+            xnas_pylibzfs.ZFSProperty.PBKDF2ITERS,
+            xnas_pylibzfs.ZFSProperty.READONLY,
+            xnas_pylibzfs.ZFSProperty.REFRESERVATION,
+            xnas_pylibzfs.ZFSProperty.RESERVATION,
+            xnas_pylibzfs.ZFSProperty.SNAPDEV,
+            xnas_pylibzfs.ZFSProperty.SYNC,
+            xnas_pylibzfs.ZFSProperty.USED,
+            xnas_pylibzfs.ZFSProperty.USEDBYCHILDREN,
+            xnas_pylibzfs.ZFSProperty.USEDBYDATASET,
+            xnas_pylibzfs.ZFSProperty.USEDBYREFRESERVATION,
+            xnas_pylibzfs.ZFSProperty.USEDBYSNAPSHOTS,
+            xnas_pylibzfs.ZFSProperty.SPECIAL_SMALL_BLOCKS,
         }
     )
     BASE_FS_PROPS = BASE_PROPS | frozenset(
         {
-            truenas_pylibzfs.ZFSProperty.ACLMODE,
-            truenas_pylibzfs.ZFSProperty.ACLTYPE,
-            truenas_pylibzfs.ZFSProperty.ATIME,
-            truenas_pylibzfs.ZFSProperty.CASESENSITIVITY,
-            truenas_pylibzfs.ZFSProperty.EXEC,
-            truenas_pylibzfs.ZFSProperty.MOUNTPOINT,
-            truenas_pylibzfs.ZFSProperty.QUOTA,
-            truenas_pylibzfs.ZFSProperty.RECORDSIZE,
-            truenas_pylibzfs.ZFSProperty.REFQUOTA,
-            truenas_pylibzfs.ZFSProperty.SNAPDIR,
-            truenas_pylibzfs.ZFSProperty.XATTR,
+            xnas_pylibzfs.ZFSProperty.ACLMODE,
+            xnas_pylibzfs.ZFSProperty.ACLTYPE,
+            xnas_pylibzfs.ZFSProperty.ATIME,
+            xnas_pylibzfs.ZFSProperty.CASESENSITIVITY,
+            xnas_pylibzfs.ZFSProperty.EXEC,
+            xnas_pylibzfs.ZFSProperty.MOUNTPOINT,
+            xnas_pylibzfs.ZFSProperty.QUOTA,
+            xnas_pylibzfs.ZFSProperty.RECORDSIZE,
+            xnas_pylibzfs.ZFSProperty.REFQUOTA,
+            xnas_pylibzfs.ZFSProperty.SNAPDIR,
+            xnas_pylibzfs.ZFSProperty.XATTR,
         }
     )
     BASE_VOL_PROPS = BASE_PROPS | frozenset(
         {
-            truenas_pylibzfs.ZFSProperty.VOLBLOCKSIZE,
-            truenas_pylibzfs.ZFSProperty.VOLSIZE,
+            xnas_pylibzfs.ZFSProperty.VOLBLOCKSIZE,
+            xnas_pylibzfs.ZFSProperty.VOLSIZE,
         }
     )
 
@@ -375,7 +375,7 @@ def normalize_zfs_properties(zprops: dict[str, dict] | None) -> dict[str, dict]:
         # Handle source information safely (may be None for some properties)
         source_info = vdict.get("source")
         if source_info is not None:
-            source_name = truenas_pylibzfs.PropertySource(source_info["type"]).name
+            source_name = xnas_pylibzfs.PropertySource(source_info["type"]).name
             source_value = source_info["value"]
         else:
             source_name = "UNKNOWN"
@@ -559,16 +559,16 @@ def build_set_of_zfs_props(
     are returned for the ZFS type.
 
     Args:
-        hdl: ZFS handle from truenas_pylibzfs
+        hdl: ZFS handle from xnas_pylibzfs
         state: Query callback state containing property requests and cache
 
     Returns:
         frozenset | set | None: Set of ZFS properties to retrieve, or None if
                                no properties should be retrieved
     """
-    is_fs = hdl.type == truenas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM
-    is_vol = hdl.type == truenas_pylibzfs.ZFSType.ZFS_TYPE_VOLUME
-    is_snap = hdl.type == truenas_pylibzfs.ZFSType.ZFS_TYPE_SNAPSHOT
+    is_fs = hdl.type == xnas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM
+    is_vol = hdl.type == xnas_pylibzfs.ZFSType.ZFS_TYPE_VOLUME
+    is_snap = hdl.type == xnas_pylibzfs.ZFSType.ZFS_TYPE_SNAPSHOT
 
     if not any((is_fs, is_vol, is_snap)):
         # shouldn't be reachable but we'll return space related
@@ -579,7 +579,7 @@ def build_set_of_zfs_props(
         # Empty list means query no properties, but include mountpoint for filesystems only
         # as it's required by other parts of the system (e.g., dataset_processes)
         if is_fs:
-            return frozenset({truenas_pylibzfs.ZFSProperty.MOUNTPOINT})
+            return frozenset({xnas_pylibzfs.ZFSProperty.MOUNTPOINT})
         else:
             # For volumes and snapshots, return minimal properties
             return frozenset()
@@ -606,19 +606,19 @@ def build_set_of_zfs_props(
             return state.determined_properties.default
 
     # Build and cache custom property set for this request
-    fs_p = truenas_pylibzfs.property_sets.ZFS_FILESYSTEM_PROPERTIES
-    vol_p = truenas_pylibzfs.property_sets.ZFS_VOLUME_PROPERTIES
+    fs_p = xnas_pylibzfs.property_sets.ZFS_FILESYSTEM_PROPERTIES
+    vol_p = xnas_pylibzfs.property_sets.ZFS_VOLUME_PROPERTIES
     crypto_props = {
-        truenas_pylibzfs.ZFSProperty.ENCRYPTION,
-        truenas_pylibzfs.ZFSProperty.ENCRYPTIONROOT,
-        truenas_pylibzfs.ZFSProperty.KEYFORMAT,
-        truenas_pylibzfs.ZFSProperty.KEYLOCATION,
-        truenas_pylibzfs.ZFSProperty.KEYSTATUS,
+        xnas_pylibzfs.ZFSProperty.ENCRYPTION,
+        xnas_pylibzfs.ZFSProperty.ENCRYPTIONROOT,
+        xnas_pylibzfs.ZFSProperty.KEYFORMAT,
+        xnas_pylibzfs.ZFSProperty.KEYLOCATION,
+        xnas_pylibzfs.ZFSProperty.KEYSTATUS,
     }
     requested_props = set()
     for i in state.extra.zfs_properties:
         try:
-            prop = truenas_pylibzfs.ZFSProperty[i.upper()]
+            prop = xnas_pylibzfs.ZFSProperty[i.upper()]
             if is_fs and prop in fs_p:
                 requested_props.add(prop)
             elif is_vol and prop in vol_p:
@@ -656,7 +656,7 @@ def normalize_zfs_asdict_result(raw_data, hdl, include_user_properties=True):
 
     Args:
         raw_data: Raw dictionary from hdl.asdict()
-        hdl: ZFS handle from truenas_pylibzfs
+        hdl: ZFS handle from xnas_pylibzfs
         include_user_properties: Whether to include user_properties in the result
 
     Returns:
@@ -708,7 +708,7 @@ def build_info(hdl, state: QueryFiltersCallbackState):
     automatically transformed to match the current API format.
 
     Args:
-        hdl: ZFS handle from truenas_pylibzfs
+        hdl: ZFS handle from xnas_pylibzfs
         state: Query callback state containing property and crypto settings
 
     Returns:
@@ -775,7 +775,7 @@ def normalize_zfs_type(zfs_type):
     API representation across all ZFS resource types.
 
     Args:
-        zfs_type: ZFS type enum from truenas_pylibzfs
+        zfs_type: ZFS type enum from xnas_pylibzfs
 
     Returns:
         str: Clean type name without "ZFS_TYPE_" prefix
@@ -792,7 +792,7 @@ def snapshot_callback(snap_hdl, info):
     to add snapshot_count and/or snapshots list.
 
     Args:
-        snap_hdl: Snapshot handle from truenas_pylibzfs
+        snap_hdl: Snapshot handle from xnas_pylibzfs
         info: Dataset info dictionary to update with snapshot data
 
     Returns:
@@ -833,13 +833,13 @@ def snapshot_callback(snap_hdl, info):
                     # Get the requested properties for the snapshot
                     if snapshots_props is None:
                         # All properties requested - get full property set
-                        properties = truenas_pylibzfs.property_sets.ZFS_FILESYSTEM_SNAPSHOT_PROPERTIES
+                        properties = xnas_pylibzfs.property_sets.ZFS_FILESYSTEM_SNAPSHOT_PROPERTIES
                     else:
                         # Specific properties requested - convert to property set
                         properties = set()
                         for prop_name in snapshots_props:
                             try:
-                                prop = truenas_pylibzfs.ZFSProperty[prop_name.upper()]
+                                prop = xnas_pylibzfs.ZFSProperty[prop_name.upper()]
                                 properties.add(prop)
                             except KeyError:
                                 continue  # Skip invalid properties
@@ -871,7 +871,7 @@ def is_internal_dataset(hdl):
     internal dataset patterns defined in INTERNAL_DATASETS.
 
     Args:
-        hdl: ZFS handle from truenas_pylibzfs
+        hdl: ZFS handle from xnas_pylibzfs
 
     Returns:
         bool: True if the dataset is internal and should be filtered out,
@@ -904,7 +904,7 @@ def generic_query_callback(hdl, state: QueryFiltersCallbackState):
     - exact_match_filters_specified_and_did_not_match() for performance optimization
 
     Args:
-        hdl: ZFS handle from truenas_pylibzfs for current resource
+        hdl: ZFS handle from xnas_pylibzfs for current resource
         state: Query callback state containing all query parameters and results
 
     Returns:
@@ -1038,7 +1038,7 @@ def generic_query(
     - API compatibility transformations to match current API format
 
     Args:
-        rsrc_iterator: Iterator function from truenas_pylibzfs (e.g., iter_root_filesystems)
+        rsrc_iterator: Iterator function from xnas_pylibzfs (e.g., iter_root_filesystems)
         filters_in: List of filter expressions [["field", "operator", "value"], ...]
         options_in: Query options dict with keys like "get", "count", "order_by", etc.
         extra: Extra options dict with keys like "flat", "properties", "retrieve_children"

@@ -5,7 +5,7 @@ from dataclasses import asdict
 from middlewared.utils.directoryservices.ipa import ldap_dn_to_realm
 from middlewared.utils.directoryservices import dns
 from middlewared.utils.time_utils import utc_now
-from truenas_api_client import ejson as json
+from xnas_api_client import ejson as json
 
 
 @pytest.mark.parametrize('ldap_dn,realm', [

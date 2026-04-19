@@ -13,7 +13,7 @@ import fcntl
 import os
 import struct
 
-import truenas_os
+import xnas_os
 
 ZFS_IOC_GETATTRS = 0x80088301
 ZFS_IOC_SETATTRS = 0x40088302
@@ -165,9 +165,9 @@ def set_zfs_file_attributes_dict(path: str, attrs_in: dict[str, bool | None]) ->
     """
     attrs = {key: value for key, value in attrs_in.items() if value is not None}
     try:
-        fd = truenas_os.openat2(path, os.O_RDWR, resolve=truenas_os.RESOLVE_NO_SYMLINKS)
+        fd = xnas_os.openat2(path, os.O_RDWR, resolve=xnas_os.RESOLVE_NO_SYMLINKS)
     except IsADirectoryError:
-        fd = truenas_os.openat2(path, os.O_DIRECTORY, resolve=truenas_os.RESOLVE_NO_SYMLINKS)
+        fd = xnas_os.openat2(path, os.O_DIRECTORY, resolve=xnas_os.RESOLVE_NO_SYMLINKS)
 
     try:
         current = zfs_attributes_to_dict(fget_zfs_file_attributes(fd))

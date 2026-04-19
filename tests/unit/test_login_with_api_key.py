@@ -4,7 +4,7 @@ import pytest
 import tempfile
 from configparser import ConfigParser
 
-from truenas_api_client import Client
+from xnas_api_client import Client
 
 
 @pytest.fixture(autouse=True)
@@ -182,7 +182,7 @@ def test__login_with_raw_api_key_json_string(api_key_data):
 
 def test__login_with_api_key_auto_mechanism(api_key_data):
     """Test login_with_api_key with AUTO mechanism (should use SCRAM if available)."""
-    from truenas_api_client.auth_api_key import APIKeyAuthMech
+    from xnas_api_client.auth_api_key import APIKeyAuthMech
 
     with Client('ws://127.0.0.1/api/current') as c:
         c.login_with_api_key('root', api_key_data['key'], APIKeyAuthMech.AUTO)
@@ -194,7 +194,7 @@ def test__login_with_api_key_auto_mechanism(api_key_data):
 
 def test__login_with_api_key_scram_mechanism(api_key_data):
     """Test login_with_api_key with explicit SCRAM mechanism."""
-    from truenas_api_client.auth_api_key import APIKeyAuthMech
+    from xnas_api_client.auth_api_key import APIKeyAuthMech
 
     with Client('ws://127.0.0.1/api/current') as c:
         c.login_with_api_key('root', api_key_data['key'], APIKeyAuthMech.SCRAM)
@@ -206,7 +206,7 @@ def test__login_with_api_key_scram_mechanism(api_key_data):
 
 def test__login_with_api_key_plain_mechanism(api_key_data):
     """Test login_with_api_key with explicit PLAIN mechanism (legacy)."""
-    from truenas_api_client.auth_api_key import APIKeyAuthMech
+    from xnas_api_client.auth_api_key import APIKeyAuthMech
 
     with Client('ws://127.0.0.1/api/current') as c:
         c.login_with_api_key('root', api_key_data['key'], APIKeyAuthMech.PLAIN)

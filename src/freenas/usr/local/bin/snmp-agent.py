@@ -4,11 +4,11 @@ import time
 import contextlib
 import os
 
-import truenas_pylibzfs
-from truenas_pylibzfs import kstat
+import xnas_pylibzfs
+from xnas_pylibzfs import kstat
 import netsnmpagent
 
-from truenas_api_client import Client
+from xnas_api_client import Client
 from middlewared.utils.disk_temperatures import get_disks_temperatures_for_snmp
 
 
@@ -344,7 +344,7 @@ def report_zfs_info(prev_zpool_info):
     zpool_table.clear()
     zvol_table.clear()
 
-    lz = truenas_pylibzfs.open_handle()
+    lz = xnas_pylibzfs.open_handle()
 
     # zpool related information
     pools = []
@@ -358,7 +358,7 @@ def report_zfs_info(prev_zpool_info):
     for idx, pool in enumerate(pools, start=1):
         name = pool.name
         health = pool.get_properties(
-            properties={truenas_pylibzfs.ZPOOLProperty.HEALTH}
+            properties={xnas_pylibzfs.ZPOOLProperty.HEALTH}
         ).health.value
         pool_status = pool.status(get_stats=True)
         io_overall, io_1s = gather_zpool_iostat_info(prev_zpool_info, name, pool_status)
@@ -368,16 +368,16 @@ def report_zfs_info(prev_zpool_info):
         prev_zpool_info.update(io_overall)
 
     zvol_props = {
-        truenas_pylibzfs.ZFSProperty.USED,
-        truenas_pylibzfs.ZFSProperty.AVAILABLE,
-        truenas_pylibzfs.ZFSProperty.REFERENCED,
+        xnas_pylibzfs.ZFSProperty.USED,
+        xnas_pylibzfs.ZFSProperty.AVAILABLE,
+        xnas_pylibzfs.ZFSProperty.REFERENCED,
     }
     for idx, zvol_name in enumerate(get_list_of_zvols(), start=1):
         try:
             rsrc = lz.open_resource(name=zvol_name)
             props = rsrc.get_properties(properties=zvol_props)
             fill_in_zvol_snmp_row_info(idx, zvol_name, props)
-        except truenas_pylibzfs.ZFSException:
+        except xnas_pylibzfs.ZFSException:
             continue
 
 

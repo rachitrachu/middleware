@@ -8,7 +8,7 @@ from middlewared.utils.serial import serial_port_choices
 from middlewared.utils.db import query_config_table
 from middlewared.utils.vendor import Vendors
 from middlewared.utils.memory import get_memory_info
-from truenas_os_pyutils.io import atomic_write
+from xnas_os_pyutils.io import atomic_write
 
 logger = logging.getLogger(__name__)
 

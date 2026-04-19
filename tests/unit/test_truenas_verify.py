@@ -3,7 +3,7 @@ import pytest
 import subprocess
 import time
 
-from truenas_api_client import Client
+from xnas_api_client import Client
 
 
 VERIFY_LOG_PREAMBLE = '/var/log/audit/truenas_verify'

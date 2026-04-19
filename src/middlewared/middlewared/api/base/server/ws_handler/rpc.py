@@ -12,8 +12,8 @@ from typing import Any, Callable, TYPE_CHECKING
 from aiohttp.http_websocket import WSCloseCode, WSMessage
 from aiohttp.web import WebSocketResponse, WSMsgType
 
-from truenas_api_client import json
-from truenas_api_client.jsonrpc import JSONRPCError
+from xnas_api_client import json
+from xnas_api_client.jsonrpc import JSONRPCError
 
 from middlewared.service_exception import (
     CallException, CallError, MatchNotFound, ValidationError, ValidationErrors, adapt_exception, get_errname

@@ -2,7 +2,7 @@ import re
 
 import libsgio
 import pyudev
-from truenas_pylibvirt.utils.gpu import get_gpus
+from xnas_pylibvirt.utils.gpu import get_gpus
 
 from middlewared.plugins.disk_.disk_info import get_partition_size_info
 from middlewared.service import Service, private

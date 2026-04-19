@@ -12,8 +12,8 @@ import logging
 import errno
 from collections import defaultdict
 
-import truenas_pyfilter as _tf
-from truenas_os_pyutils.io import atomic_write
+import xnas_pyfilter as _tf
+from xnas_os_pyutils.io import atomic_write
 from middlewared.service import Service, job
 from middlewared.service_exception import CallError
 from middlewared.plugins.directoryservices import DEPENDENT_SERVICES

@@ -3,8 +3,8 @@ import socket
 from middlewared.plugins.interface.dhcp import dhcp_leases
 from middlewared.service import ServiceContext
 
-from truenas_pynetif.address.constants import AddressFamily
-from truenas_pynetif.address.netlink import (
+from xnas_pynetif.address.constants import AddressFamily
+from xnas_pynetif.address.netlink import (
     add_route,
     change_route,
     delete_route,
@@ -12,7 +12,7 @@ from truenas_pynetif.address.netlink import (
     get_links,
     netlink_route,
 )
-from truenas_pynetif.netlink import NetlinkError
+from xnas_pynetif.netlink import NetlinkError
 
 __all__ = ("sync_impl",)
 

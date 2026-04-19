@@ -7,7 +7,7 @@ import logging
 import threading
 from typing import Any
 
-from truenas_pylibzfs import open_handle
+from xnas_pylibzfs import open_handle
 
 from .prctl import set_name
 

@@ -1,4 +1,4 @@
-from truenas_pylibzfs import libzfs_types
+from xnas_pylibzfs import libzfs_types
 
 __all__ = ("get_zpool_features_impl",)
 

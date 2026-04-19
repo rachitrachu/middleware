@@ -27,7 +27,7 @@ from middlewared.utils.lock import SoftHardSemaphore, SoftHardSemaphoreLimit
 from middlewared.utils.origin import ConnectionOrigin
 from middlewared.utils.threading import run_coro_threadsafe
 from middlewared.utils.types import OptExcInfo
-from truenas_api_client import json
+from xnas_api_client import json
 if TYPE_CHECKING:
     from aiohttp.web import WebSocketResponse, Request
     from middlewared.main import Middleware

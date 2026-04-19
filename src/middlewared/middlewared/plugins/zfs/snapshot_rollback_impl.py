@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Any
 
-import truenas_pylibzfs
+import xnas_pylibzfs
 
 from .exceptions import ZFSPathNotFoundException, ZFSPathNotASnapshotException
 
@@ -14,7 +14,7 @@ class CollectNewerSnapshotsState:
     snaps: list[str]
 
 
-# FIXME: add `hdl` to `truenas_pylibzfs` stubs
+# FIXME: add `hdl` to `xnas_pylibzfs` stubs
 def __collect_child_datasets_callback(child_hdl: Any, state: list[str]) -> bool:
     """Callback for collecting child dataset names."""
     state.append(child_hdl.name)
@@ -29,7 +29,7 @@ def _collect_child_datasets(ds_hdl: Any, datasets: list[str]) -> None:
 
 def __collect_newer_snapshots_callback(snap_hdl: Any, state: CollectNewerSnapshotsState) -> bool:
     """Callback for collecting snapshots newer than target."""
-    props = snap_hdl.get_properties(properties={truenas_pylibzfs.ZFSProperty.CREATETXG})
+    props = snap_hdl.get_properties(properties={xnas_pylibzfs.ZFSProperty.CREATETXG})
     snap_txg = int(props.createtxg.value)
     if snap_txg > state.target_txg:
         state.snaps.append(snap_hdl.name)
@@ -50,7 +50,7 @@ def _rollback_single(dataset: str, snap_name: str) -> str:
         FileExistsError: If more recent snapshots exist
         FileNotFoundError: If snapshot doesn't exist
     """
-    return truenas_pylibzfs.lzc.rollback(
+    return xnas_pylibzfs.lzc.rollback(
         resource_name=dataset,
         snapshot_name=snap_name,
     )
@@ -92,8 +92,8 @@ def rollback_impl(
     # Verify snapshot exists
     try:
         tls.lzh.open_resource(name=path)
-    except truenas_pylibzfs.ZFSException as e:
-        if e.code == truenas_pylibzfs.ZFSError.EZFS_NOENT:
+    except xnas_pylibzfs.ZFSException as e:
+        if e.code == xnas_pylibzfs.ZFSError.EZFS_NOENT:
             raise ZFSPathNotFoundException(path)
         raise
 
@@ -101,8 +101,8 @@ def rollback_impl(
     if recursive_rollback:
         try:
             ds_hdl = tls.lzh.open_resource(name=dataset)
-        except truenas_pylibzfs.ZFSException as e:
-            if e.code == truenas_pylibzfs.ZFSError.EZFS_NOENT:
+        except xnas_pylibzfs.ZFSException as e:
+            if e.code == xnas_pylibzfs.ZFSError.EZFS_NOENT:
                 raise ZFSPathNotFoundException(dataset)
             raise
 
@@ -119,8 +119,8 @@ def rollback_impl(
         if recursive_rollback and ds != dataset:
             try:
                 tls.lzh.open_resource(name=snap_path)
-            except truenas_pylibzfs.ZFSException as e:
-                if e.code == truenas_pylibzfs.ZFSError.EZFS_NOENT:
+            except xnas_pylibzfs.ZFSException as e:
+                if e.code == xnas_pylibzfs.ZFSError.EZFS_NOENT:
                     raise ZFSPathNotFoundException(snap_path)
                 raise
 
@@ -152,15 +152,15 @@ def _destroy_newer_snapshots(tls: Any, dataset: str, target_snap: str, destroy_c
     target_path = f"{dataset}@{target_snap}"
     try:
         target_rsrc = tls.lzh.open_resource(name=target_path)
-        target_props = target_rsrc.get_properties(properties={truenas_pylibzfs.ZFSProperty.CREATETXG})
+        target_props = target_rsrc.get_properties(properties={xnas_pylibzfs.ZFSProperty.CREATETXG})
         target_txg = int(target_props.createtxg.value)
-    except truenas_pylibzfs.ZFSException:
+    except xnas_pylibzfs.ZFSException:
         return  # Target doesn't exist, let rollback handle the error
 
     # Get all snapshots for this dataset
     try:
         ds_hdl = tls.lzh.open_resource(name=dataset)
-    except truenas_pylibzfs.ZFSException:
+    except xnas_pylibzfs.ZFSException:
         return
 
     # Collect snapshots newer than target
@@ -174,7 +174,7 @@ def _destroy_newer_snapshots(tls: Any, dataset: str, target_snap: str, destroy_c
             if destroy_clones:
                 # Check for clones and destroy them first
                 snap_rsrc = tls.lzh.open_resource(name=snap_path)
-                props = snap_rsrc.get_properties(properties={truenas_pylibzfs.ZFSProperty.CLONES})
+                props = snap_rsrc.get_properties(properties={xnas_pylibzfs.ZFSProperty.CLONES})
                 if props.clones.value:
                     for clone in props.clones.value.split(","):
                         if clone:
@@ -183,12 +183,12 @@ def _destroy_newer_snapshots(tls: Any, dataset: str, target_snap: str, destroy_c
                                 if force:
                                     clone_rsrc.unmount(force=True)
                                 clone_rsrc.destroy()
-                            except truenas_pylibzfs.ZFSException:
+                            except xnas_pylibzfs.ZFSException:
                                 pass
 
-            truenas_pylibzfs.lzc.destroy_snapshots(
+            xnas_pylibzfs.lzc.destroy_snapshots(
                 snapshot_names=(snap_path,),
                 defer_destroy=False,
             )
-        except truenas_pylibzfs.ZFSException:
+        except xnas_pylibzfs.ZFSException:
             pass  # Continue with other snapshots

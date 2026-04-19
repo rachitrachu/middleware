@@ -1,7 +1,7 @@
 import pathlib
 import typing
 
-import truenas_pylibzfs
+import xnas_pylibzfs
 
 __all__ = ("get_zpool_disks_impl",)
 
@@ -63,7 +63,7 @@ def get_zpool_disks_impl(lzh: typing.Any, pool_name: str | None) -> list[str]:
     """
     disks: list[str] = list()
     status = lzh.open_pool(name=pool_name).status(get_stats=False)
-    if status.status in truenas_pylibzfs.property_sets.ZPOOL_STATUS_NONRECOVERABLE:
+    if status.status in xnas_pylibzfs.property_sets.ZPOOL_STATUS_NONRECOVERABLE:
         return disks
 
     for i in status.storage_vdevs:

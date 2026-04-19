@@ -7,7 +7,7 @@ from middlewared.service_exception import ValidationErrors
 
 
 if TYPE_CHECKING:
-    from truenas_pylibvirt.device.base import Device
+    from xnas_pylibvirt.device.base import Device
     from .delegate import DeviceDelegate
 
 

@@ -6,8 +6,8 @@ from middlewared.api.current import RouteSystemRoutesItem, RouteIpv4gwReachableA
 from middlewared.plugins.network_.route_sync import sync_impl as route_sync_impl
 from middlewared.service import ValidationError, Service, filterable_api_method, private
 from middlewared.utils.filter_list import filter_list
-from truenas_pynetif.address.constants import AddressFamily
-from truenas_pynetif.address.netlink import (
+from xnas_pynetif.address.constants import AddressFamily
+from xnas_pynetif.address.netlink import (
     get_addresses,
     get_routes,
     netlink_route,

@@ -3,7 +3,7 @@ from __future__ import annotations
 import dataclasses
 from typing import Any
 
-import truenas_pylibzfs
+import xnas_pylibzfs
 
 from .exceptions import ZFSPathNotFoundException, ZFSPathNotASnapshotException
 
@@ -23,7 +23,7 @@ def __collect_matching_snapshots_callback(ds_hdl: Any, state: CollectSnapshotsSt
     try:
         state.lzh.open_resource(name=snap_path)
         state.snapshots.append(snap_path)
-    except truenas_pylibzfs.ZFSException:
+    except xnas_pylibzfs.ZFSException:
         # Snapshot doesn't exist for this child dataset, skip
         pass
     # Recurse into children
@@ -52,16 +52,16 @@ def _collect_recursive_snapshots(tls: Any, dataset: str, snap_name: str) -> list
     try:
         tls.lzh.open_resource(name=parent_snap)
         snapshots.append(parent_snap)
-    except truenas_pylibzfs.ZFSException as e:
-        if e.code == truenas_pylibzfs.ZFSError.EZFS_NOENT:
+    except xnas_pylibzfs.ZFSException as e:
+        if e.code == xnas_pylibzfs.ZFSError.EZFS_NOENT:
             raise ZFSPathNotFoundException(parent_snap)
         raise
 
     # Collect from child datasets
     try:
         ds_hdl = tls.lzh.open_resource(name=dataset)
-    except truenas_pylibzfs.ZFSException as e:
-        if e.code == truenas_pylibzfs.ZFSError.EZFS_NOENT:
+    except xnas_pylibzfs.ZFSException as e:
+        if e.code == xnas_pylibzfs.ZFSError.EZFS_NOENT:
             raise ZFSPathNotFoundException(dataset)
         raise
 
@@ -99,8 +99,8 @@ def hold_impl(tls: Any, path: str, tag: str = "truenas", recursive: bool = False
         # Single snapshot - verify it exists
         try:
             tls.lzh.open_resource(name=path)
-        except truenas_pylibzfs.ZFSException as e:
-            if e.code == truenas_pylibzfs.ZFSError.EZFS_NOENT:
+        except xnas_pylibzfs.ZFSException as e:
+            if e.code == xnas_pylibzfs.ZFSError.EZFS_NOENT:
                 raise ZFSPathNotFoundException(path)
             raise
         snapshot_paths = [path]
@@ -113,8 +113,8 @@ def hold_impl(tls: Any, path: str, tag: str = "truenas", recursive: bool = False
 
     try:
         # Returns tuple of snapshots that no longer exist (not a failure)
-        truenas_pylibzfs.lzc.create_holds(holds=holds)
-    except truenas_pylibzfs.lzc.ZFSCoreException:
+        xnas_pylibzfs.lzc.create_holds(holds=holds)
+    except xnas_pylibzfs.lzc.ZFSCoreException:
         raise
 
 
@@ -146,8 +146,8 @@ def release_impl(tls: Any, path: str, tag: str | None = None, recursive: bool = 
         # Single snapshot - verify it exists
         try:
             tls.lzh.open_resource(name=path)
-        except truenas_pylibzfs.ZFSException as e:
-            if e.code == truenas_pylibzfs.ZFSError.EZFS_NOENT:
+        except xnas_pylibzfs.ZFSException as e:
+            if e.code == xnas_pylibzfs.ZFSError.EZFS_NOENT:
                 raise ZFSPathNotFoundException(path)
             raise
         snapshot_paths = [path]
@@ -168,7 +168,7 @@ def release_impl(tls: Any, path: str, tag: str | None = None, recursive: bool = 
                 current_holds = rsrc.get_holds()
                 for hold_tag in current_holds:
                     holds_to_release.add((snap_path, hold_tag))
-            except truenas_pylibzfs.ZFSException:
+            except xnas_pylibzfs.ZFSException:
                 # Snapshot may have been deleted, skip
                 pass
 
@@ -178,6 +178,6 @@ def release_impl(tls: Any, path: str, tag: str | None = None, recursive: bool = 
 
     try:
         # Returns tuple of holds that no longer exist (not a failure)
-        truenas_pylibzfs.lzc.release_holds(holds=holds_to_release)
-    except truenas_pylibzfs.lzc.ZFSCoreException:
+        xnas_pylibzfs.lzc.release_holds(holds=holds_to_release)
+    except xnas_pylibzfs.lzc.ZFSCoreException:
         raise

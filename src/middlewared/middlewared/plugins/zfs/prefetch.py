@@ -1,6 +1,6 @@
 import typing
 
-import truenas_pylibzfs
+import xnas_pylibzfs
 
 from middlewared.service import CallError, Service
 from middlewared.service.decorators import pass_thread_local_storage
@@ -26,7 +26,7 @@ class ZFSResourcePoolPrefetchService(Service):
         try:
             pool = tls.lzh.open_pool(name=pool_name)
             pool.prefetch()
-        except truenas_pylibzfs.ZFSException as e:
+        except xnas_pylibzfs.ZFSException as e:
             raise CallError(str(e), e.code)
 
     def prefetch_pools(self) -> None:

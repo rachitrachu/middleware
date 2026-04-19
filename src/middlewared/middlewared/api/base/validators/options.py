@@ -1,6 +1,6 @@
 from typing import Iterable
 
-import truenas_pyfilter as _tf
+import xnas_pyfilter as _tf
 
 MAX_LIMIT = 10000
 _SelectList = Iterable[str | list[str]]

@@ -4,9 +4,9 @@ import select
 import time
 import typing
 
-import truenas_os
+import xnas_os
 
-from truenas_os_pyutils.mount import __statmount_dict
+from xnas_os_pyutils.mount import __statmount_dict
 from middlewared.utils.threading import set_thread_name, start_daemon_thread
 
 if typing.TYPE_CHECKING:
@@ -19,7 +19,7 @@ def mount_events_process(middleware: Middleware) -> None:
         try:
             with open('/proc/self/mountinfo', 'r') as f:
                 # listmount() returns a list of mount ids
-                prev = set(truenas_os.listmount())
+                prev = set(xnas_os.listmount())
                 poller = select.poll()
                 poller.register(f, select.POLLERR | select.POLLPRI)
 
@@ -27,10 +27,10 @@ def mount_events_process(middleware: Middleware) -> None:
                     # Block until the kernel signals a mount table change
                     poller.poll()  # returns on mount/umount/propagation/etc.
 
-                    cur = set(truenas_os.listmount())
+                    cur = set(xnas_os.listmount())
                     for new in (cur - prev):
                         try:
-                            sm = truenas_os.statmount(new, mask=truenas_os.STATMOUNT_ALL)
+                            sm = xnas_os.statmount(new, mask=xnas_os.STATMOUNT_ALL)
                         except FileNotFoundError:
                             # we can in theory have race on listmount output and the statmount
                             # call or this can maybe be a mount in a disconnected state.

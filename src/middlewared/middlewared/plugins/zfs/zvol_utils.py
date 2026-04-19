@@ -32,7 +32,7 @@ def unlocked_zvols_fast_impl(
 ) -> dict[str, dict[str, Any]]:
     """
     Get zvol information from /sys/block and /dev/zvol.
-    This is quite a bit faster than using truenas_pylibzfs.
+    This is quite a bit faster than using xnas_pylibzfs.
 
     supported options:
     `SIZE` - size of zvol

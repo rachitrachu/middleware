@@ -29,7 +29,7 @@ from .nsenter import nsenter
 
 
 if TYPE_CHECKING:
-    from truenas_pylibvirt.libvirtd.connection import DomainEvent
+    from xnas_pylibvirt.libvirtd.connection import DomainEvent
 
     from middlewared.job import Job
     from middlewared.main import Middleware

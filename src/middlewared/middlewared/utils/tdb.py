@@ -16,7 +16,7 @@ from typing import Any, Callable, Literal, overload
 from middlewared.plugins.system_dataset.utils import SYSDATASET_PATH
 from middlewared.service_exception import MatchNotFound
 from threading import RLock
-from truenas_api_client import ejson as json
+from xnas_api_client import ejson as json
 
 FD_CLOSED = -1
 # Robust mutex support was added to libtdb after py-tdb was written and flags

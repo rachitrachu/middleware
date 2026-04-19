@@ -41,6 +41,18 @@ def get_eula() -> str | None:
 
 
 def is_eula_accepted() -> bool:
+    # Community X-NAS builds install a self-issued "XNAS" license. The EULA
+    # text in eula.html is the iXsystems TrueNAS Enterprise agreement and
+    # doesn't apply to us, so short-circuit the pending check if the live
+    # license is XNAS even when an older pending marker is left on disk.
+    try:
+        from licenselib.license import License
+        from middlewared.plugins.system.product_utils import LICENSE_FILE
+        with open(LICENSE_FILE, 'r') as f:
+            if License.load(f.read().strip()).model == 'XNAS':
+                return True
+    except Exception:
+        pass
     return not os.path.exists(EULA_PENDING_PATH)
 
 
@@ -77,7 +89,7 @@ async def set_production(
             'criticality': 'Inquiry',
             'environment': 'Production',
             'name': 'Automatic Alert',
-            'email': 'auto-support@truenas.com',
+            'email': 'info@xloud.tech',
             'phone': '-',
         }))
         return result

@@ -4,7 +4,7 @@ from middlewared.test.integration.utils import call, client
 from middlewared.test.integration.assets.apps import app
 from middlewared.test.integration.assets.docker import docker
 from middlewared.test.integration.assets.pool import another_pool
-from truenas_api_client import ValidationErrors
+from xnas_api_client import ValidationErrors
 
 
 CUSTOM_CONFIG = {

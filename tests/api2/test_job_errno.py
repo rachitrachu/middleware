@@ -1,7 +1,7 @@
 import pytest
 
 from middlewared.test.integration.utils import call, mock
-from truenas_api_client import ClientException
+from xnas_api_client import ClientException
 
 
 def test_job_errno():

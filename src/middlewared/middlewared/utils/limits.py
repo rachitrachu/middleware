@@ -6,7 +6,7 @@ import enum
 from typing import Any
 
 from aiohttp.http_websocket import WSCloseCode
-from truenas_api_client import json as ejson
+from xnas_api_client import json as ejson
 
 
 # WARNING: below methods must _not_ be audited. c.f. comment in parse_message() below

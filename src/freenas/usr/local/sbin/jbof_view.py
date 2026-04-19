@@ -49,7 +49,7 @@ import subprocess
 import urllib3
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Any
-from truenas_api_client import Client
+from xnas_api_client import Client
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 

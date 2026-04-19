@@ -7,7 +7,7 @@ import tempfile
 import typing
 
 from middlewared.service import CallError
-from truenas_os_pyutils.mount import umount
+from xnas_os_pyutils.mount import umount
 
 logger = logging.getLogger(__name__)
 

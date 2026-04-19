@@ -23,7 +23,7 @@ from middlewared.plugins.zfs.utils import get_encryption_info
 from middlewared.service import CallError, ConfigService, ValidationError, ValidationErrors, job, private
 from middlewared.utils import MIDDLEWARE_RUN_DIR, BOOT_POOL_NAME_VALID
 from middlewared.utils.filter_list import filter_list
-from truenas_os_pyutils.mount import iter_mountinfo, statmount
+from xnas_os_pyutils.mount import iter_mountinfo, statmount
 from middlewared.utils.size import format_size
 from middlewared.utils.tdb import close_sysdataset_tdb_handles
 from middlewared.utils.zfs import query_imported_fast_impl

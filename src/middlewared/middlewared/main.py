@@ -80,7 +80,7 @@ import typing
 import uuid
 
 from pydantic import create_model, Field
-from truenas_api_client import json
+from xnas_api_client import json
 
 if typing.TYPE_CHECKING:
     from collections.abc import Coroutine

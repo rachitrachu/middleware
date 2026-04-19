@@ -17,7 +17,7 @@ from middlewared.utils.account.authenticator import (
 )
 from middlewared.utils.account.oath import OATH_FILE
 from middlewared.utils.auth import AuthMech, CURRENT_AAL
-from truenas_pypam import PAMCode
+from xnas_pypam import PAMCode
 
 if TYPE_CHECKING:
     from middlewared.main import Middleware

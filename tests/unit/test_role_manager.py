@@ -2,7 +2,7 @@ import pytest
 
 from middlewared.role import RoleManager, ROLES
 from middlewared.utils import security
-from truenas_api_client import Client
+from xnas_api_client import Client
 
 
 FAKE_METHODS = [

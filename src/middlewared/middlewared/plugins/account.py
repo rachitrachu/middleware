@@ -58,7 +58,7 @@ from middlewared.utils.crypto import generate_nt_hash, sha512_crypt, generate_st
 from middlewared.utils.directoryservices.constants import DSType, DSStatus
 from middlewared.utils.filesystem.copy import copytree, CopyTreeConfig
 from middlewared.utils.filter_list import filter_list
-from truenas_os_pyutils.io import atomic_write
+from xnas_os_pyutils.io import atomic_write
 from middlewared.utils.nss import pwd, grp
 from middlewared.utils.nss.nss_common import NssModule
 from middlewared.utils.privilege import credential_has_full_admin, privileges_group_mapping
@@ -84,7 +84,7 @@ from middlewared.plugins.idmap_.idmap_constants import (
 from middlewared.plugins.idmap_ import idmap_winbind
 from middlewared.plugins.idmap_ import idmap_sss
 from threading import Lock
-from truenas_pypam import PAMCode
+from xnas_pypam import PAMCode
 
 
 SYNC_NEXT_UID_LOCK = Lock()
@@ -1138,8 +1138,8 @@ class UserService(CRUDService):
         }
         if self.middleware.call_sync('privilege.privileges_for_groups', 'local_groups', group_ids):
             shells.update(**{
-                '/usr/bin/cli': 'TrueNAS CLI',  # installed via midcli
-                '/usr/bin/cli_console': 'TrueNAS Console',  # installed via midcli
+                '/usr/bin/cli': 'X-NAS CLI',  # installed via xnascli
+                '/usr/bin/cli_console': 'X-NAS Console',  # installed via xnascli
             })
         with open('/etc/shells') as f:
             for shell in filter(lambda x: x.startswith('/usr/bin'), f):
@@ -1310,7 +1310,7 @@ class UserService(CRUDService):
         if await self.middleware.call('user.has_local_administrator_set_up'):
             raise CallError('Local administrator is already set up', errno.EEXIST)
 
-        if username == 'truenas_admin':
+        if username == 'xnas_admin':
             # first check based on NSS to catch collisions with AD / LDAP users
             try:
                 pwd_obj = await self.middleware.call('user.get_user_obj', {'uid': ADMIN_UID})

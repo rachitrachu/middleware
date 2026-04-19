@@ -21,7 +21,7 @@ from middlewared.test.integration.utils.system import reset_systemd_svcs as rese
 from auto_config import hostname, password, pool_name, user, ha
 from functions import async_SSH_done, async_SSH_start
 from protocols import SSH_NFS, nfs_share
-from truenas_api_client import ClientException
+from xnas_api_client import ClientException
 
 MOUNTPOINT = f"/tmp/nfs-{hostname}"
 dataset = f"{pool_name}/nfs"

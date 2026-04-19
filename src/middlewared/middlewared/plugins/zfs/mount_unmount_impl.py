@@ -1,6 +1,6 @@
 from typing import Any, Literal
 
-import truenas_pylibzfs
+import xnas_pylibzfs
 
 from .utils import open_resource
 
@@ -11,8 +11,8 @@ __all__ = (
 
 
 def __mount_cb(hdl: Any, state: dict[str, Any]) -> Literal[True]:
-    if hdl.type == truenas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM:
-        mounted = hdl.asdict(properties={truenas_pylibzfs.ZFSProperty.MOUNTED})
+    if hdl.type == xnas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM:
+        mounted = hdl.asdict(properties={xnas_pylibzfs.ZFSProperty.MOUNTED})
         if mounted["properties"]["mounted"]["raw"] == "no":
             hdl.mount(**state["mntopts"])
     if state["recursive"]:
@@ -41,7 +41,7 @@ def mount_impl(
             library user should rely on the ZFS mountpoint property.
         recursive: Recursively mount all child filesystems.
         mount_options: List of mount options to use when mounting the ZFS dataset.
-            These may be any of MNTOPT constants in the truenas_pylibzfs.constants
+            These may be any of MNTOPT constants in the xnas_pylibzfs.constants
             module.
 
             NOTE: it's generally preferable to set these as ZFS properties rather

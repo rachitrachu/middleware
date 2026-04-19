@@ -1,6 +1,6 @@
 import pytest
 import time
-from truenas_api_client import Client, ClientException
+from xnas_api_client import Client, ClientException
 
 
 def test__volatile_put_and_get():

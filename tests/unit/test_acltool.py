@@ -27,9 +27,9 @@ import shutil
 import stat
 
 import pytest
-import truenas_os as t
-import truenas_pylibzfs
-from truenas_api_client import Client
+import xnas_os as t
+import xnas_pylibzfs
+from xnas_api_client import Client
 
 from middlewared.plugins.filesystem_.utils import AclTool, AclToolAction, ATAclOptions, ATPermOptions
 from middlewared.utils.filesystem.acl import ACL_UNDEFINED_ID
@@ -149,13 +149,13 @@ def _pool_ds():
 def posix_dataset():
     """POSIX1E dataset under /var; yields (mountpoint, ds_name)."""
     ds_name = f'{_pool_ds()}/acltool_posix'
-    lz = truenas_pylibzfs.open_handle()
+    lz = xnas_pylibzfs.open_handle()
     lz.create_resource(
         name=ds_name,
-        type=truenas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM,
+        type=xnas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM,
         properties={
-            truenas_pylibzfs.ZFSProperty.ACLTYPE: 'posix',
-            truenas_pylibzfs.ZFSProperty.ACLMODE: 'passthrough',
+            xnas_pylibzfs.ZFSProperty.ACLTYPE: 'posix',
+            xnas_pylibzfs.ZFSProperty.ACLMODE: 'passthrough',
         },
     )
     rsrc = lz.open_resource(name=ds_name)
@@ -171,13 +171,13 @@ def posix_dataset():
 def nfs4_dataset():
     """NFS4 dataset under /var; yields (mountpoint, ds_name)."""
     ds_name = f'{_pool_ds()}/acltool_nfs4'
-    lz = truenas_pylibzfs.open_handle()
+    lz = xnas_pylibzfs.open_handle()
     lz.create_resource(
         name=ds_name,
-        type=truenas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM,
+        type=xnas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM,
         properties={
-            truenas_pylibzfs.ZFSProperty.ACLTYPE: 'nfsv4',
-            truenas_pylibzfs.ZFSProperty.ACLMODE: 'passthrough',
+            xnas_pylibzfs.ZFSProperty.ACLTYPE: 'nfsv4',
+            xnas_pylibzfs.ZFSProperty.ACLMODE: 'passthrough',
         },
     )
     rsrc = lz.open_resource(name=ds_name)
@@ -198,13 +198,13 @@ def nfs4_restricted_dataset():
     immediately, making this fixture a self-enforcing correctness check.
     """
     ds_name = f'{_pool_ds()}/acltool_nfs4_restricted'
-    lz = truenas_pylibzfs.open_handle()
+    lz = xnas_pylibzfs.open_handle()
     lz.create_resource(
         name=ds_name,
-        type=truenas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM,
+        type=xnas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM,
         properties={
-            truenas_pylibzfs.ZFSProperty.ACLTYPE: 'nfsv4',
-            truenas_pylibzfs.ZFSProperty.ACLMODE: 'restricted',
+            xnas_pylibzfs.ZFSProperty.ACLTYPE: 'nfsv4',
+            xnas_pylibzfs.ZFSProperty.ACLMODE: 'restricted',
         },
     )
     rsrc = lz.open_resource(name=ds_name)
@@ -313,13 +313,13 @@ def posix_traverse_env(posix_dataset):
             fh.write('test\n')
 
     child_ds_name = f'{parent_ds}/child'
-    lz = truenas_pylibzfs.open_handle()
+    lz = xnas_pylibzfs.open_handle()
     lz.create_resource(
         name=child_ds_name,
-        type=truenas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM,
+        type=xnas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM,
         properties={
-            truenas_pylibzfs.ZFSProperty.ACLTYPE: 'posix',
-            truenas_pylibzfs.ZFSProperty.ACLMODE: 'passthrough',
+            xnas_pylibzfs.ZFSProperty.ACLTYPE: 'posix',
+            xnas_pylibzfs.ZFSProperty.ACLMODE: 'passthrough',
         },
     )
     child_rsrc = lz.open_resource(name=child_ds_name)
@@ -371,13 +371,13 @@ def nfs4_traverse_env(nfs4_dataset):
             fh.write('test\n')
 
     child_ds_name = f'{parent_ds}/child'
-    lz = truenas_pylibzfs.open_handle()
+    lz = xnas_pylibzfs.open_handle()
     lz.create_resource(
         name=child_ds_name,
-        type=truenas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM,
+        type=xnas_pylibzfs.ZFSType.ZFS_TYPE_FILESYSTEM,
         properties={
-            truenas_pylibzfs.ZFSProperty.ACLTYPE: 'nfsv4',
-            truenas_pylibzfs.ZFSProperty.ACLMODE: 'passthrough',
+            xnas_pylibzfs.ZFSProperty.ACLTYPE: 'nfsv4',
+            xnas_pylibzfs.ZFSProperty.ACLMODE: 'passthrough',
         },
     )
     child_rsrc = lz.open_resource(name=child_ds_name)

@@ -4,7 +4,7 @@ import contextlib
 from dataclasses import dataclass
 from typing import Any, Generator, TYPE_CHECKING
 
-from truenas_pylibvirt import VmDomain as BaseVMDomain, VmDomainConfiguration as BaseVmDomainConfiguration
+from xnas_pylibvirt import VmDomain as BaseVMDomain, VmDomainConfiguration as BaseVmDomainConfiguration
 
 
 if TYPE_CHECKING:

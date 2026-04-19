@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from truenas_pylibvirt.utils.pci import (
+from xnas_pylibvirt.utils.pci import (
     get_all_pci_devices_details,
     get_pci_device_default_data,
     get_single_pci_device_details,

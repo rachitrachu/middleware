@@ -1,5 +1,5 @@
 import pytest
-from truenas_api_client import Client, ClientException
+from xnas_api_client import Client, ClientException
 
 @pytest.fixture(scope='function')
 def enable_stig():

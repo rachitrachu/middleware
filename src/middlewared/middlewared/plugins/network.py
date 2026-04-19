@@ -31,12 +31,12 @@ from middlewared.service import (
 )
 import middlewared.sqlalchemy as sa
 from middlewared.utils.filter_list import filter_list
-from truenas_pynetif.address.constants import AddressFamily
-from truenas_pynetif.address.netlink import get_addresses, get_default_route, netlink_route
-from truenas_pynetif.ethtool import NetlinkError, get_ethtool
-from truenas_pynetif.interface import CLONED_PREFIXES
-from truenas_pynetif.interface_state import list_interface_states
-from truenas_pynetif.utils import INTERNAL_INTERFACES
+from xnas_pynetif.address.constants import AddressFamily
+from xnas_pynetif.address.netlink import get_addresses, get_default_route, netlink_route
+from xnas_pynetif.ethtool import NetlinkError, get_ethtool
+from xnas_pynetif.interface import CLONED_PREFIXES
+from xnas_pynetif.interface_state import list_interface_states
+from xnas_pynetif.utils import INTERNAL_INTERFACES
 
 from .interface.interface_types import InterfaceType
 from .interface.lag_options import XmitHashChoices, LacpduRateChoices

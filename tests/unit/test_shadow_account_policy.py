@@ -12,7 +12,7 @@ from middlewared.utils.security import (
     GPOS_STIG_PASSWORD_LENGTH,
 )
 from middlewared.utils.time_utils import datetime_to_epoch_days
-from truenas_api_client import Client
+from xnas_api_client import Client
 
 OLD_DATE = 1711547527
 OLD_DATETIME = datetime.fromtimestamp(OLD_DATE, UTC)

@@ -6,7 +6,7 @@ import json
 import os
 import shutil
 
-from truenas_pylibzfs import ZFSError, ZFSException
+from xnas_pylibzfs import ZFSError, ZFSException
 
 from middlewared.api import api_method
 from middlewared.api.current import (

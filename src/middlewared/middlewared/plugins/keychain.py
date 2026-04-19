@@ -10,7 +10,7 @@ import tempfile
 from typing import Literal
 import urllib.parse
 
-from truenas_api_client import Client, ClientException
+from xnas_api_client import Client, ClientException
 
 from middlewared.api import api_method
 from middlewared.api.base import BaseModel, LongString, NonEmptyString, single_argument_args, single_argument_result

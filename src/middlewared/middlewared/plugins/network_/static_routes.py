@@ -16,7 +16,7 @@ from middlewared.plugins.network_.static_routes_sync import (
 )
 from middlewared.service import CRUDService, private
 from middlewared.service_exception import ValidationError
-from truenas_pynetif.address.netlink import delete_route, netlink_route
+from xnas_pynetif.address.netlink import delete_route, netlink_route
 
 
 class StaticRouteModel(sa.Model):

@@ -4,7 +4,7 @@ import pytest
 
 from middlewared.test.integration.assets.pool import dataset
 from middlewared.test.integration.utils import call
-from truenas_api_client import ValidationErrors as ClientValidationErrors
+from xnas_api_client import ValidationErrors as ClientValidationErrors
 
 permset_posix_full = {"READ": True, "WRITE": True, "EXECUTE": True}
 permset_nfsv4_full = {"BASIC": "FULL_CONTROL"}

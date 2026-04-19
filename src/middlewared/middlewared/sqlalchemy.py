@@ -12,7 +12,7 @@ from sqlalchemy import JSON as NativeJSON
 from sqlalchemy.orm import declarative_base, relationship, Mapped
 from sqlalchemy.types import UserDefinedType, TypeDecorator
 
-from truenas_api_client import json
+from xnas_api_client import json
 
 from middlewared.utils.pwenc import encrypt, decrypt
 

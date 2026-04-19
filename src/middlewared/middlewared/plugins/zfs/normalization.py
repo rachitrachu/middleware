@@ -19,10 +19,10 @@ USER_PROP_RENAME_DICT = MappingProxyType(
 
 def normalize_asdict_result(result: dict[str, Any], *, normalize_source: bool) -> dict[str, Any]:
     """
-    Normalize ZFS resource dictionary result from truenas_pylibzfs asdict() method.
+    Normalize ZFS resource dictionary result from xnas_pylibzfs asdict() method.
 
     This function transforms the raw ZFS resource dictionary returned by the
-    truenas_pylibzfs library into a normalized format suitable for API responses.
+    xnas_pylibzfs library into a normalized format suitable for API responses.
 
     Transformations performed:
     1. Removes the 'type_enum' key (internal enum object)
@@ -33,7 +33,7 @@ def normalize_asdict_result(result: dict[str, Any], *, normalize_source: bool) -
     6. Removes 'ZFS_TYPE_' prefix from the 'type' key
 
     Args:
-        result (dict): Raw ZFS resource dictionary from truenas_pylibzfs asdict().
+        result (dict): Raw ZFS resource dictionary from xnas_pylibzfs asdict().
                       Expected to contain keys: name, type, properties, user_properties.
                       The properties dict contains property values with source information.
                       The user_properties dict contains custom ZFS user properties.

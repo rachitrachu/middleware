@@ -6,7 +6,7 @@
 # 2 - the credential's allowlist used to authorize method calls should
 #   also be changed. This is validated by checking the API response that
 #   sensitive information is redacted.
-from truenas_api_client import Client
+from xnas_api_client import Client
 
 
 def test__become_readonly_privilege_composition():

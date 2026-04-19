@@ -1,7 +1,7 @@
 import errno
 import subprocess
 
-from truenas_api_client import ErrnoMixin
+from xnas_api_client import ErrnoMixin
 
 
 def get_errname(code: int) -> str:

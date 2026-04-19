@@ -3,7 +3,7 @@ import pathlib
 from dataclasses import dataclass
 from typing import Any, Literal
 
-import truenas_pylibzfs
+import xnas_pylibzfs
 
 from middlewared.utils import BOOT_POOL_NAME_VALID
 
@@ -126,8 +126,8 @@ def open_resource(tls: Any, path: str) -> Any:
 
     try:
         return tls.lzh.open_resource(name=path)
-    except truenas_pylibzfs.ZFSException as e:
-        if e.code == truenas_pylibzfs.ZFSError.EZFS_NOENT:
+    except xnas_pylibzfs.ZFSException as e:
+        if e.code == xnas_pylibzfs.ZFSError.EZFS_NOENT:
             raise ZFSPathNotFoundException(path)
         else:
             raise e from None

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, TYPE_CHECKING
 
-from truenas_pylibvirt.device import (
+from xnas_pylibvirt.device import (
     CDROMDevice, DisplayDevice, NICDevice, PCIDevice, DiskStorageDevice, RawStorageDevice, USBDevice,
 )
 

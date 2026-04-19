@@ -15,7 +15,7 @@ from middlewared.test.integration.utils.system import reset_systemd_svcs, get_gs
 
 from auto_config import ha
 from protocols import smb_connection, smb_share
-from truenas_api_client import ClientException
+from xnas_api_client import ClientException
 
 SMB_NAME = "TestADShare"
 

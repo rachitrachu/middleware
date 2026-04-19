@@ -3,7 +3,7 @@ import pytest
 
 from middlewared.test.integration.assets.pool import dataset
 from middlewared.test.integration.utils import call, ssh
-from truenas_api_client import ValidationErrors
+from xnas_api_client import ValidationErrors
 
 
 PASSPHRASE = '12345678'

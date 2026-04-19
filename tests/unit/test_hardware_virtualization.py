@@ -1,6 +1,6 @@
 # import pytest
 
-from truenas_api_client import Client
+from xnas_api_client import Client
 
 
 def test_hardware_variant():

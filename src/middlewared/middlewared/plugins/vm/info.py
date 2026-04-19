@@ -6,8 +6,8 @@ import re
 import shutil
 import typing
 
-from truenas_pylibvirt.utils import kvm_supported
-from truenas_pylibvirt.utils.cpu import get_cpu_model_choices
+from xnas_pylibvirt.utils import kvm_supported
+from xnas_pylibvirt.utils.cpu import get_cpu_model_choices
 
 from socket import AF_INET6
 

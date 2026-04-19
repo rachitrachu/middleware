@@ -7,7 +7,7 @@ import socket
 import subprocess
 import time
 
-from truenas_api_client import Client
+from xnas_api_client import Client
 
 logger = logging.getLogger(__name__)
 

@@ -10,7 +10,7 @@ from middlewared.service_exception import CallError
 from middlewared.test.integration.assets.filesystem import directory
 from middlewared.test.integration.assets.pool import dataset as create_dataset
 from middlewared.test.integration.utils import call, ssh
-from truenas_api_client import ClientException
+from xnas_api_client import ClientException
 
 
 @pytest.mark.parametrize("spath", ("/boot/grub", "/root", "/bin", "/usr/bin"))

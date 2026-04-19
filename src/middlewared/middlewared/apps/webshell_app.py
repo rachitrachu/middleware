@@ -20,7 +20,7 @@ from middlewared.utils.crypto import ssl_uuid4
 from middlewared.utils.os import close_fds, terminate_pid
 from middlewared.utils.threading import run_coro_threadsafe
 from middlewared.plugins.account_.constants import DEFAULT_HOME_PATH
-from truenas_api_client import json
+from xnas_api_client import json
 
 __all__ = ("ShellApplication",)
 

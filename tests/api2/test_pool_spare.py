@@ -1,6 +1,6 @@
 import pytest
 
-from truenas_api_client import ValidationErrors
+from xnas_api_client import ValidationErrors
 from middlewared.test.integration.assets.disk import fake_disks
 from middlewared.test.integration.assets.pool import another_pool
 from middlewared.test.integration.utils import call

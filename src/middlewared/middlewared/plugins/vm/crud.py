@@ -7,8 +7,8 @@ import shlex
 import uuid
 from typing import Any, TypeVar, TYPE_CHECKING
 
-from truenas_pylibvirt import DomainDoesNotExistError
-from truenas_pylibvirt.domain.base.configuration import parse_numeric_set
+from xnas_pylibvirt import DomainDoesNotExistError
+from xnas_pylibvirt.domain.base.configuration import parse_numeric_set
 
 import middlewared.sqlalchemy as sa
 from middlewared.api.current import (

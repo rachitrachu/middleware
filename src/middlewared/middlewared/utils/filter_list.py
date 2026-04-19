@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import Any, Iterable, overload, Sequence, TypeVar, Literal, Required, TypedDict
 
-import truenas_pyfilter as _tf
-from truenas_pyfilter import CompiledFilters, CompiledOptions, match  # noqa: F401 (re-exported)
+import xnas_pyfilter as _tf
+from xnas_pyfilter import CompiledFilters, CompiledOptions, match  # noqa: F401 (re-exported)
 
 from middlewared.api.base.validators.filters import TIMESTAMP_DESIGNATOR
 from middlewared.api.base.validators.options import _SelectList, validate_options

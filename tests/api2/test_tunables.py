@@ -4,7 +4,7 @@ import textwrap
 import pytest
 
 from auto_config import ha
-from truenas_api_client import ValidationErrors
+from xnas_api_client import ValidationErrors
 from middlewared.test.integration.utils import call, ssh, truenas_server
 from middlewared.test.integration.utils.mock_binary import mock_binary
 
