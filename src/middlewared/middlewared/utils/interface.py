@@ -9,7 +9,7 @@ from middlewared.utils import MIDDLEWARE_RUN_DIR
 
 
 IFACE_LINK_STATE_MAX_WAIT: int = 60
-NETIF_COMPLETE_SENTINEL = f"{MIDDLEWARE_RUN_DIR}/ix-netif-complete"
+NETIF_COMPLETE_SENTINEL = f"{MIDDLEWARE_RUN_DIR}/xnas-netif-complete"
 
 
 def get_default_interface() -> str | None:

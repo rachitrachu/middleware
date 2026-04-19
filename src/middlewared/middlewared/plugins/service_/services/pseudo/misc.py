@@ -266,7 +266,7 @@ class NVMfService(SimpleService):
     name = "nvmf"
     reloadable = True
     etc = ["nvmet"]
-    systemd_unit = "ix-nvmf"
+    systemd_unit = "xnas-nvmf"
 
 
 class RpcGssService(SimpleService):

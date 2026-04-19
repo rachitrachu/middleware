@@ -3,7 +3,7 @@ Description=Sync Disk Cache Table
 DefaultDependencies=no
 
 After=middlewared.service
-Before=ix-etc.service
+Before=xnas-etc.service
 
 [Service]
 Type=oneshot

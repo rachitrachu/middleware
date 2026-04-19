@@ -1,4 +1,4 @@
-Source: truenas-files
+Source: xnas-files
 Section: admin
 Priority: optional
 Maintainer: William Grzybowski <william@grzy.org>
@@ -7,7 +7,7 @@ Standards-Version: 4.4.0
 Homepage: http://www.truenas.com
 Rules-Requires-Root: binary-targets
 
-Package: truenas-files
+Package: xnas-files
 Architecture: any
 Depends: python3-all, libvirt-daemon-driver-lxc, libvirt-daemon-driver-qemu, snmp-mibs-downloader, zsh, ${misc:Depends}, ${shlibs:Depends}
 Description: Extra files for TrueNAS

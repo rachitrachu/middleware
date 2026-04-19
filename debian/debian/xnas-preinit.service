@@ -4,7 +4,7 @@ DefaultDependencies=no
 
 Before=network-pre.target
 
-After=ix-zfs.service
+After=xnas-zfs.service
 
 [Service]
 Type=oneshot

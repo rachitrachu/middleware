@@ -51,7 +51,7 @@ systemctl disable nfs-server
 systemctl disable rpcbind
 
 # These services will be started from middleware as needed
-systemctl disable ix-nvmf
+systemctl disable xnas-nvmf
 systemctl disable truenas-webshare-auth
 systemctl disable truesearch
 
@@ -109,6 +109,6 @@ systemctl mask systemd-sysusers.service
 # NAS-139257: Mask SSSD sockets - services are explicitly managed by middleware
 systemctl mask sssd-nss.socket sssd-pam-priv.socket sssd-pam.socket
 
-systemctl set-default truenas.target
+systemctl set-default xnas.target
 
 sed -i.bak 's/CHARMAP="ISO-8859-15"/CHARMAP="UTF-8"/' /etc/default/console-setup

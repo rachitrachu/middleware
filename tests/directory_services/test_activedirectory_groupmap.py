@@ -4,7 +4,7 @@ from middlewared.test.integration.assets.directory_service import directoryservi
 from middlewared.test.integration.utils import call, ssh
 from middlewared.test.integration.utils.system import reset_systemd_svcs
 
-GROUP_MAPPING_TDB = '/var/lib/truenas-samba/group_mapping.tdb'
+GROUP_MAPPING_TDB = '/var/lib/xnas-samba/group_mapping.tdb'
 
 # Well-known builtin alias SIDs
 BUILTIN_ADMINISTRATORS = 'S-1-5-32-544'

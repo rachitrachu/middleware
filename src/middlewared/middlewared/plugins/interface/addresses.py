@@ -190,9 +190,9 @@ def configure_addresses_impl(
         set_link_up(sock, index=link_index)
 
     # Handle keepalived for VIPs.  Skip the START during early boot (when called
-    # from ix-netif.service) because keepalived requires network-online.target
-    # which cannot be reached until ix-netif.service itself completes — starting
-    # it here would deadlock for 95s.  The sentinel is written by ix-netif.service
+    # from xnas-netif.service) because keepalived requires network-online.target
+    # which cannot be reached until xnas-netif.service itself completes — starting
+    # it here would deadlock for 95s.  The sentinel is written by xnas-netif.service
     # on successful completion, so its presence means the network is up.
     if vip or alias_vips:
         if ctx.middleware.call_sync("service.started", "keepalived"):
@@ -203,7 +203,7 @@ def configure_addresses_impl(
             ctx.middleware.call_sync(
                 "service.control", "START", "keepalived"
             ).wait_sync(raise_error=True)
-        # else: early boot call from ix-netif.service; keepalived will be
+        # else: early boot call from xnas-netif.service; keepalived will be
         # started later once network-online.target is satisfied.
 
     # Configure MTU (skip for bond members)

@@ -2,7 +2,7 @@
 Description=Execute UPS shutdown tasks early
 DefaultDependencies=no
 After=
-Before=ix-shutdown.service nut.target shutdown.target umount.target final.target
+Before=xnas-shutdown.service nut.target shutdown.target umount.target final.target
 Conflicts=shutdown.target umount.target final.target
 RequiresMountsFor=/etc /run
 

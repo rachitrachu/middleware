@@ -2,7 +2,7 @@
 # Vendors can do a bunch of different things
 # so we want to run it as late as possible
 # in the boot process.
-After=ix-postinit.service
+After=xnas-postinit.service
 
 [Service]
 Type=oneshot
@@ -13,4 +13,4 @@ ExecStart=-/usr/bin/start_vendor_service
 StandardOutput=null
 
 [Install]
-WantedBy=truenas.target
+WantedBy=xnas.target

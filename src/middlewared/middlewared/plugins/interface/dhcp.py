@@ -96,7 +96,7 @@ async def dhcp_start(interface: str, wait: int | None = None) -> None:
         wait: If None, fire-and-forget. If an int, wait up to that many
               seconds (clamped to [5, 120]) for the service to start.
     """
-    unit_name = f"ix-dhcpcd@{interface}.service"
+    unit_name = f"xnas-dhcpcd@{interface}.service"
     if wait is None:
         await system_dbus.call_unit_action(unit_name, "Start")
     else:
@@ -130,7 +130,7 @@ async def dhcp_stop(interface: str) -> None:
 
     Waits for the service to fully stop and all processes to exit.
     """
-    unit_name = f"ix-dhcpcd@{interface}.service"
+    unit_name = f"xnas-dhcpcd@{interface}.service"
     await system_dbus.call_unit_action_and_wait(unit_name, "Stop")
 
 

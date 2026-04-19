@@ -3,8 +3,8 @@ Description=Wait on Disk Enumeration
 DefaultDependencies=no
 
 Before=middlewared.service
-Before=ix-syncdisks.service
-Before=ix-zfs.service
+Before=xnas-syncdisks.service
+Before=xnas-zfs.service
 
 
 [Service]

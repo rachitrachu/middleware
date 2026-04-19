@@ -12,4 +12,4 @@ StandardOutput=null
 StandardError=null
 
 [Install]
-WantedBy=truenas.target
+WantedBy=xnas.target

@@ -6,17 +6,17 @@
 
 override_dh_auto_install:
 	sh -c "\
-		mkdir -p debian/truenas-files/etc; \
-		cp -a etc debian/truenas-files/; \
-		cp -a usr debian/truenas-files/; \
-		mkdir debian/truenas-files/home; \
-		cp -a root debian/truenas-files/home/xnas_admin; \
-		chmod 700 debian/truenas-files/home/xnas_admin; \
-		chown -R 950:950 debian/truenas-files/home/xnas_admin; \
-		cp -a root debian/truenas-files/; \
-		chmod 700 debian/truenas-files/root; \
-		mkdir -p debian/truenas-files/conf/base/etc; \
-		mkdir -p debian/truenas-files/usr/share/misc; \
+		mkdir -p debian/xnas-files/etc; \
+		cp -a etc debian/xnas-files/; \
+		cp -a usr debian/xnas-files/; \
+		mkdir debian/xnas-files/home; \
+		cp -a root debian/xnas-files/home/xnas_admin; \
+		chmod 700 debian/xnas-files/home/xnas_admin; \
+		chown -R 950:950 debian/xnas-files/home/xnas_admin; \
+		cp -a root debian/xnas-files/; \
+		chmod 700 debian/xnas-files/root; \
+		mkdir -p debian/xnas-files/conf/base/etc; \
+		mkdir -p debian/xnas-files/usr/share/misc; \
 	"
 
 override_dh_fixperms:

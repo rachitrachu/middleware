@@ -425,7 +425,7 @@ async def _systemctl_restart_ixvendor(middleware):
 
     async with IX_VEND_LOCK:
         if await middleware.call("system.vendor.is_vendored"):
-            await system_dbus.call_unit_action_and_wait("ix-vendor.service", "Restart")
+            await system_dbus.call_unit_action_and_wait("xnas-vendor.service", "Restart")
 
 
 async def _restart_vendor_service(middleware, event_type, args):
