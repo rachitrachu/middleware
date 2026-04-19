@@ -9,26 +9,26 @@ from truenas_connect_utils.urls import get_account_service_url
 import middlewared.sqlalchemy as sa
 from middlewared.api import api_method, Event
 from middlewared.api.current import (
-    TrueNASConnectEntry, TrueNASConnectUpdateArgs, TrueNASConnectUpdateResult,
-    TrueNASConnectConfigChangedEvent,
-    TrueNASConnectIpsWithHostnamesArgs, TrueNASConnectIpsWithHostnamesResult,
+    X-NASConnectEntry, X-NASConnectUpdateArgs, X-NASConnectUpdateResult,
+    X-NASConnectConfigChangedEvent,
+    X-NASConnectIpsWithHostnamesArgs, X-NASConnectIpsWithHostnamesResult,
 )
 from middlewared.service import CallError, ConfigService, private, ValidationErrors
 
 from .mixin import TNCAPIMixin
-from .private_models import TrueNASConnectUpdateEnvironmentArgs, TrueNASConnectUpdateEnvironmentResult
+from .private_models import X-NASConnectUpdateEnvironmentArgs, X-NASConnectUpdateEnvironmentResult
 from .utils import CLAIM_TOKEN_CACHE_KEY, get_unset_payload, TNC_IPS_CACHE_KEY
 
 logger = logging.getLogger('truenas_connect')
 
 
-class TrueNASConnectTier(enum.IntEnum):
+class X-NASConnectTier(enum.IntEnum):
     FOUNDATION = 1
     PLUS = 2
     BUSINESS = 3
 
 
-class TrueNASConnectModel(sa.Model):
+class X-NASConnectModel(sa.Model):
     __tablename__ = 'truenas_connect'
 
     id = sa.Column(sa.Integer(), primary_key=True)
@@ -52,22 +52,22 @@ class TrueNASConnectModel(sa.Model):
     last_heartbeat_failure_datetime = sa.Column(sa.String(255), nullable=True, default=None)
 
 
-class TrueNASConnectService(ConfigService, TNCAPIMixin):
+class X-NASConnectService(ConfigService, TNCAPIMixin):
 
     class Config:
         datastore = 'truenas_connect'
         datastore_extend = 'tn_connect.config_extend'
         cli_private = True
         namespace = 'tn_connect'
-        entry = TrueNASConnectEntry
+        entry = X-NASConnectEntry
         role_prefix = 'TRUENAS_CONNECT'
         events = [
             Event(
                 name='tn_connect.config',
-                description='Sent on TrueNAS Connect configuration changes',
+                description='Sent on X-NAS Connect configuration changes',
                 roles=['TRUENAS_CONNECT_READ'],
                 models={
-                    'CHANGED': TrueNASConnectConfigChangedEvent,
+                    'CHANGED': X-NASConnectConfigChangedEvent,
                 },
             )
         ]
@@ -80,7 +80,7 @@ class TrueNASConnectService(ConfigService, TNCAPIMixin):
             config['certificate'] = config['certificate']['id']
 
         try:
-            config['tier'] = TrueNASConnectTier(config['registration_details']['tier']).name
+            config['tier'] = X-NASConnectTier(config['registration_details']['tier']).name
         except (KeyError, ValueError):
             config['tier'] = None
 
@@ -110,15 +110,15 @@ class TrueNASConnectService(ConfigService, TNCAPIMixin):
                     verrors.add(
                         'tn_connect_update.enabled',
                         'System must have at least one IP address configured in System > General settings '
-                        'to enable TrueNAS Connect'
+                        'to enable X-NAS Connect'
                     )
 
         verrors.check()
 
-    @api_method(TrueNASConnectUpdateArgs, TrueNASConnectUpdateResult, audit='TrueNAS Connect: Updating configuration')
+    @api_method(X-NASConnectUpdateArgs, X-NASConnectUpdateResult, audit='X-NAS Connect: Updating configuration')
     async def do_update(self, data):
         """
-        Update TrueNAS Connect configuration.
+        Update X-NAS Connect configuration.
         """
         config = await self.config()
         data = config | data
@@ -159,7 +159,7 @@ class TrueNASConnectService(ConfigService, TNCAPIMixin):
 
         return new_config
 
-    @api_method(TrueNASConnectUpdateEnvironmentArgs, TrueNASConnectUpdateEnvironmentResult, private=True)
+    @api_method(X-NASConnectUpdateEnvironmentArgs, X-NASConnectUpdateEnvironmentResult, private=True)
     async def update_environment(self, data):
         config = await self.middleware.call('tn_connect.config')
         verrors = ValidationErrors()
@@ -171,7 +171,7 @@ class TrueNASConnectService(ConfigService, TNCAPIMixin):
                 if data[k] != config[k]:
                     verrors.add(
                         f'tn_connect_update_environment.{k}',
-                        'This field cannot be changed when TrueNAS Connect is enabled'
+                        'This field cannot be changed when X-NAS Connect is enabled'
                     )
 
         verrors.check()
@@ -262,7 +262,7 @@ class TrueNASConnectService(ConfigService, TNCAPIMixin):
             logger.error('Failed to delete TNC certificate: %s', delete_job.error)
 
     @api_method(
-        TrueNASConnectIpsWithHostnamesArgs, TrueNASConnectIpsWithHostnamesResult, roles=['TRUENAS_CONNECT_READ']
+        X-NASConnectIpsWithHostnamesArgs, X-NASConnectIpsWithHostnamesResult, roles=['TRUENAS_CONNECT_READ']
     )
     async def ips_with_hostnames(self):
         """

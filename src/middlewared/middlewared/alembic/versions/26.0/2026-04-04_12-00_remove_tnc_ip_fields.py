@@ -1,6 +1,6 @@
 """Remove ips, interfaces, interfaces_ips, use_all_interfaces from truenas_connect.
 
-TrueNAS Connect now derives IPs from system.general.config (ui_address / ui_v6address)
+X-NAS Connect now derives IPs from system.general.config (ui_address / ui_v6address)
 instead of maintaining its own IP configuration.
 
 Revision ID: 8bf95889effa

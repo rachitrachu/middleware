@@ -116,10 +116,10 @@ class AutomaticAlertFailedAlert(OneShotAlertClass):
     config = AlertClassConfig(
         category=AlertCategory.SYSTEM,
         level=AlertLevel.WARNING,
-        title="Failed to Notify TrueNAS About Alert",
+        title="Failed to Notify X-NAS About Alert",
         text=textwrap.dedent("""\
-            Creating an automatic alert for TrueNAS about system %(serial)s failed: %(error)s.
-            Please contact TrueNAS Support: https://www.truenas.com/support/
+            Creating an automatic alert for X-NAS about system %(serial)s failed: %(error)s.
+            Please contact X-NAS Support: https://www.truenas.com/support/
 
             Alert:
 

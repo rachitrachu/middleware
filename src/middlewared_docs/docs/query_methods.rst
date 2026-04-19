@@ -1,7 +1,7 @@
 Query Methods
 =============
 
-TrueNAS API has multiple query methods including ``pool.query``, ``disk.query``, ``vm.query``, and many more.
+X-NAS API has multiple query methods including ``pool.query``, ``disk.query``, ``vm.query``, and many more.
 
 The arguments for these methods support multiple options and filters that are similar to SQL queries.
 
@@ -289,7 +289,7 @@ The following prefixes may be applied to the field name:
 SQL Statements Translated Into Filters and Options
 --------------------------------------------------
 
-NOTE: These are examples of syntax translation. They are not intended to be executed on the TrueNAS server.
+NOTE: These are examples of syntax translation. They are not intended to be executed on the X-NAS server.
 
 Example 1
 ^^^^^^^^^

@@ -40,9 +40,9 @@ class SystemInfoArgs(BaseModel):
 @single_argument_result
 class SystemInfoResult(BaseModel):
     version: str
-    """TrueNAS version."""
+    """X-NAS version."""
     buildtime: datetime
-    """TrueNAS build time."""
+    """X-NAS build time."""
     hostname: str
     """System host name."""
     physmem: int

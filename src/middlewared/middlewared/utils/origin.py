@@ -197,7 +197,7 @@ def get_tcp_ip_info(
     #   1. Someone connects directly to 127.0.0.1 via a local
     #       shell session
     #   2. Someone connects directly to heartbeat IP port 6000
-    #       via a local shell session on a TrueNAS HA system
+    #       via a local shell session on a X-NAS HA system
     #   3. We connect directly to the other controller on an HA
     #       machine via heartbeat IP for intra-node communication.
     #       (this is done by us)

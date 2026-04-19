@@ -1,4 +1,4 @@
-"""Remove TrueNAS customer information
+"""Remove X-NAS customer information
 
 Revision ID: f449b425ad89
 Revises: 6dedf12c1035

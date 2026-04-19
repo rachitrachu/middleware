@@ -220,13 +220,13 @@ def zfs_property_names_to_be_renamed() -> dict[str, str]:
 
 def user_property_names_to_be_renamed() -> dict[str, str]:
     """
-    Return a mapping of TrueNAS user property names to their renamed equivalents.
+    Return a mapping of X-NAS user property names to their renamed equivalents.
 
-    Maps internal TrueNAS user property names to more user-friendly API names
+    Maps internal X-NAS user property names to more user-friendly API names
     for backwards compatibility.
 
     Returns:
-        dict[str, str]: A mapping where keys are TrueNAS user property names
+        dict[str, str]: A mapping where keys are X-NAS user property names
                        and values are the API-friendly names.
     """
     return {

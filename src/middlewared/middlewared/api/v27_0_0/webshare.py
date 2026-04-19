@@ -18,11 +18,11 @@ __all__ = [
 
 
 class WebshareEntry(BaseModel):
-    """TrueNAS Webshare server configuration. """
+    """X-NAS Webshare server configuration. """
     id: int
     """Unique identifier for the Webshare service configuration."""
     bindip: list[str]
-    """List of IP addresses used by the TrueNAS Webshare server."""
+    """List of IP addresses used by the X-NAS Webshare server."""
     search: bool
     """Search indexing is enabled."""
     passkey: Literal["ENABLED", "DISABLED", "REQUIRED"]
@@ -55,7 +55,7 @@ class WebshareBindipChoicesResult(BaseModel):
 
 
 class SharingWebshareEntry(BaseModel):
-    """Webshare share entry on the TrueNAS server. """
+    """Webshare share entry on the X-NAS server. """
     id: int
     """Unique identifier for this Webshare share."""
     name: NonEmptyString

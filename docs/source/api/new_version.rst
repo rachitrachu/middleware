@@ -4,7 +4,7 @@ Adding A New API Version
 .. contents:: Table of Contents
     :depth: 3
 
-When starting to work on a new TrueNAS release, we must generate new stable API version definition.
+When starting to work on a new X-NAS release, we must generate new stable API version definition.
 
 The first step will be to use the files of the recently released version as a base for the new version:
 

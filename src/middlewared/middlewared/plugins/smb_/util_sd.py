@@ -190,7 +190,7 @@ class SMBService(Service):
 
         `output_format` format for resulting ACL data. Choices are either 'SMB',
         which will present the information as a Windows SD or 'LOCAL', which formats
-        the ACL information according local filesystem of the TrueNAS server.
+        the ACL information according local filesystem of the X-NAS server.
         """
         if data['options']['use_kerberos']:
             raise CallError("kerberos authentication for this function is not "

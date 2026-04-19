@@ -54,7 +54,7 @@ class AuditEntry(BaseModel):
     quota_fill_critical: int = Field(ge=50, le=95)
     """Percentage used of dataset quota at which to generate a critical alert."""
     remote_logging_enabled: bool
-    """Logging to a remote syslog server is enabled on TrueNAS, and audit logs are \
+    """Logging to a remote syslog server is enabled on X-NAS, and audit logs are \
     included in what is sent remotely."""
     space: AuditEntrySpace
     """ZFS dataset properties relating space used and available for the dataset where the audit databases are \
@@ -108,12 +108,12 @@ class AuditQueryResultItem(BaseModel):
     service: Literal['MIDDLEWARE', 'SMB', 'SUDO', 'SYSTEM']
     """Name of the service that generated the message. This will be one of the names specified in `services`."""
     service_data: dict | None
-    """JSON object containing variable data depending on the particular service. See TrueNAS auditing documentation \
+    """JSON object containing variable data depending on the particular service. See X-NAS auditing documentation \
     for the service in question."""
     event: str
     """Name of the event type that generated the audit record. Each service has its own unique event identifiers."""
     event_data: dict | None
-    """JSON object containing variable data depending on the particular event type. See TrueNAS auditing documentation \
+    """JSON object containing variable data depending on the particular event type. See X-NAS auditing documentation \
     for the service in question."""
     success: bool
     """The action generating the event message succeeded."""

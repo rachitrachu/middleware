@@ -137,8 +137,8 @@ class TruecommandService(Service, TruecommandAPIMixin):
             elif response['nas_pubkey'] != config['wg_public_key']:
                 status_dict.update({
                     'state': PortalResponseState.FAILED,
-                    'error': f'Public key "{response["nas_pubkey"]}" of TrueNAS from iX Portal does not '
-                             f'match TrueNAS Config public key "{config["wg_public_key"]}".'
+                    'error': f'Public key "{response["nas_pubkey"]}" of X-NAS from iX Portal does not '
+                             f'match X-NAS Config public key "{config["wg_public_key"]}".'
                 })
             else:
                 status_dict.update(response)

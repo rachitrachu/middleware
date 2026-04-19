@@ -4,8 +4,8 @@ Database Migrations
 .. contents:: Table of Contents
     :depth: 3
 
-Database migration is a process of changing the structure of an older TrueNAS release database file to make it work with
-a newer TrueNAS release: adding new tables, adding new columns into existing tables, changing database records values...
+Database migration is a process of changing the structure of an older X-NAS release database file to make it work with
+a newer X-NAS release: adding new tables, adding new columns into existing tables, changing database records values...
 This is achieved by running small pieces of python code, each of them is also called a database migration.
 
 We use `Alembic <https://alembic.sqlalchemy.org/en/latest/>`_ as a tool that will automatically generate these
@@ -97,7 +97,7 @@ generate a merging migration.
     be a migration which parent is ``d``, and it will fail to apply in stable branch because stable branch has no
     `c → d` migration.
 
-All migrations that were created in the stable branch must be backported to the master branch. Otherwise, TrueNAS
+All migrations that were created in the stable branch must be backported to the master branch. Otherwise, X-NAS
 upgrade will break.
 
 .. note::
@@ -110,7 +110,7 @@ upgrade will break.
     This section is only talking about migration tree consistency and disregards the database upgrade logic itself.
     Two migrations with same `upgrade` function definition but different `revision` and `down_revision` variable values
     are considered to be different migrations and, if the migration tree is correct, they both will be executed (and if
-    the tree is not correct then TrueNAS upgrade will fail). For example, if you try to backport a migration from
+    the tree is not correct then X-NAS upgrade will fail). For example, if you try to backport a migration from
     master branch to stable branch by copying it and changing `revision` and `down_revision` variable values, you will
     just introduce a new migration and you will have to backport it back to ensure the tree correctness.
 

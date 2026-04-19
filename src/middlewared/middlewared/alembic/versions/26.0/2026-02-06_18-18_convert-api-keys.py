@@ -64,7 +64,7 @@ def convert_api_keys():
             revoke_api_key(api_key, 'Invalid API key')
         else:
             if algo != '$pbkdf2-sha512':
-                # NOTE: in versions of TrueNAS prior to 25.04 API keys were generated
+                # NOTE: in versions of X-NAS prior to 25.04 API keys were generated
                 # using pbkdf2-sha256 with a small number of iterations. During the
                 # release cycles for 25.04 and 25.10 we upgraded these API keys on
                 # the fly from pbkdf2-sha256 to pbkdf2-sha512. As a consequence the

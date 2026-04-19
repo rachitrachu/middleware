@@ -77,7 +77,7 @@ class HttpService(PseudoServiceBase):
                 return
             except Exception as e:
                 if attempt == 2:  # Last attempt
-                    self.middleware.logger.error("Failed to register port with TrueNAS Connect after 3 attempts: %s", e)
+                    self.middleware.logger.error("Failed to register port with X-NAS Connect after 3 attempts: %s", e)
                 else:
                     await asyncio.sleep(5)
 

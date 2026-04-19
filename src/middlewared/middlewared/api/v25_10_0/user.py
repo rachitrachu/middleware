@@ -40,9 +40,9 @@ class UserEntry(BaseModel):
     also appears in the `users` array for each group entry in `group.query` results.
 
     NOTE: For users from a directory service, the `id` is calculated by adding 100000000 to the `uid`. This ensures \
-    consistent API results. You cannot change directory service accounts through TrueNAS. """
+    consistent API results. You cannot change directory service accounts through X-NAS. """
     uid: int
-    """ A non-negative integer used to identify a system user. TrueNAS uses this value for permission \
+    """ A non-negative integer used to identify a system user. X-NAS uses this value for permission \
     checks and many other system purposes. """
     username: LocalUsername | RemoteUsername
     """ A string used to identify a user. Local accounts must use characters from the POSIX portable filename \
@@ -54,7 +54,7 @@ class UserEntry(BaseModel):
     services or non-SMB accounts. """
     home: NonEmptyString = DEFAULT_HOME_PATH
     """ The local file system path for the user account's home directory.
-    Typically, this is required only if the account has shell access (local or SSH) to TrueNAS.
+    Typically, this is required only if the account has shell access (local or SSH) to X-NAS.
     This is not required for accounts used only for SMB share access. """
     shell: NonEmptyString = "/usr/bin/zsh"
     """Available choices can be retrieved with `user.shell_choices`."""
@@ -63,10 +63,10 @@ class UserEntry(BaseModel):
     the full name of the user or a short description of a service account. There are no character set restrictions \
     for this field. This field is for information only. """
     builtin: bool
-    """ If `true`, the user account is an internal system account for the TrueNAS server. Typically, one should \
-    create dedicated user accounts for access to the TrueNAS server webui and shares. """
+    """ If `true`, the user account is an internal system account for the X-NAS server. Typically, one should \
+    create dedicated user accounts for access to the X-NAS server webui and shares. """
     smb: bool = True
-    """ The user account may be used to access SMB shares. If set to `true` then TrueNAS stores an NT hash of the \
+    """ The user account may be used to access SMB shares. If set to `true` then X-NAS stores an NT hash of the \
     user account's password for local accounts. This feature is unavailable for local accounts when General Purpose OS \
     STIG compatibility mode is enabled. If set to `true` the user is automatically added to the `builtin_users` \
     group."""
@@ -76,7 +76,7 @@ class UserEntry(BaseModel):
     directly mapped to all containers. Alternatively, the target UID may be \
     explicitly specified. If `null`, then the UID will not be mapped.
 
-    NOTE: This field will be ignored for users that have been assigned TrueNAS roles.
+    NOTE: This field will be ignored for users that have been assigned X-NAS roles.
     """
     group: dict
     """ The primary group of the user account. """
@@ -86,19 +86,19 @@ class UserEntry(BaseModel):
     password_disabled: bool = False
     """ If set to `true` password authentication for the user account is disabled.
 
-    NOTE: Users with password authentication disabled may still authenticate to the TrueNAS server by other methods, \
+    NOTE: Users with password authentication disabled may still authenticate to the X-NAS server by other methods, \
     such as SSH key-based authentication.
 
     NOTE: Password authentication is required for `smb` users.
     """
     ssh_password_enabled: bool = False
-    """ Allow the user to authenticate to the TrueNAS SSH server using a password.
+    """ Allow the user to authenticate to the X-NAS SSH server using a password.
 
     WARNING: The established best practice is to use only key-based authentication for SSH servers. """
     sshpubkey: LongString | None = None
-    """  SSH public keys corresponding to private keys that authenticate this user to the TrueNAS SSH server. """
+    """  SSH public keys corresponding to private keys that authenticate this user to the X-NAS SSH server. """
     locked: bool = False
-    """ If set to `true` the account is locked. The account cannot be used to authenticate to the TrueNAS server. """
+    """ If set to `true` the account is locked. The account cannot be used to authenticate to the X-NAS server. """
     sudo_commands: list[NonEmptyString] = Field(default_factory=list)
     """ An array of commands the user may execute with elevated privileges. User is prompted for password \
     when executing any command from the array. """
@@ -109,14 +109,14 @@ class UserEntry(BaseModel):
     """ Email address of the user. If the user has the `FULL_ADMIN` role, they will receive email alerts and \
     notifications. """
     local: bool
-    """ If `true`, the account is local to the TrueNAS server. If `false`, the account is provided by a directory \
+    """ If `true`, the account is local to the X-NAS server. If `false`, the account is provided by a directory \
     service. """
     immutable: bool
     """ If `true`, the account is system-provided and most fields related to it may not be changed. """
     twofactor_auth_configured: bool
     """ If `true`, the account has been configured for two-factor authentication. Users are prompted for a \
-    second factor when authenticating to the TrueNAS web UI and API. They may also be prompted when signing \
-    in to the TrueNAS SSH server using a password (depending on global two-factor authentication settings). """
+    second factor when authenticating to the X-NAS web UI and API. They may also be prompted when signing \
+    in to the X-NAS SSH server using a password (depending on global two-factor authentication settings). """
     sid: str | None
     """ The Security Identifier (SID) of the user if the account an `smb` account. The SMB server uses \
     this value to check share access and for other purposes. """
@@ -132,7 +132,7 @@ class UserEntry(BaseModel):
     password_change_required: bool
     """Password change for local user account is required on next login."""
     roles: list[str]
-    """Array of roles assigned to this user's groups. Roles control administrative access to TrueNAS through \
+    """Array of roles assigned to this user's groups. Roles control administrative access to X-NAS through \
     the web UI and API."""
     api_keys: list[int]
     """Array of API key IDs associated with this user account for programmatic access."""
@@ -177,7 +177,7 @@ class UserCreate(UserEntry):
     """ Email address of the user. If the user has the `FULL_ADMIN` role, they will receive email alerts and \
     notifications. """
     group_create: bool = False
-    """ If set to `true`, the TrueNAS server automatically creates a new local group as the user's primary group. """
+    """ If set to `true`, the X-NAS server automatically creates a new local group as the user's primary group. """
     group: int | None = None
     """ The group entry `id` for the user's primary group. This is not the same as the Unix group `gid` value. \
     This is required if `group_create` is `false`. """
@@ -214,7 +214,7 @@ class UserGetUserObj(BaseModel):
     source: Literal['LOCAL', 'ACTIVEDIRECTORY', 'LDAP']
     """The source for the user account."""
     local: bool
-    """The account is local to TrueNAS or provided by a directory service."""
+    """The account is local to X-NAS or provided by a directory service."""
 
 
 class UserUpdate(UserCreate, metaclass=ForUpdateMetaclass):

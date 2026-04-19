@@ -42,7 +42,7 @@ def get_eula() -> str | None:
 
 def is_eula_accepted() -> bool:
     # Community X-NAS builds install a self-issued "XNAS" license. The EULA
-    # text in eula.html is the iXsystems TrueNAS Enterprise agreement and
+    # text in eula.html is the Xloud X-NAS Enterprise agreement and
     # doesn't apply to us, so short-circuit the pending check if the live
     # license is XNAS even when an older pending marker is left on disk.
     try:

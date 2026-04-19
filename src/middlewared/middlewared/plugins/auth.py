@@ -380,7 +380,7 @@ class AuthService(Service):
     def generate_onetime_password(self, app, data):
         """
         Generate a password for the specified username that may be used only a single time to authenticate
-        to TrueNAS. This may be used by server administrators to allow users authenticate and then set
+        to X-NAS. This may be used by server administrators to allow users authenticate and then set
         a proper password and two-factor authentication token.
         """
         if app.authenticated_credentials.is_user_session:
@@ -1097,7 +1097,7 @@ class AuthService(Service):
 
         Attributes set here will appear in the `auth.me` API response under the `attributes` field.
 
-        WARNING: this API endpoint exists solely for the use of the TrueNAS UX team. The data stored in
+        WARNING: this API endpoint exists solely for the use of the X-NAS UX team. The data stored in
         these attributes *must* be considered opaque from the perspective of the middleware backend,
         with specific documented exceptions. This endpoint should not be used or relied on by any
         third-party scripts or workflows.
@@ -1191,7 +1191,7 @@ async def check_permission(middleware: Middleware, app: RpcWebSocketApp) -> None
         # to generate the credentials dict that will be inserted as the SessionManagerCredentials.
         user = await middleware.call('auth.authenticate_user', resp.user_info)
         if user is None:
-            # User may not have privileges to TrueNAS
+            # User may not have privileges to X-NAS
             return
 
     await AuthService.session_manager.login(app, UnixSocketSessionManagerCredentials(user, authenticator))

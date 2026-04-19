@@ -30,7 +30,7 @@ from middlewared.utils.mount import resolve_dataset_path
 from middlewared.utils.size import format_size
 from .utils import sanitize_extent
 
-EXTENT_DEFAULT_VENDOR = 'TrueNAS'
+EXTENT_DEFAULT_VENDOR = 'X-NAS'
 EXTENT_DEFAULT_PRODUCT_ID = 'iSCSI Disk'
 
 

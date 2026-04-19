@@ -4,7 +4,7 @@ SCRAM Authentication for API Keys
 Overview
 --------
 
-TrueNAS middleware supports two authentication methods for API keys:
+X-NAS middleware supports two authentication methods for API keys:
 
 1. **Legacy PLAIN authentication** (``API_KEY_PLAIN``): Sends the raw API key directly to the server
 2. **SCRAM-SHA-512 authentication** (``SCRAM``): Uses challenge-response authentication per RFC 5802 and RFC 7677
@@ -15,7 +15,7 @@ the raw key material during authentication. It is the recommended method for all
 API Key Format
 --------------
 
-Starting with TrueNAS 26, creating an API key returns both the raw key and precomputed SCRAM data:
+Starting with X-NAS 26, creating an API key returns both the raw key and precomputed SCRAM data:
 
 .. code-block:: python
 
@@ -41,7 +41,7 @@ Example::
 The ``key`` field is only returned at creation time and cannot be retrieved later.
 Store both the raw key and SCRAM data securely.
 
-Using TrueNAS API Client
+Using X-NAS API Client
 -------------------------
 
 Installation
@@ -51,7 +51,7 @@ Installation
 
     pip install truenas-api-client
 
-Creating an API Key (TrueNAS 26+)
+Creating an API Key (X-NAS 26+)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
@@ -81,9 +81,9 @@ Creating an API Key (TrueNAS 26+)
                 'iterations': api_key_data['iterations']
             }, f, indent=2)
 
-The raw key (``raw_key``) can be used for legacy authentication or with older TrueNAS versions.
+The raw key (``raw_key``) can be used for legacy authentication or with older X-NAS versions.
 The SCRAM data (``api_key_id``, ``client_key``, etc.) provides optimal performance and should
-be preferred for TrueNAS 26+.
+be preferred for X-NAS 26+.
 
 Basic Authentication with Raw Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -102,7 +102,7 @@ Basic Authentication with Raw Key
 The ``login_with_api_key()`` method automatically detects server capabilities and uses SCRAM
 authentication if available, falling back to PLAIN authentication for older servers.
 
-Optimal Authentication with Precomputed Keys (TrueNAS 26+)
+Optimal Authentication with Precomputed Keys (X-NAS 26+)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Using precomputed SCRAM keys avoids expensive PBKDF2 computation (500,000 iterations) on each
@@ -112,7 +112,7 @@ authentication:
 
     from truenas_api_client import Client
 
-    # Using precomputed SCRAM data from TrueNAS 26+ api_key.create response
+    # Using precomputed SCRAM data from X-NAS 26+ api_key.create response
     # IMPORTANT: Path must be absolute
     with Client('ws://truenas.local/api/current') as c:
         c.login_with_api_key('root', '/secure/path/my_api_key.json')
@@ -161,7 +161,7 @@ API keys can be stored in files for better security. The client supports multipl
 **IMPORTANT:** File paths must be absolute (e.g., ``/home/user/.config/truenas/api_key.json``).
 Relative paths are not supported.
 
-**JSON format with raw key (works with any TrueNAS version):**
+**JSON format with raw key (works with any X-NAS version):**
 
 .. code-block:: json
 
@@ -169,7 +169,7 @@ Relative paths are not supported.
         "raw_key": "1-uz8DhKHFhRIUQIvjzabPYtpy5wf1DJ3ZBLlDgNVhRAFT7Y6pJGUlm0n3apwxWEU4"
     }
 
-**JSON format with precomputed SCRAM keys (optimal for TrueNAS 26+):**
+**JSON format with precomputed SCRAM keys (optimal for X-NAS 26+):**
 
 .. code-block:: json
 
@@ -216,10 +216,10 @@ Usage with absolute file path:
         key_path = os.path.abspath('~/my_api_key.json')
         c.login_with_api_key('root', key_path)
 
-Migrating Existing API Keys from Pre-TrueNAS 26
+Migrating Existing API Keys from Pre-X-NAS 26
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you have API keys created before TrueNAS 26, you only have the raw key format.
+If you have API keys created before X-NAS 26, you only have the raw key format.
 To get the precomputed SCRAM data for optimal performance, use the ``api_key.convert_raw_key`` API:
 
 .. code-block:: python
@@ -250,7 +250,7 @@ ensuring the generated SCRAM data matches the server's stored credentials.
 Custom Client Implementation
 -----------------------------
 
-For custom clients not using the TrueNAS API client library, you must implement the SCRAM
+For custom clients not using the X-NAS API client library, you must implement the SCRAM
 protocol manually using the ``auth.login_ex`` JSON-RPC method.
 
 Protocol Overview
@@ -266,7 +266,7 @@ SCRAM authentication consists of three message exchanges:
 The protocol is defined in:
 
 - RFC 5802: Salted Challenge Response Authentication Mechanism (SCRAM)
-- RFC 7677: SCRAM-SHA-256 and SCRAM-SHA-512 (TrueNAS uses SHA-512)
+- RFC 7677: SCRAM-SHA-256 and SCRAM-SHA-512 (X-NAS uses SHA-512)
 - RFC 5234: Augmented BNF for Syntax Specifications (for message format)
 
 **Important for API Key Authentication:** When constructing SCRAM RFC messages manually (for custom clients),
@@ -309,7 +309,7 @@ Where:
 
 - ``r={server-nonce}`` is client nonce + server nonce concatenated
 - ``s={salt}`` is base64-encoded salt (16 bytes)
-- ``i={iteration-count}`` is PBKDF2 iteration count (500,000 for TrueNAS)
+- ``i={iteration-count}`` is PBKDF2 iteration count (500,000 for X-NAS)
 
 **Client Final Message format:**
 
@@ -356,7 +356,7 @@ Where:
 - ``server-first`` is the complete server first response (e.g., ``r=...,s=...,i=...``)
 - ``client-final-without-proof`` is the client final message without the proof (e.g., ``c=biws,r=...``)
 
-**Using Precomputed Keys:** If you have precomputed SCRAM data from TrueNAS 26+ or from
+**Using Precomputed Keys:** If you have precomputed SCRAM data from X-NAS 26+ or from
 ``api_key.convert_raw_key``, you can skip the expensive PBKDF2 computation and use the
 provided ``client_key``, ``stored_key``, and ``server_key`` directly.
 
@@ -472,7 +472,7 @@ Example: Go Implementation
     }
 
     // generateNonce generates a cryptographically random base64-encoded nonce
-    // RFC 5802 recommends at least 128 bits (16 bytes), TrueNAS uses 32 bytes
+    // RFC 5802 recommends at least 128 bits (16 bytes), X-NAS uses 32 bytes
     func generateNonce() (string, error) {
         nonce := make([]byte, 32)
         if _, err := rand.Read(nonce); err != nil {
@@ -531,7 +531,7 @@ Example: Go Implementation
                 if err != nil {
                     return fmt.Errorf("invalid salt encoding: %w", err)
                 }
-                // Validate salt length (TrueNAS requires exactly 16 bytes)
+                // Validate salt length (X-NAS requires exactly 16 bytes)
                 if len(sc.salt) != 16 {
                     return fmt.Errorf("invalid salt length: %d bytes (must be 16)", len(sc.salt))
                 }
@@ -541,7 +541,7 @@ Example: Go Implementation
                 if err != nil {
                     return fmt.Errorf("invalid iteration count: %w", err)
                 }
-                // Validate iteration count bounds (TrueNAS: 50k - 5M)
+                // Validate iteration count bounds (X-NAS: 50k - 5M)
                 if sc.iterations < 50000 || sc.iterations > 5000000 {
                     return fmt.Errorf("iteration count out of range: %d (must be 50,000-5,000,000)",
                         sc.iterations)
@@ -763,7 +763,7 @@ API Reference
 API Method: api_key.create
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Creates a new API key. Starting with TrueNAS 26, returns both raw key and precomputed SCRAM data.
+Creates a new API key. Starting with X-NAS 26, returns both raw key and precomputed SCRAM data.
 
 **Parameters:**
 
@@ -771,7 +771,7 @@ Creates a new API key. Starting with TrueNAS 26, returns both raw key and precom
 - ``username`` (string): Username to associate with the key
 - ``expires_at`` (datetime, optional): Expiration timestamp
 
-**Returns (TrueNAS 26+):**
+**Returns (X-NAS 26+):**
 
 Dictionary containing:
 
@@ -804,7 +804,7 @@ Dictionary containing:
 API Method: api_key.convert_raw_key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Converts a raw API key (from pre-TrueNAS 26 installations) into precomputed SCRAM components.
+Converts a raw API key (from pre-X-NAS 26 installations) into precomputed SCRAM components.
 This method preserves the original salt to ensure compatibility with stored credentials.
 
 **Parameters:**
@@ -826,7 +826,7 @@ Dictionary containing:
 
 .. code-block:: python
 
-    # For keys created before TrueNAS 26
+    # For keys created before X-NAS 26
     old_key = '1-uz8DhKHFhRIUQIvjzabPYtpy...'
     scram_data = client.call('api_key.convert_raw_key', old_key)
 
@@ -853,6 +853,6 @@ References
 
   https://datatracker.ietf.org/doc/html/rfc5234
 
-- TrueNAS API Client Library
+- X-NAS API Client Library
 
   https://github.com/truenas/api_client

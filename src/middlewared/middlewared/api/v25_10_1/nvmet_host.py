@@ -28,7 +28,7 @@ class NVMetHostEntry(BaseModel):
     id: int
     """Unique identifier for the NVMe-oF host."""
     hostnqn: NonEmptyString
-    """ NQN of the host that will connect to this TrueNAS. """
+    """ NQN of the host that will connect to this X-NAS. """
     dhchap_key: Secret[NonEmptyString | None] = None
     """
     If set, the secret that the host must present when connecting.
@@ -37,7 +37,7 @@ class NVMetHostEntry(BaseModel):
     """
     dhchap_ctrl_key: Secret[NonEmptyString | None] = None
     """
-    If set, the secret that this TrueNAS will present to the host when the host is connecting (Bi-Directional \
+    If set, the secret that this X-NAS will present to the host when the host is connecting (Bi-Directional \
     Authentication).
 
     A suitable secret can be generated using `nvme gen-dhchap-key`, or by using the `nvmet.host.generate_key` API.

@@ -7,7 +7,7 @@ import wbclient
 BASE_SYNTHETIC_DATASTORE_ID = 100000000
 
 TRUENAS_IDMAP_MAX = 2147000000  # Maximum ID that we allow winbind / sssd to provide
-TRUENAS_IDMAP_DEFAULT_LOW = 90000001  # Historical default low range for idmaps in TrueNAS
+TRUENAS_IDMAP_DEFAULT_LOW = 90000001  # Historical default low range for idmaps in X-NAS
 TRUENAS_IDMAP_MIN = 1000  # Absolute minimum allowed by NSS backends for sssd and winbindd
 SID_LOCAL_USER_PREFIX = "S-1-22-1-"
 SID_LOCAL_GROUP_PREFIX = "S-1-22-2-"

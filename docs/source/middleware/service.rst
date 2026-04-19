@@ -1,7 +1,7 @@
 Service Development Guide
 =========================
 
-This document outlines the process for adding new API services to the TrueNAS middleware, including
+This document outlines the process for adding new API services to the X-NAS middleware, including
 type annotations and API BaseModel classes. The ``update_`` plugin serves as the reference
 implementation for these patterns.
 

@@ -10,11 +10,11 @@ from middlewared.utils.security import system_security_config_to_stig_type
 
 # --------------- Monitored Alerts ----------------
 @dataclass(kw_only=True)
-class TrueNASVerifyServiceChangeDetectionAlert(AlertClass):
+class X-NASVerifyServiceChangeDetectionAlert(AlertClass):
     config = AlertClassConfig(
         category=AlertCategory.AUDIT,
         level=AlertLevel.ERROR,
-        title="TrueNAS Verify Service: Changes detected in root file system.",
+        title="X-NAS Verify Service: Changes detected in root file system.",
         text=(
             "Root File System Verification reported %(verrs)s  Please see syslog for details regarding these files. '"
             "NOTE: Search syslog for messages from 'truenas_verify' and some descrepancies might be nominal."
@@ -28,7 +28,7 @@ class TrueNASVerifyServiceChangeDetectionAlert(AlertClass):
         return None
 
 
-class TrueNASVerifyServiceChangeDetectionAlertSource(ThreadedAlertSource):
+class X-NASVerifyServiceChangeDetectionAlertSource(ThreadedAlertSource):
     """
     Periodic verification of root file system
     """
@@ -42,7 +42,7 @@ class TrueNASVerifyServiceChangeDetectionAlertSource(ThreadedAlertSource):
             res = subprocess.run(['truenas_verify', 'syslog'], capture_output=True, text=True)
             if res.returncode:
                 return Alert(
-                    TrueNASVerifyServiceChangeDetectionAlert(verrs=res.stdout.strip()),
+                    X-NASVerifyServiceChangeDetectionAlert(verrs=res.stdout.strip()),
                 )
 
         return None

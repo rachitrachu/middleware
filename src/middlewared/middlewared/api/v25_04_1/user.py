@@ -56,7 +56,7 @@ class UserEntry(BaseModel):
     explicitly specified. If None, then the UID will not be mapped.
 
     NOTE: this field will be ignored for users that have been assigned
-    TrueNAS roles.
+    X-NAS roles.
     """
     group: dict
     groups: list[int] = Field(default_factory=list)
@@ -222,7 +222,7 @@ class UserGetUserObjResult(BaseModel):
     source: Literal['LOCAL', 'ACTIVEDIRECTORY', 'LDAP']
     """the source for the user account."""
     local: bool
-    """boolean value indicating whether the account is local to TrueNAS or provided by a directory service."""
+    """boolean value indicating whether the account is local to X-NAS or provided by a directory service."""
 
 
 class UserGetNextUidArgs(BaseModel):

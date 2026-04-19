@@ -91,12 +91,12 @@ async def get_trains(context: ServiceContext) -> Trains:
     ```
         {
             "trains": {
-                "TrueNAS-SCALE-Fangtooth": {
-                    "description": "TrueNAS SCALE Fangtooth 25.04 [release]"
+                "X-NAS-SCALE-Fangtooth": {
+                    "description": "X-NAS SCALE Fangtooth 25.04 [release]"
                 }
             },
             "trains_redirection": {
-                "TrueNAS-SCALE-Fangtooth-RC": "TrueNAS-SCALE-Fangtooth",
+                "X-NAS-SCALE-Fangtooth-RC": "X-NAS-SCALE-Fangtooth",
             }
         }
     ```

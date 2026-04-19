@@ -140,7 +140,7 @@ class Enclosure2Service(Service):
 
     @filterable_api_method(roles=['ENCLOSURE_READ'], item=Enclosure2Entry)
     def query(self, filters, options):
-        """Query detected enclosures on TrueNAS hardware.
+        """Query detected enclosures on X-NAS hardware.
 
         Returns an array of enclosure objects representing the head unit (controller)
         and any attached JBODs or JBOFs. Each entry contains hardware identification,
@@ -148,8 +148,8 @@ class Enclosure2Service(Service):
         mappings and status.
 
         .. note::
-            This method only returns results on TrueNAS-sold hardware.
-            An empty array is returned on generic or non-TrueNAS systems.
+            This method only returns results on X-NAS-sold hardware.
+            An empty array is returned on generic or non-X-NAS systems.
 
         Results are sorted with controller enclosures first, then by enclosure ID.
 

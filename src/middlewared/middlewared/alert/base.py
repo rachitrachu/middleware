@@ -262,7 +262,7 @@ alert_category_names = {
     AlertCategory.STORAGE: "Storage",
     AlertCategory.SYSTEM: "System",
     AlertCategory.TASKS: "Tasks",
-    AlertCategory.TRUENAS_CONNECT: "TrueNAS Connect Service",
+    AlertCategory.TRUENAS_CONNECT: "X-NAS Connect Service",
     AlertCategory.UPS: "UPS",
 }
 

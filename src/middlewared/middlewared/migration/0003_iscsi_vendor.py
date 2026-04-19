@@ -7,7 +7,7 @@ async def migrate(middleware):
             'datastore.update',
             'services.iscsitargetextent',
             extent['id'], {
-                'iscsi_target_extent_vendor': 'TrueNAS'
+                'iscsi_target_extent_vendor': 'X-NAS'
             }
         )
 

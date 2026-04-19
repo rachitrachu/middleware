@@ -182,7 +182,7 @@ class KeychainCredentialRemoteSSHSemiautomaticSetup(BaseModel):
     name: NonEmptyString
     """Name for the SSH connection credential."""
     url: HttpUrl
-    """URL of the remote TrueNAS system for semi-automatic setup."""
+    """URL of the remote X-NAS system for semi-automatic setup."""
     verify_ssl: bool = True
     """Whether to verify SSL certificates when connecting to the remote system."""
     token: Secret[str | None] = None

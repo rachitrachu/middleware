@@ -27,7 +27,7 @@ class CertificateService(Service):
             system_cert
             and (
                 (
-                    system_cert['organization'] in ('iXsystems Inc. dba TrueNAS', 'iXsystems')
+                    system_cert['organization'] in ('Xloud Inc. dba X-NAS', 'Xloud')
                     and system_cert['san'] == ['DNS:localhost']
                     and system_cert['cert_type_existing'] is True
                 )

@@ -86,14 +86,14 @@ class IdmapDomainBase(BaseModel):
 
 
 class IPA_SMBDomain(IdmapDomainBase):
-    """ This is a special idmap backend used when TrueNAS joins an IPA domain. The remote IPA server provides the \
+    """ This is a special idmap backend used when X-NAS joins an IPA domain. The remote IPA server provides the \
     configuration information during the domain join process."""
     idmap_backend: Literal['SSS']
     """Idmap backend type identifier for System Security Services Daemon integration."""
     domain_name: NonEmptyString | None = Field(default=None, examples=['IXDOM.INTERNAL'])
-    """ Name of the SMB domain as defined in the IPA configuration for the IPA domain to which TrueNAS is joined. """
+    """ Name of the SMB domain as defined in the IPA configuration for the IPA domain to which X-NAS is joined. """
     domain_sid: SID | None = Field(default=None, examples=['S-1-5-21-3696504179-2855309571-923743039'])
-    """ The domain SID for the IPA domain to which TrueNAS is joined. """
+    """ The domain SID for the IPA domain to which X-NAS is joined. """
 
 
 class AD_Idmap(IdmapDomainBase):
@@ -109,7 +109,7 @@ class AD_Idmap(IdmapDomainBase):
     Windows Server 2003 R2. """
     unix_primary_group: bool = False
     """ Defines if the user's primary group is fetched from SFU attributes or the Active Directory primary group. \
-    If True, the TrueNAS server uses the `gidNumber` LDAP attribute. If False, it uses the `primaryGroupID` LDAP \
+    If True, the X-NAS server uses the `gidNumber` LDAP attribute. If False, it uses the `primaryGroupID` LDAP \
     attribute.
     """
     unix_nss_info: bool = False
@@ -130,10 +130,10 @@ class LDAP_Idmap(IdmapDomainBase):
     ldap_url: LDAP_URL
     """ LDAP server to use for the idmap entries. """
     readonly: bool = True
-    """ If readonly is set to True then TrueNAS will not attempt to write new idmap entries. """
+    """ If readonly is set to True then X-NAS will not attempt to write new idmap entries. """
     validate_certificates: bool = True
-    """ If False, TrueNAS does not validate certificates from the remote LDAP server. It is better to use valid \
-    certificates or import them into the TrueNAS server's trusted certificate store. """
+    """ If False, X-NAS does not validate certificates from the remote LDAP server. It is better to use valid \
+    certificates or import them into the X-NAS server's trusted certificate store. """
 
 
 class RFC2307_Idmap(IdmapDomainBase):
@@ -156,8 +156,8 @@ class RFC2307_Idmap(IdmapDomainBase):
     ldap_realm: bool = False
     """ Append @realm to the CN for groups. Also append it to users if user_cn is specified. """
     validate_certificates: bool = True
-    """ If False, TrueNAS does not validate certificates from the remote LDAP server. It is better to use valid \
-    certificates or import them into the TrueNAS server's trusted certificate store. """
+    """ If False, X-NAS does not validate certificates from the remote LDAP server. It is better to use valid \
+    certificates or import them into the X-NAS server's trusted certificate store. """
 
 
 class RID_Idmap(IdmapDomainBase):
@@ -194,8 +194,8 @@ class PrimaryDomainIdmap(BaseModel):
     """ UID and GID range configuration for automatically generated accounts linked to well-known and BUILTIN accounts \
     on Windows servers. """
     idmap_domain: DomainIdmap
-    """ This configuration defines how domain accounts joined to TrueNAS are mapped to Unix UIDs and GIDs on the \
-    TrueNAS server. Most TrueNAS deployments use the RID backend, which algorithmically assigns UIDs and GIDs based on \
+    """ This configuration defines how domain accounts joined to X-NAS are mapped to Unix UIDs and GIDs on the \
+    X-NAS server. Most X-NAS deployments use the RID backend, which algorithmically assigns UIDs and GIDs based on \
     the Active Directory account SID. Another common option is the AD backend, which reads predefined Active Directory \
     LDAP schema attributes that assign explicit UID and GID numbers to accounts. """
 
@@ -205,7 +205,7 @@ class CredKRBPrincipal(BaseModel):
     """Credential type identifier for Kerberos principal authentication."""
     principal: NonEmptyString
     """ A kerberos principal is a unique identity to which Kerberos can assign tickets. The specified kerberos \
-    principal must have an entry within a keytab on the TrueNAS server. """
+    principal must have an entry within a keytab on the X-NAS server. """
 
 
 class CredKRBUser(BaseModel):
@@ -248,7 +248,7 @@ DSCred = Annotated[
 class ActiveDirectoryConfig(BaseModel):
     service_type: Literal['ACTIVEDIRECTORY'] = Field(exclude=True, repr=False)
     hostname: NonEmptyString
-    """ Hostname of TrueNAS server to register in Active Directory. Example: "truenasnyc". """
+    """ Hostname of X-NAS server to register in Active Directory. Example: "truenasnyc". """
     domain: NonEmptyString
     """ The full DNS domain name of the Active Directory domain. This must not be a domain controller. \
     Example: "mydomain.internal".  """
@@ -263,15 +263,15 @@ class ActiveDirectoryConfig(BaseModel):
             },
         },
     ])
-    """ Configuration for mapping Active Directory accounts to accounts on the TrueNAS server. The exact settings may \
+    """ Configuration for mapping Active Directory accounts to accounts on the X-NAS server. The exact settings may \
     vary based on other servers and Linux clients in the domain. Defaults are suitable for new deployments without \
     existing support for unix-like operating systems. """
     site: NonEmptyString | None = None
-    """ The Active Directory site where the TrueNAS server is located. TrueNAS detects this automatically during the \
+    """ The Active Directory site where the X-NAS server is located. X-NAS detects this automatically during the \
     domain join process. """
     computer_account_ou: NonEmptyString | None = Field(default=None, examples=['TRUENAS_SERVERS/NYC'])
-    """ Use this setting to override the default organizational unit (OU) in which the TrueNAS computer account is \
-    created during the domain join. Use it to set a custom location for TrueNAS computer accounts. """
+    """ Use this setting to override the default organizational unit (OU) in which the X-NAS computer account is \
+    created during the domain join. Use it to set a custom location for X-NAS computer accounts. """
     use_default_domain: bool = False
     """ Controls if the system removes the domain prefix from Active Directory user and group names. If enabled, users \
     appear as "administrator" instead of "EXAMPLE\\administrator". In most cases, disable this (default) to avoid name \
@@ -411,49 +411,49 @@ class LDAPConfig(BaseModel):
     starttls: bool = False
     """ Establish TLS by transmitting a StartTLS request to the server. """
     validate_certificates: bool = True
-    """ If `False`, TrueNAS does not validate certificates from the remote LDAP server. It is better to use valid \
-    certificates or import them into the TrueNAS server's trusted certificate store. """
+    """ If `False`, X-NAS does not validate certificates from the remote LDAP server. It is better to use valid \
+    certificates or import them into the X-NAS server's trusted certificate store. """
     ldap_schema: Literal['RFC2307', 'RFC2307BIS'] = Field(default='RFC2307', alias='schema')
     """ The type of LDAP attribute schema that the remote LDAP server uses. """
     search_bases: LDAPSearchBases = Field(default=LDAPSearchBases())
     """ Alternative LDAP search base settings. These settings define where to find user, group, and netgroup entries. \
-    If unspecified (the default), TrueNAS uses the `basedn` to find users. groups, and netgroups. Use these settings \
+    If unspecified (the default), X-NAS uses the `basedn` to find users. groups, and netgroups. Use these settings \
     only if the LDAP server uses a non-standard LDAP schema or if you want to limit the accounts available on \
-    TrueNAS. """
+    X-NAS. """
     attribute_maps: LDAPAttributeMaps = Field(default=LDAPAttributeMaps())
     """ Optional LDAP attribute mapping for LDAP servers that do not follow RFC2307 or RFC2307BIS. Use this only if \
     the LDAP server is non-standard. """
     auxiliary_parameters: LongNonEmptyString | None = None
     """ Additional paramaters to add to the SSSD configuration.
 
-    WARNING: TrueNAS does not check the validity of these parameters. Incorrect values can cause production outages \
+    WARNING: X-NAS does not check the validity of these parameters. Incorrect values can cause production outages \
     when they are applied or after an operating system upgrade. """
 
 
 class IPAConfig(BaseModel):
     service_type: Literal['IPA'] = Field(exclude=True, repr=False)
     target_server: NonEmptyString
-    """ The name of the IPA server that TrueNAS uses to build URLs when it joins or leaves the IPA domain. \
+    """ The name of the IPA server that X-NAS uses to build URLs when it joins or leaves the IPA domain. \
     Example: "ipa.example.internal". """
     hostname: NonEmptyString
-    """ Hostname of TrueNAS server to register in IPA during the join process. Example: "truenasnyc". """
+    """ Hostname of X-NAS server to register in IPA during the join process. Example: "truenasnyc". """
     domain: NonEmptyString
     """ The domain of the IPA server. Example "ipa.internal". """
     basedn: LDAP_DN
     """ The base DN to use when performing LDAP operations. Example: "dc=example,dc=internal". """
     smb_domain: IPA_SMBDomain | None = None
-    """ Settings for the IPA SMB domain. TrueNAS detects these settings during IPA join. Some IPA domains may not \
+    """ Settings for the IPA SMB domain. X-NAS detects these settings during IPA join. Some IPA domains may not \
     include SMB schema configuration. """
     validate_certificates: bool = True
-    """ If `False`, TrueNAS does not validate certificates from the remote LDAP server. It is better to use valid \
-    certificates or import them into the TrueNAS server's trusted certificate store. """
+    """ If `False`, X-NAS does not validate certificates from the remote LDAP server. It is better to use valid \
+    certificates or import them into the X-NAS server's trusted certificate store. """
 
 
 class DirectoryServicesEntry(BaseModel):
     id: int
     """Unique identifier for the directory services configuration."""
     service_type: DSType | None
-    """ The pre-existing directory service type to which to bind TrueNAS. Select ACTIVEDIRECTORY to join an Active \
+    """ The pre-existing directory service type to which to bind X-NAS. Select ACTIVEDIRECTORY to join an Active \
     Directory domain. Select IPA to join a FreeIPA domain. Select LDAP to bind to one or more OpenLDAP-compatible \
     servers. """
     credential: DSCred | None = Field(examples=[
@@ -497,18 +497,18 @@ class DirectoryServicesEntry(BaseModel):
     enable: bool
     """ Enable the directory service.
 
-    If TrueNAS has never joined the specified domain (IPA or Active Directory), setting this to True causes TrueNAS to \
+    If X-NAS has never joined the specified domain (IPA or Active Directory), setting this to True causes X-NAS to \
     attempt to join the domain.
 
     NOTE: The domain join process for Active Directory and IPA will make changes to the domain such as creating a new \
-    computer account for the TrueNAS server and creating DNS records for TrueNAS. """
+    computer account for the X-NAS server and creating DNS records for X-NAS. """
     enable_account_cache: bool = Field(default=True)
     """ Enable backend caching for user and group lists. If enabled, then directory services users and groups will be \
     presented as choices in the UI dropdowns and in API responses for user and group queries. This setting also \
     controls whether users and groups appear in getent results. Disable this setting to reduce load on the directory \
     server when necessary. """
     enable_dns_updates: bool = Field(default=True)
-    """ Enable automatic DNS updates for the TrueNAS server in the domain via nsupdate and gssapi / TSIG. """
+    """ Enable automatic DNS updates for the X-NAS server in the domain via nsupdate and gssapi / TSIG. """
     timeout: int = Field(default=10, ge=5, le=60)
     """ The timeout value for DNS queries that are performed as part of the join process and NETWORK_TIMEOUT for LDAP \
     requests. """
@@ -558,9 +558,9 @@ class DirectoryServicesUpdateArgs(DirectoryServicesEntry, metaclass=ForUpdateMet
     enable is false, then the all existing directory service configuration will be cleared.
 
     About domain joins:
-    When you enable IPA or Active Directory for the first time, TrueNAS joins the domain. This requires \
+    When you enable IPA or Active Directory for the first time, X-NAS joins the domain. This requires \
     a KERBEROS_USER credential type for an account with administrator privileges to the domain. This creates \
-    a domain account for the TrueNAS server. TrueNAS stores the account credentials in a machine account keytab \
+    a domain account for the X-NAS server. X-NAS stores the account credentials in a machine account keytab \
     and uses them for all domain-related actions.
 
     About disabling directory services or leaving a domain:
@@ -568,13 +568,13 @@ class DirectoryServicesUpdateArgs(DirectoryServicesEntry, metaclass=ForUpdateMet
     This disables directory services but keeps the settings, so you can enable them later.
 
     To remove all directory service settings, set `enable` to `false and `service_type` to `null`. NOTE: This \
-    does not remove the TrueNAS computer account from an Active Directory or IPA domain. If the domain status \
+    does not remove the X-NAS computer account from an Active Directory or IPA domain. If the domain status \
     is `HEALTHY`, use `directoryservices.leave` to remove the account and clear the directory services \
     configuration. """
     id: Excluded = excluded_field()
     force: bool = Field(default=False)
     """ Bypass validation to check if a server with this hostname and NetBIOS name is already registered in an IPA or \
-    Active Directory domain. Use this option, for example, to replace an existing server with a TrueNAS server. Do not \
+    Active Directory domain. Use this option, for example, to replace an existing server with a X-NAS server. Do not \
     use the force parameter indiscriminately. Using it may cause production outages for clients that rely on the \
     existing server. """
     def __check_configuration_type(self, service_type, configuration):

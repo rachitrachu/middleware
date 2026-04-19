@@ -25,16 +25,16 @@ class NVMetGlobalEntry(BaseModel):
     """
     RDMA is enabled for NVMe-oF.
 
-    Enabling is limited to TrueNAS Enterprise-licensed systems and requires the system and network environment have \
+    Enabling is limited to X-NAS Enterprise-licensed systems and requires the system and network environment have \
     Remote Direct Memory Access (RDMA)-capable hardware.
 
     Once enabled one or more `ports` may be configured with RDMA selected as the transport. See `nvmet.port.create`.
     """
     xport_referral: bool
     """
-    Controls whether cross-port referrals will be generated for ports on this TrueNAS.
+    Controls whether cross-port referrals will be generated for ports on this X-NAS.
 
-    If ANA is active then referrals will always be generated between the peer ports on each TrueNAS controller node.
+    If ANA is active then referrals will always be generated between the peer ports on each X-NAS controller node.
     """
 
 
@@ -60,8 +60,8 @@ class NVMetGlobalSessionsItem(BaseModel):
     hostnqn: str
     """ NQN of the connected host. """
     subsys_id: int
-    """ `id` of the subsystem on this TrueNAS that the host is connected to. """
+    """ `id` of the subsystem on this X-NAS that the host is connected to. """
     port_id: int
-    """ `id` of the port on this TrueNAS through which the host is connected. """
+    """ `id` of the port on this X-NAS through which the host is connected. """
     ctrl: int
     """ NVMe controller number. """

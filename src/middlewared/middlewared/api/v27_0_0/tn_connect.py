@@ -6,80 +6,80 @@ from middlewared.api.base import (
 
 
 __all__ = [
-    'TrueNASConnectEntry', 'TrueNASConnectGetRegistrationUriArgs',
-    'TrueNASConnectGetRegistrationUriResult',
-    'TrueNASConnectUpdateArgs', 'TrueNASConnectUpdateResult',
-    'TrueNASConnectGenerateClaimTokenArgs',
-    'TrueNASConnectGenerateClaimTokenResult',
-    'TrueNASConnectConfigChangedEvent',
-    'TrueNASConnectIpsWithHostnamesArgs', 'TrueNASConnectIpsWithHostnamesResult',
+    'X-NASConnectEntry', 'X-NASConnectGetRegistrationUriArgs',
+    'X-NASConnectGetRegistrationUriResult',
+    'X-NASConnectUpdateArgs', 'X-NASConnectUpdateResult',
+    'X-NASConnectGenerateClaimTokenArgs',
+    'X-NASConnectGenerateClaimTokenResult',
+    'X-NASConnectConfigChangedEvent',
+    'X-NASConnectIpsWithHostnamesArgs', 'X-NASConnectIpsWithHostnamesResult',
 ]
 
 
-class TrueNASConnectEntry(BaseModel):
+class X-NASConnectEntry(BaseModel):
     id: int
-    """Unique identifier for the TrueNAS Connect configuration."""
+    """Unique identifier for the X-NAS Connect configuration."""
     enabled: bool
-    """Whether TrueNAS Connect service is enabled."""
+    """Whether X-NAS Connect service is enabled."""
     registration_details: dict
-    """Object containing registration information and credentials for TrueNAS Connect."""
+    """Object containing registration information and credentials for X-NAS Connect."""
     status: NonEmptyString
-    """Current operational status of the TrueNAS Connect service."""
+    """Current operational status of the X-NAS Connect service."""
     status_reason: NonEmptyString
     """Detailed explanation of the current status, including any error conditions."""
     certificate: int | None
-    """ID of the SSL certificate used for TrueNAS Connect communications. `null` if using default."""
+    """ID of the SSL certificate used for X-NAS Connect communications. `null` if using default."""
     account_service_base_url: HttpsOnlyURL
-    """Base URL for the TrueNAS Connect account service API."""
+    """Base URL for the X-NAS Connect account service API."""
     leca_service_base_url: HttpsOnlyURL
-    """Base URL for the Let's Encrypt Certificate Authority service used by TrueNAS Connect."""
+    """Base URL for the Let's Encrypt Certificate Authority service used by X-NAS Connect."""
     tnc_base_url: HttpsOnlyURL
-    """Base URL for the TrueNAS Connect service."""
+    """Base URL for the X-NAS Connect service."""
     heartbeat_url: HttpsOnlyURL
     """URL endpoint for sending heartbeat signals to maintain connection status."""
     tier: Literal['FOUNDATION', 'PLUS', 'BUSINESS'] | None
-    """TrueNAS Connect tier."""
+    """X-NAS Connect tier."""
     last_heartbeat_failure_datetime: str | None
     """Datetime of when the current heartbeat failure streak began. Null if heartbeat is not currently failing."""
 
 
 @single_argument_args('tn_connect_update')
-class TrueNASConnectUpdateArgs(BaseModel, metaclass=ForUpdateMetaclass):
+class X-NASConnectUpdateArgs(BaseModel, metaclass=ForUpdateMetaclass):
     enabled: bool
-    """Whether to enable the TrueNAS Connect service."""
+    """Whether to enable the X-NAS Connect service."""
 
 
-class TrueNASConnectUpdateResult(BaseModel):
-    result: TrueNASConnectEntry
-    """The updated TrueNAS Connect configuration."""
+class X-NASConnectUpdateResult(BaseModel):
+    result: X-NASConnectEntry
+    """The updated X-NAS Connect configuration."""
 
 
-class TrueNASConnectGetRegistrationUriArgs(BaseModel):
+class X-NASConnectGetRegistrationUriArgs(BaseModel):
     pass
 
 
-class TrueNASConnectGetRegistrationUriResult(BaseModel):
+class X-NASConnectGetRegistrationUriResult(BaseModel):
     result: NonEmptyString
-    """Registration URI for connecting this TrueNAS system to TrueNAS Connect."""
+    """Registration URI for connecting this X-NAS system to X-NAS Connect."""
 
 
-class TrueNASConnectGenerateClaimTokenArgs(BaseModel):
+class X-NASConnectGenerateClaimTokenArgs(BaseModel):
     pass
 
 
-class TrueNASConnectGenerateClaimTokenResult(BaseModel):
+class X-NASConnectGenerateClaimTokenResult(BaseModel):
     result: NonEmptyString
-    """Generated claim token for authenticating with TrueNAS Connect services."""
+    """Generated claim token for authenticating with X-NAS Connect services."""
 
 
-class TrueNASConnectConfigChangedEvent(BaseModel):
-    fields: TrueNASConnectEntry
+class X-NASConnectConfigChangedEvent(BaseModel):
+    fields: X-NASConnectEntry
     """Event data."""
 
 
-class TrueNASConnectIpsWithHostnamesArgs(BaseModel):
+class X-NASConnectIpsWithHostnamesArgs(BaseModel):
     pass
 
 
-class TrueNASConnectIpsWithHostnamesResult(BaseModel):
+class X-NASConnectIpsWithHostnamesResult(BaseModel):
     result: dict[str, str]

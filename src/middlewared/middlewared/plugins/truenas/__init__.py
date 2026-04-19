@@ -1,14 +1,14 @@
 from middlewared.api import api_method
 from middlewared.api.current import (
     SupportNewTicket,
-    TrueNASManagedByTruecommandArgs, TrueNASManagedByTruecommandResult,
-    TrueNASGetChassisHardwareArgs, TrueNASGetChassisHardwareResult,
-    TrueNASIsIxHardwareArgs, TrueNASIsIxHardwareResult,
-    TrueNASGetEulaArgs, TrueNASGetEulaResult,
-    TrueNASIsEulaAcceptedArgs, TrueNASIsEulaAcceptedResult,
-    TrueNASAcceptEulaArgs, TrueNASAcceptEulaResult,
-    TrueNASIsProductionArgs, TrueNASIsProductionResult,
-    TrueNASSetProductionArgs, TrueNASSetProductionResult,
+    X-NASManagedByTruecommandArgs, X-NASManagedByTruecommandResult,
+    X-NASGetChassisHardwareArgs, X-NASGetChassisHardwareResult,
+    X-NASIsIxHardwareArgs, X-NASIsIxHardwareResult,
+    X-NASGetEulaArgs, X-NASGetEulaResult,
+    X-NASIsEulaAcceptedArgs, X-NASIsEulaAcceptedResult,
+    X-NASAcceptEulaArgs, X-NASAcceptEulaResult,
+    X-NASIsProductionArgs, X-NASIsProductionResult,
+    X-NASSetProductionArgs, X-NASSetProductionResult,
 )
 from middlewared.job import Job
 from middlewared.service import job, private, Service
@@ -26,24 +26,24 @@ from .tn import (
 )
 
 
-__all__ = ('TrueNASService',)
+__all__ = ('X-NASService',)
 
 
-class TrueNASService(Service):
+class X-NASService(Service):
 
     class Config:
         cli_namespace = 'system.truenas'
 
     @api_method(
-        TrueNASManagedByTruecommandArgs, TrueNASManagedByTruecommandResult,
+        X-NASManagedByTruecommandArgs, X-NASManagedByTruecommandResult,
         authentication_required=False, check_annotations=True,
     )
     async def managed_by_truecommand(self) -> bool:
-        """Returns whether TrueNAS is being managed by TrueCommand."""
+        """Returns whether X-NAS is being managed by TrueCommand."""
         return await tn_managed_by_truecommand(self.context)
 
     @api_method(
-        TrueNASGetChassisHardwareArgs, TrueNASGetChassisHardwareResult,
+        X-NASGetChassisHardwareArgs, X-NASGetChassisHardwareResult,
         cli_private=True, roles=['READONLY_ADMIN'], check_annotations=True,
     )
     def get_chassis_hardware(self) -> str:
@@ -51,23 +51,23 @@ class TrueNASService(Service):
         return tn_get_chassis_hardware()
 
     @api_method(
-        TrueNASIsIxHardwareArgs, TrueNASIsIxHardwareResult,
+        X-NASIsIxHardwareArgs, X-NASIsIxHardwareResult,
         roles=['READONLY_ADMIN'], check_annotations=True,
     )
     async def is_ix_hardware(self) -> bool:
-        """Return a boolean value on whether this is hardware that iXsystems sells."""
+        """Return a boolean value on whether this is hardware that Xloud sells."""
         return await tn_is_ix_hardware(self.context)
 
     @api_method(
-        TrueNASGetEulaArgs, TrueNASGetEulaResult,
+        X-NASGetEulaArgs, X-NASGetEulaResult,
         cli_private=True, roles=['READONLY_ADMIN'], check_annotations=True,
     )
     def get_eula(self) -> str | None:
-        """Returns the TrueNAS End-User License Agreement (EULA)."""
+        """Returns the X-NAS End-User License Agreement (EULA)."""
         return tn_get_eula()
 
     @api_method(
-        TrueNASIsEulaAcceptedArgs, TrueNASIsEulaAcceptedResult,
+        X-NASIsEulaAcceptedArgs, X-NASIsEulaAcceptedResult,
         cli_private=True, roles=['READONLY_ADMIN'], check_annotations=True,
     )
     def is_eula_accepted(self) -> bool:
@@ -75,15 +75,15 @@ class TrueNASService(Service):
         return tn_is_eula_accepted()
 
     @api_method(
-        TrueNASAcceptEulaArgs, TrueNASAcceptEulaResult,
+        X-NASAcceptEulaArgs, X-NASAcceptEulaResult,
         roles=['FULL_ADMIN'], check_annotations=True,
     )
     def accept_eula(self) -> None:
-        """Accept TrueNAS EULA."""
+        """Accept X-NAS EULA."""
         tn_accept_eula()
 
     @api_method(
-        TrueNASIsProductionArgs, TrueNASIsProductionResult,
+        X-NASIsProductionArgs, X-NASIsProductionResult,
         roles=['READONLY_ADMIN'], check_annotations=True,
     )
     async def is_production(self) -> bool:
@@ -91,7 +91,7 @@ class TrueNASService(Service):
         return await tn_is_production(self.context)
 
     @api_method(
-        TrueNASSetProductionArgs, TrueNASSetProductionResult,
+        X-NASSetProductionArgs, X-NASSetProductionResult,
         roles=['FULL_ADMIN'], check_annotations=True,
     )
     @job()

@@ -22,7 +22,7 @@ class ProductTypes:
 
 @dataclass(slots=True, frozen=True)
 class ProductNames:
-    PRODUCT_NAME: str = 'TrueNAS'
+    PRODUCT_NAME: str = 'X-NAS'
 
 
 ProductType = ProductTypes()

@@ -318,7 +318,7 @@ class InterfaceUpdate(InterfaceCreate, metaclass=ForUpdateMetaclass):
     """
     Forward Error Correction (FEC) mode. Only valid for physical interfaces.
 
-    Configuring this field is only available on enterprise systems. It should be used as directed by TrueNAS Support \
+    Configuring this field is only available on enterprise systems. It should be used as directed by X-NAS Support \
     for resolving link negotiation failures due to FEC mismatches with the upstream switch. Improper configuration of \
     this field can cause a healthy interface to go down.
 

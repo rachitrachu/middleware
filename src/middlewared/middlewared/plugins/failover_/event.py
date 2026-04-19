@@ -120,7 +120,7 @@ class FailoverEventsService(Service):
         else:
             to_restart = [i for i in to_restart if i not in self.CRITICAL_SERVICES]
 
-        # Certain services on TrueNAS need to have correct nameserver information.
+        # Certain services on X-NAS need to have correct nameserver information.
         # We are seeing a situation where the active controller is being
         # configured while the standby is in a non-functional state. So this
         # exposes a gap in our service bring up on a master event. So we're going
@@ -788,9 +788,9 @@ class FailoverEventsService(Service):
         self.run_call('truecommand.start_truecommand_service')
         logger.info('Done starting truecommand service (if necessary)')
 
-        logger.info('Configuring TrueNAS Connect Service (if necessary)')
+        logger.info('Configuring X-NAS Connect Service (if necessary)')
         self.middleware.create_task(self.middleware.call('tn_connect.state.check', True))
-        logger.info('Done configuring TrueNAS Connect Service (if necessary)')
+        logger.info('Done configuring X-NAS Connect Service (if necessary)')
 
         logger.info('Configuring TrueSearch (if necessary)')
         self.run_call('truesearch.configure')
@@ -912,7 +912,7 @@ class FailoverEventsService(Service):
         self.run_call('service.control', 'STOP', 'keepalived', self.HA_PROPAGATE, job=True)
 
         # ticket 23361 enabled a feature to send email alerts when an unclean reboot occurrs.
-        # TrueNAS HA, by design, has a triggered unclean shutdown.
+        # X-NAS HA, by design, has a triggered unclean shutdown.
         # If a controller is demoted to standby, we set a 4 sec countdown using watchdog.
         # If the zpool(s) can't export within that timeframe, we use watchdog to violently reboot the controller.
         # When this occurrs, the customer gets an email about an "Unauthorized system reboot".

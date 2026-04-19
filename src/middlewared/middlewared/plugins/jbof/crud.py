@@ -185,7 +185,7 @@ class JBOFService(CRUDService):
 
         This will use the supplied Redfish credentials to configure the data plane on
         the expansion shelf for direct connection to ROCE capable network cards on
-        the TrueNAS head unit.
+        the X-NAS head unit.
 
         """
         verrors, data = await self.validate(data, 'jbof_create')
@@ -598,7 +598,7 @@ class JBOFService(CRUDService):
         if await self.middleware.call('failover.licensed'):
             # HA system
             if not await self.middleware.call('failover.remote_connected'):
-                verrors.add(schema, 'Unable to contact other TrueNAS HA controller')
+                verrors.add(schema, 'Unable to contact other X-NAS HA controller')
                 return
 
             this_node = await self.middleware.call('failover.node')
@@ -716,7 +716,7 @@ class JBOFService(CRUDService):
         if await self.middleware.call('failover.licensed'):
             # HA system
             if not await self.middleware.call('failover.remote_connected'):
-                verrors.add(schema, 'Unable to contact other TrueNAS HA controller')
+                verrors.add(schema, 'Unable to contact other X-NAS HA controller')
                 return
 
             this_node = await self.middleware.call('failover.node')

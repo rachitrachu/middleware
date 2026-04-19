@@ -2,8 +2,8 @@ from datetime import datetime
 
 import sphinxbootstrap4theme
 
-project = "TrueNAS API $VERSION"
-author = "iXsystems, Inc. dba TrueNAS"
+project = "X-NAS API $VERSION"
+author = "Xloud, Inc. dba X-NAS"
 
 # If there is no leading whitespace, it will be
 # `Copyright 2024, {author}` for some reason

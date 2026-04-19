@@ -534,10 +534,10 @@ class KeychainCredentialService(CRUDService):
     )
     def remote_ssh_semiautomatic_setup(self, data):
         """
-        Perform semi-automatic SSH connection setup with other TrueNAS machine.
+        Perform semi-automatic SSH connection setup with other X-NAS machine.
 
-        It creates an `SSH_CREDENTIALS` credential with specified `name` that can be used to connect to TrueNAS machine
-        with specified `url` and temporary auth `token`. Other TrueNAS machine adds `private_key` to allowed
+        It creates an `SSH_CREDENTIALS` credential with specified `name` that can be used to connect to X-NAS machine
+        with specified `url` and temporary auth `token`. Other X-NAS machine adds `private_key` to allowed
         `username`'s private keys. Other `SSH_CREDENTIALS` attributes such as `connect_timeout` can be specified as
         well.
 

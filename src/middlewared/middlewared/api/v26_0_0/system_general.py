@@ -62,7 +62,7 @@ class SystemGeneralEntry(BaseModel):
     """Whether the usage collection preference has been explicitly set."""
     ds_auth: bool
     """Controls whether configured Directory Service users that are granted with Privileges are allowed to log in to \
-    the Web UI or use TrueNAS API."""
+    the Web UI or use X-NAS API."""
     ui_certificate_name: str | None
     """Name of the certificate used for HTTPS access. `null` if no certificate is configured."""
 

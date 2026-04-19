@@ -8,7 +8,7 @@ Abstract
 ========
 
 This document provides basic information for backend developers regarding the
-auditing implementation in TrueNAS.
+auditing implementation in X-NAS.
 
 
 Specification
@@ -30,13 +30,13 @@ databases outside of the methods in these two plugins.
 
 1. audit file storage location
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TrueNAS audit information is written to per-service sqlite3 databases located
+X-NAS audit information is written to per-service sqlite3 databases located
 in a dedicated dataset on the boot pool that is mounted at the path /audit. The
 audit databases will be automatically created by middlewared or syslog-ng
 (depending on the particular circumstances).
 
 The permissions on the path `/audit` must be `0o700` and owned by root so as to
-prevent unauthorized access to the audit files outside of the TrueNAS API.
+prevent unauthorized access to the audit files outside of the X-NAS API.
 
 2. audit file event insertion
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -63,14 +63,14 @@ If the server administrator has configured a remote syslog server in
 *system.advanced* and has specified *syslog_audit* in the configuration, then
 audit messages will be included in what is sent to the remote syslog server.
 
-Adding new audited service to TrueNAS
+Adding new audited service to X-NAS
 -------------------------------------
-The following procedure should be used to add a new audited service to the TrueNAS product
+The following procedure should be used to add a new audited service to the X-NAS product
 
 1. Expand list of AUDITED_SERVICES in `audit/utils.py`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The python list in `audit/utils.py` statically defines a list of services that
-are audited on the TrueNAS server. Each list item is a tuple containing the
+are audited on the X-NAS server. Each list item is a tuple containing the
 uppercase name of the service that is being audited and the version number of
 the audited service. This should start at 0.1 and be incremented according to
 versioning guidelines defined in internal design document NEP-041.

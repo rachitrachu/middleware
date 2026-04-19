@@ -30,7 +30,7 @@ class PoolService(Service):
         is what we expect it to be. When the mountpoint is not what
         we expect, we will recursively inherit (reset) the mountpoint
         property. This usually happens when a zpool is foreign to
-        TrueNAS or someone has unintentionally changed this property."""
+        X-NAS or someone has unintentionally changed this property."""
         to_inherit = list()
         container_mnt = container_dataset_mountpoint(pool_name)
         container_ds = container_dataset(pool_name)

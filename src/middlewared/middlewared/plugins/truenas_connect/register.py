@@ -8,10 +8,10 @@ from truenas_connect_utils.urls import get_registration_uri
 
 from middlewared.api import api_method
 from middlewared.api.current import (
-    TrueNASConnectGetRegistrationUriArgs,
-    TrueNASConnectGetRegistrationUriResult,
-    TrueNASConnectGenerateClaimTokenArgs,
-    TrueNASConnectGenerateClaimTokenResult,
+    X-NASConnectGetRegistrationUriArgs,
+    X-NASConnectGetRegistrationUriResult,
+    X-NASConnectGenerateClaimTokenArgs,
+    X-NASConnectGenerateClaimTokenResult,
 )
 from middlewared.utils.crypto import ssl_uuid4
 from middlewared.service import CallError, Service
@@ -22,28 +22,28 @@ from .utils import CLAIM_TOKEN_CACHE_KEY
 logger = logging.getLogger('truenas_connect')
 
 
-class TrueNASConnectService(Service):
+class X-NASConnectService(Service):
 
     class Config:
         namespace = 'tn_connect'
         cli_private = True
 
     @api_method(
-        TrueNASConnectGenerateClaimTokenArgs,
-        TrueNASConnectGenerateClaimTokenResult,
+        X-NASConnectGenerateClaimTokenArgs,
+        X-NASConnectGenerateClaimTokenResult,
         roles=['TRUENAS_CONNECT_WRITE'],
-        audit='TrueNAS Connect: Generating claim token',
+        audit='X-NAS Connect: Generating claim token',
     )
     async def generate_claim_token(self):
         """
-        Generate a claim token for TrueNAS Connect.
+        Generate a claim token for X-NAS Connect.
 
-        This is used to claim the system with TrueNAS Connect. When this endpoint will be called, a token will
+        This is used to claim the system with X-NAS Connect. When this endpoint will be called, a token will
         be generated which will be used to assist with initial setup with truenas connect.
         """
         config = await self.middleware.call('tn_connect.config')
         if config['enabled'] is False:
-            raise CallError('TrueNAS Connect is not enabled')
+            raise CallError('X-NAS Connect is not enabled')
 
         if config['status'] not in (Status.CLAIM_TOKEN_MISSING.name, Status.REGISTRATION_FINALIZATION_TIMEOUT.name):
             raise CallError(
@@ -70,18 +70,18 @@ class TrueNASConnectService(Service):
         return claim_token
 
     @api_method(
-        TrueNASConnectGetRegistrationUriArgs, TrueNASConnectGetRegistrationUriResult, roles=['TRUENAS_CONNECT_READ']
+        X-NASConnectGetRegistrationUriArgs, X-NASConnectGetRegistrationUriResult, roles=['TRUENAS_CONNECT_READ']
     )
     async def get_registration_uri(self):
         """
-        Return the registration URI for TrueNAS Connect.
+        Return the registration URI for X-NAS Connect.
 
         Before this endpoint is called, tn_connect must be enabled and a claim token must be generated - based
-        off which this endpoint will return the registration URI for TrueNAS Connect.
+        off which this endpoint will return the registration URI for X-NAS Connect.
         """
         config = await self.middleware.call('tn_connect.config')
         if not config['enabled']:
-            raise CallError('TrueNAS Connect is not enabled')
+            raise CallError('X-NAS Connect is not enabled')
 
         try:
             claim_token = await self.middleware.call('cache.get', CLAIM_TOKEN_CACHE_KEY)

@@ -62,7 +62,7 @@ class WellKnownSid(enum.Enum):
     @property
     def valid_for_mapping(self) -> bool:
         """
-        Put full mapping in the winbind_idmap.tdb file so that all TrueNAS servers are consistent.
+        Put full mapping in the winbind_idmap.tdb file so that all X-NAS servers are consistent.
         There is special behavior for builtins and so they are also excluded from this list because
         they are explicitly mapped in Samba's group_mapping.tdb file.
         """
@@ -195,7 +195,7 @@ def get_domain_rid(sid: str) -> int:
 def db_id_to_rid(id_type: IDType, db_id: int) -> int:
     """
     Simple algorithm to convert a datastore ID into RID value. Has been
-    in use since TrueNAS 12. May not be changed because it will break
+    in use since X-NAS 12. May not be changed because it will break
     SMB share ACLs
     """
     if not isinstance(db_id, int):

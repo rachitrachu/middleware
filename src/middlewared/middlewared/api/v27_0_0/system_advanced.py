@@ -78,9 +78,9 @@ class SystemAdvancedEntry(BaseModel):
     traceback: bool
     """Enable generation and saving of tracebacks for debugging."""
     uploadcrash: bool
-    """Automatically upload crash reports to iXsystems for analysis."""
+    """Automatically upload crash reports to Xloud for analysis."""
     anonstats: bool
-    """Enable anonymous usage statistics reporting to help improve TrueNAS."""
+    """Enable anonymous usage statistics reporting to help improve X-NAS."""
     sed_user: Literal['USER', 'MASTER']
     """SED (Self-Encrypting Drive) user type for drive encryption."""
     sysloglevel: Literal['F_EMERG', 'F_ALERT', 'F_CRIT', 'F_ERR', 'F_WARNING', 'F_NOTICE', 'F_INFO', 'F_DEBUG']

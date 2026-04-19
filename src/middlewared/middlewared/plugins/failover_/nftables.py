@@ -75,7 +75,7 @@ class NftablesService(Service):
     def drop_all(self, job):
         """
         Drops (silently) all v4/v6 inbound traffic destined for the
-        VIP addresses on a TrueNAS SCALE HA system. SSH and webUI
+        VIP addresses on a X-NAS SCALE HA system. SSH and webUI
         mgmt traffic is always allowed.
 
         NOTE:

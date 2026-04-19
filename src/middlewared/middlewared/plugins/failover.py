@@ -1055,7 +1055,7 @@ async def hook_license_update(middleware, *args, **kwargs):
 async def hook_post_rollback_setup_ha(middleware, *args, **kwargs):
     """
     This hook needs to be run after a NIC rollback operation and before
-    an `interfaces.sync` operation on a TrueNAS HA system
+    an `interfaces.sync` operation on a X-NAS HA system
     """
     if not await middleware.call('failover.licensed'):
         return

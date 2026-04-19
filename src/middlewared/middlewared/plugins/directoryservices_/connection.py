@@ -150,7 +150,7 @@ class DomainConnection(
 
     def dns_lookup_kdcs(self) -> list[str]:
         """ This method uses DNS to find KDCs for the currently configured kerberos realm. If
-        TrueNAS is joined to active directory then we will try to find site-specific ones so that
+        X-NAS is joined to active directory then we will try to find site-specific ones so that
         we don't walk off to a domain controller on the other side of the world. At most three
         KDCs are returned. Results are cached for up to 24 hours.
 
@@ -259,7 +259,7 @@ class DomainConnection(
         This method performs DNS update via GSS-TSIG using middlewared's current kerberos credential.
 
         Args:
-            `fqdn` - should be the fully qualified domain name of the TrueNAS server.
+            `fqdn` - should be the fully qualified domain name of the X-NAS server.
 
             `do_ptr` - set associated PTR record when registering fqdn. Not all domains will
             have a reverse zone configured and so detection should be done prior to calling
@@ -381,7 +381,7 @@ class DomainConnection(
 
     @kerberos_ticket
     def _test_is_joined(self, ds_type: DSType, domain: str) -> bool:
-        """ Test to see whether TrueNAS is already joined to the domain
+        """ Test to see whether X-NAS is already joined to the domain
 
         Args:
             ds_type: Type of directory service that is being tested. Choices
@@ -419,19 +419,19 @@ class DomainConnection(
     def join_domain(self, job: Job, force: bool = False) -> None:
         """ Join an IPA or active directory domain
 
-        Create TrueNAS account on remote domain controller (DC) and
-        update TrueNAS configuration to reflect settings determined during
+        Create X-NAS account on remote domain controller (DC) and
+        update X-NAS configuration to reflect settings determined during
         the join process. Requires a valid kerberos ticket for a privileged
         account on the domain because we performing operations on the DC.
 
-        If join fails then TrueNAS will attempt to roll back changes to a
+        If join fails then X-NAS will attempt to roll back changes to a
         clean state.
 
         Args:
-            force: Skip the step where we check whether TrueNAS is already
+            force: Skip the step where we check whether X-NAS is already
                 joined to the domain. Join should not be forced without very
                 good reason as this will cause auditing events on the domain
-                controller and may disrupt services on the TrueNAS server.
+                controller and may disrupt services on the X-NAS server.
 
         Returns:
             str - One of DomainJoinResponse strings
@@ -467,7 +467,7 @@ class DomainConnection(
         ds_type = DSType(ds_type_str)
 
         if not self._test_is_joined(ds_type, domain):
-            raise CallError('TrueNAS is not joined to domain')
+            raise CallError('X-NAS is not joined to domain')
 
         match ds_type:
             case DSType.AD:
@@ -493,7 +493,7 @@ class DomainConnection(
     def leave_domain(self, job: Job) -> None:
         """ Leave an IPA or active directory domain
 
-        Remove TrueNAS configuration from remote domain controller (DC) and clean
+        Remove X-NAS configuration from remote domain controller (DC) and clean
         up local configuration. Requires a valid kerberos ticket for a privileged
         account on the domain because we performing operations on the DC.
 
@@ -536,7 +536,7 @@ class DomainConnection(
             # server-side and complain to admin that they may need to clean up.
             do_cleanup_fn(job, ds_config)
             raise CallError(
-                f'{domain}: The domain join is not healthy. This prevents the TrueNAS server from leaving the domain. '
+                f'{domain}: The domain join is not healthy. This prevents the X-NAS server from leaving the domain. '
                 'You may need to manually clean up the machine account on the remote domain controller.'
             )
 

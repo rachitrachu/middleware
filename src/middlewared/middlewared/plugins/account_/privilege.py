@@ -356,7 +356,7 @@ class PrivilegeService(CRUDService):
         group_ids here are based on NSS group_list output.
 
         Directory services groups may have privileges assigned by SID, which
-        are set on the domain controller rather than locally on TrueNAS.
+        are set on the domain controller rather than locally on X-NAS.
 
         This means we expand the set of group_ids to include SID mappings for
         permissions evaluation.

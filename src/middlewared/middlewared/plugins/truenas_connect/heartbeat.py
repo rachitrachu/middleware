@@ -38,7 +38,7 @@ class TNCHeartbeatService(Service, TNCAPIMixin):
         tnc_config = await self.middleware.call('tn_connect.config_internal')
         creds = get_account_id_and_system_id(tnc_config)
         if tnc_config['status'] != Status.CONFIGURED.name or creds is None:
-            raise CallError('TrueNAS Connect is not configured properly')
+            raise CallError('X-NAS Connect is not configured properly')
 
         heartbeat_url = get_heartbeat_url(tnc_config).format(
             system_id=creds['system_id'],

@@ -4,7 +4,7 @@ Development process
 .. contents:: Table of Contents
     :depth: 4
 
-Middleware daemon is a software component that receives much of the attention in the TrueNAS development process. This
+Middleware daemon is a software component that receives much of the attention in the X-NAS development process. This
 section gathers a number of tips that will help developers to work on middleware daemon more efficiently.
 
 Substituting the middleware code in an already-built image
@@ -12,7 +12,7 @@ Substituting the middleware code in an already-built image
 
 All of the middleware python code is located in the system-wide python installation dist-packages directory. The easiest
 way to substitute that code with a code from your local branch is to export your git sources root from your development
-machine via NFS and then mount it directly into the TrueNAS VM. For example, if your middleware repo is checked out at
+machine via NFS and then mount it directly into the X-NAS VM. For example, if your middleware repo is checked out at
 `/home/user/truenas/middleware`, then add `/home/user/truenas` to your `/etc/exports` file:
 
 .. code-block:: text

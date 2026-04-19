@@ -494,7 +494,7 @@ class UserService(CRUDService):
                 verrors.add(
                     f'{schema}.home',
                     f'{data["home"]}: path specified to use for home directory creation does not '
-                    'exist. TrueNAS uses the provided path as the parent directory of the '
+                    'exist. X-NAS uses the provided path as the parent directory of the '
                     'newly-created home directory.'
                 )
 
@@ -1437,7 +1437,7 @@ class UserService(CRUDService):
                 if check_unixhash(password, unix_hash):
                     verrors.add(
                         field,
-                        'The security configuration of the TrueNAS server requires a password '
+                        'The security configuration of the X-NAS server requires a password '
                         f'that does not match any of the last {sec["password_history_length"]} '
                         'passwords for this account.'
                     )
@@ -1872,7 +1872,7 @@ class UserService(CRUDService):
                 # We don't allow resetting passwords on remote directory service.
                 verrors.add(
                     'user.set_password.username',
-                    f'{username}: user is not local to the TrueNAS server.'
+                    f'{username}: user is not local to the X-NAS server.'
                 )
 
         # Require submitting password twice if this is not a full admin session

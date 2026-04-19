@@ -427,7 +427,7 @@ class FilesystemService(Service):
         the full ACL entry will be returned.
         """
         if path_location(path) is FSLocation.EXTERNAL:
-            raise CallError(f'{path} is external to TrueNAS', errno.EXDEV)
+            raise CallError(f'{path} is external to X-NAS', errno.EXDEV)
 
         if not os.path.exists(path):
             raise CallError('Path not found.', errno.ENOENT)
@@ -673,7 +673,7 @@ class FilesystemService(Service):
         `canonicalize` deprecated, has no effect. ACL entries are always written in canonical order.
 
         The following notes about ACL entries are necessarily terse. If more detail is requried
-        please consult relevant TrueNAS documentation.
+        please consult relevant X-NAS documentation.
 
         Notes about NFSv4 ACL entry fields:
 

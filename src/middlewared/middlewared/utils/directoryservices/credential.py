@@ -119,10 +119,10 @@ def kinit_with_cred(
 def write_temporary_kerberos_config(schema: str, new: dict, verrors: ValidationErrors, revert: list):
     """
     This method generates a kerberos configuration file that is written in such a way as to
-    force TrueNAS to only use a single KDC and to avoid DNS lookups. This is to stabilize
+    force X-NAS to only use a single KDC and to avoid DNS lookups. This is to stabilize
     operations in domains with multiple domain controllers. If DNS is used to lookup KDCs
-    then TrueNAS may create an account on one domain controller and them immediately transfer
-    to a different domain controller that is not aware of the TrueNAS account because it has
+    then X-NAS may create an account on one domain controller and them immediately transfer
+    to a different domain controller that is not aware of the X-NAS account because it has
     not been replicated yet.
     """
     ds_type = DSType(new['service_type'])
@@ -223,7 +223,7 @@ def __validate_kerberos_credential(schema: str, new: dict, verrors: ValidationEr
         if not any([k['principal'] == cred['principal'] for k in ktutil_list_impl(KRB_Keytab.SYSTEM.value)]):
             verrors.add(
                 f'{schema}.credential.principal',
-                'The TrueNAS server does not have the specified Kerberos principal.'
+                'The X-NAS server does not have the specified Kerberos principal.'
             )
             return
 
@@ -356,7 +356,7 @@ def validate_ldap_credential(schema, new, verrors, revert):
         # self-signed LDAPS connections will fail with SERVER_DOWN.
         verrors.add(
             f'{schema}.configuration.{host_field}',
-            'TrueNAS cannot contact the LDAP server. This can happen if the LDAP server '
+            'X-NAS cannot contact the LDAP server. This can happen if the LDAP server '
             'hostname cannot be resolved, the server does not respond, or if there is a '
             'cryptographic error such as a certificate validation failure.'
         )

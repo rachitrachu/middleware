@@ -479,7 +479,7 @@ class IdmapDomainService(Service):
             'sudo_commands_nopasswd': [],
             'users': [],
             'local': False,
-            'immutable': True,  # changes can't be made to groups through TrueNAS
+            'immutable': True,  # changes can't be made to groups through X-NAS
             'roles': [],
             'smb': sid is not None,
             'userns_idmap': None,

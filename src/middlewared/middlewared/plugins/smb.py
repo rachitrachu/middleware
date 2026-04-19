@@ -503,7 +503,7 @@ class SMBService(ConfigService):
         `netbiosalias` a list of netbios aliases. If Server is joined to an AD domain, additional Kerberos
         Service Principal Names will be generated for these aliases.
 
-        `workgroup` specifies the NetBIOS workgroup to which the TrueNAS server belongs. This will be
+        `workgroup` specifies the NetBIOS workgroup to which the X-NAS server belongs. This will be
         automatically set to the correct value during the process of joining an AD domain.
         NOTE: `workgroup` and `netbiosname` should have different values.
 
@@ -527,7 +527,7 @@ class SMBService(ConfigService):
         follows the upstream defaults -- currently identical to NEGOTIATE), NEGOTIATE encrypts SMB transport
         only if requested by the SMB client, DESIRED encrypts SMB transport if supported by the SMB client,
         REQUIRED only allows encrypted transport to the SMB server. Mandatory SMB encryption is not
-        compatible with SMB1 server support in TrueNAS.
+        compatible with SMB1 server support in X-NAS.
 
         `smb_options` smb.conf parameters that are not covered by the above supported configuration options may be
         added as an smb_option. Not all options are tested or supported, and behavior of smb_options may change
@@ -585,7 +585,7 @@ class SMBService(ConfigService):
             if not await self.middleware.call('failover.licensed'):
                 verrors.add(
                     'smb_update.stateful_failover',
-                    'This feature is only available for HA-capable TrueNAS Enterprise servers.'
+                    'This feature is only available for HA-capable X-NAS Enterprise servers.'
                 )
 
             if new['minimum_protocol'] == 'SMB1':
@@ -1305,7 +1305,7 @@ class SharingSMBService(SharingService):
                 if not await self.middleware.call('system.is_enterprise'):
                     verrors.add(
                         f'{schema_name}.{share_field.PURPOSE}',
-                        'Veeam repository shares require a TrueNAS enterprise license.'
+                        'Veeam repository shares require a X-NAS enterprise license.'
                     )
                 bsize = (await self.middleware.call('filesystem.statfs', data[share_field.PATH]))['blocksize']
                 if bsize != VEEAM_REPO_BLOCKSIZE:
@@ -1401,7 +1401,7 @@ class SharingSMBService(SharingService):
             if local_smb_user_cnt == 0:
                 verrors.add(
                     'sharing.smb.share_precheck',
-                    'TrueNAS server must be joined to a directory service or have '
+                    'X-NAS server must be joined to a directory service or have '
                     'at least one local SMB user before creating an SMB share.'
                 )
 

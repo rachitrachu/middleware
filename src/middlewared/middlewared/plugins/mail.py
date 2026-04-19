@@ -286,7 +286,7 @@ class MailService(ConfigService):
                         # `from_addr` is a `Header` instance, not `str`, so `encode` is not `str.encode`, it's a
                         # different method.
                         # Then we do `decode` because `sendmail` crashes on certain invalid byte sequences
-                        # (like b'"TrueNAS SCALE<user@domaincom>" <user@domain.com>')
+                        # (like b'"X-NAS SCALE<user@domaincom>" <user@domain.com>')
                         # Same byte sequences passed as strings work fine and result in invalid from address being
                         # sanitized properly.
                         from_addr if isinstance(from_addr, str) else from_addr.encode().decode(),

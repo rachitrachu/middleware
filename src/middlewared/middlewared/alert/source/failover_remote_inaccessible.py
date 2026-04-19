@@ -20,7 +20,7 @@ class FailoverRemoteSystemInaccessibleAlert(NonDataclassAlertClass[list[str]], A
         category=AlertCategory.HA,
         level=AlertLevel.CRITICAL,
         title='Other Controller is Inaccessible',
-        text='Other TrueNAS controller is inaccessible. Contact support. Incident ID: %s.',
+        text='Other X-NAS controller is inaccessible. Contact support. Incident ID: %s.',
         products=(ProductType.ENTERPRISE,),
         proactive_support=True,
         proactive_support_notify_gone=True,

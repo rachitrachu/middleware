@@ -37,7 +37,7 @@ class CloudTaskAttributes(BaseModel, metaclass=ForUpdateMetaclass):
     """Valid only for GOOGLE_DRIVER provider. Allow files which return cannotDownloadAbusiveFile to be downloaded. If \
     downloading a file returns the error "This file has been identified as malware or spam and cannot be downloaded" \
     with the error code "cannotDownloadAbusiveFile" then enable this flag to indicate you acknowledge the risks of \
-    downloading the file and TrueNAS will download it anyway."""
+    downloading the file and X-NAS will download it anyway."""
     region: str = ""
     """Valid only for S3 provider. S3 Region."""
     encryption: Literal[None, "AES256"] = None

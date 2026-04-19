@@ -42,11 +42,11 @@ def detect_platform() -> tuple[str, str]:
         for i in ctx.list_devices(subsystem='scsi_generic'):
             if (model := i.attributes.get('device/model')) is not None:
                 model = model.decode().strip() if isinstance(model, bytes) else model.strip()
-                if model == 'TrueNAS_A':
+                if model == 'X-NAS_A':
                     NODE = 'A'
                     HARDWARE = 'BHYVE'
                     break
-                elif model == 'TrueNAS_B':
+                elif model == 'X-NAS_B':
                     NODE = 'B'
                     HARDWARE = 'BHYVE'
                     break
@@ -94,7 +94,7 @@ def detect_platform() -> tuple[str, str]:
                     break
         return HARDWARE, NODE
     elif not product.startswith(PLATFORM_PREFIXES):
-        # users run TrueNAS on all kinds of exotic hardware. Most of the time, the
+        # users run X-NAS on all kinds of exotic hardware. Most of the time, the
         # exotic hardware doesn't respond to standards conforming requests. Furthermore,
         # the enclosure feature is specific to our HA appliances so no reason to continue
         # down this path.

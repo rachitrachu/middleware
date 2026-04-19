@@ -74,7 +74,7 @@ class UpdateService(ConfigService[UpdateEntry]):
     )
     async def available_versions(self) -> list[UpdateAvailableVersion]:
         """
-        TrueNAS versions available for update.
+        X-NAS versions available for update.
         """
         return await available_versions(self.context)
 

@@ -78,7 +78,7 @@ class AuthSessionsEntry(BaseModel):
     * `LOGIN_ONETIME_PASSWORD`: One-time password authentication
     * `API_KEY`: API key authentication
     * `TOKEN`: Token-based authentication
-    * `TRUENAS_NODE`: TrueNAS cluster node authentication
+    * `TRUENAS_NODE`: X-NAS cluster node authentication
     """
     credentials_data: BaseCredentialData | UserCredentialData | APIKeyCredentialData | TokenCredentialData
     """Detailed credential information specific to the authentication method."""

@@ -39,7 +39,7 @@ class FilesystemService(Service):
                 {'uid': tmp_uid}
             )
             self.logger.warning(
-                '%s: user exists on system but not in TrueNAS configuration. '
+                '%s: user exists on system but not in X-NAS configuration. '
                 'This may indicate that it was created manually from shell '
                 'or there is an unexpected overlap between local and directory '
                 'services user accounts', res['pw_name']

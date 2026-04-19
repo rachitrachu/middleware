@@ -44,7 +44,7 @@ class TNCHostnameService(Service):
             raise CallError(str(e))
 
     async def register_system_config(self, websocket_port: int) -> dict:
-        """Register system configuration with TrueNAS Connect, including websocket port."""
+        """Register system configuration with X-NAS Connect, including websocket port."""
         tnc_config = await self.middleware.call('tn_connect.config_internal')
 
         try:
@@ -86,7 +86,7 @@ class TNCHostnameService(Service):
 
             if event_details:
                 logger.info(
-                    'Updating IPs for TrueNAS Connect due to %s change on interface %s',
+                    'Updating IPs for X-NAS Connect due to %s change on interface %s',
                     event_details['type'], event_details['iface'],
                 )
 
@@ -96,18 +96,18 @@ class TNCHostnameService(Service):
                 await self.middleware.call('cache.put', TNC_IPS_CACHE_KEY, effective_ips, 60 * 60)
                 return
 
-            logger.debug('Syncing IPs for TrueNAS Connect')
+            logger.debug('Syncing IPs for X-NAS Connect')
             try:
                 await self.middleware.call('tn_connect.hostname.register_update_ips')
             except CallError:
-                logger.error('Failed to update IPs with TrueNAS Connect', exc_info=True)
+                logger.error('Failed to update IPs with X-NAS Connect', exc_info=True)
             else:
                 await self.middleware.call('cache.put', TNC_IPS_CACHE_KEY, effective_ips, 60 * 60)
                 await self.middleware.call_hook('tn_connect.hostname.updated', await self.config())
 
     async def handle_update_ips(self, event_type, args):
         """
-        Handle IP address changes for TrueNAS Connect.
+        Handle IP address changes for X-NAS Connect.
         This method is called when an IP address change event occurs.
         """
         # Skip internal interfaces (docker, veth, tun, tap, etc.) as they are not meant for external connectivity
@@ -118,7 +118,7 @@ class TNCHostnameService(Service):
         try:
             await self.sync_ips({'type': event_type, 'iface': args['fields']['iface']})
         except Exception:
-            logger.error('Failed to sync IPs for TrueNAS Connect', exc_info=True)
+            logger.error('Failed to sync IPs for X-NAS Connect', exc_info=True)
 
 
 async def update_ips(middleware, event_type, args):

@@ -77,7 +77,7 @@ class CertificateService(CRUDService):
                 if not ui_cert_id or ui_cert_id != id_:
                     verrors.add(
                         schema_name,
-                        f'Certificate "{cert["name"]}" is reserved for TrueNAS Connect service '
+                        f'Certificate "{cert["name"]}" is reserved for X-NAS Connect service '
                         'and cannot be used by other services'
                     )
 
@@ -435,7 +435,7 @@ class CertificateService(CRUDService):
             if tnc_config['certificate'] == id_:
                 verrors.add(
                     'certificate_update.name',
-                    'This certificate is being used by TrueNAS Connect service and cannot be modified'
+                    'This certificate is being used by X-NAS Connect service and cannot be modified'
                 )
                 verrors.check()
 

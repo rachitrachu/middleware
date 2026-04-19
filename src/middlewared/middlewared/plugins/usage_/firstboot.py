@@ -15,7 +15,7 @@ class UsageService(Service):
         while retries:
             try:
                 await self.middleware.call('usage.submit_stats', {
-                    'platform': 'TrueNAS-SCALE',
+                    'platform': 'X-NAS-SCALE',
                     'system_hash': _hash,
                     'firstboot': [{'version': version}]
                 })

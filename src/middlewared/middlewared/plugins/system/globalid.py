@@ -20,7 +20,7 @@ class SystemGlobalIDService(Service):
     @api_method(SystemGlobalIDIdArgs, SystemGlobalIDIdResult, roles=["READONLY_ADMIN"])
     async def id(self):
         """
-        Retrieve a 128 bit hexadecimal UUID value unique for each TrueNAS system.
+        Retrieve a 128 bit hexadecimal UUID value unique for each X-NAS system.
         """
         return (await self.middleware.call("datastore.config", "system.globalid"))[
             "system_uuid"

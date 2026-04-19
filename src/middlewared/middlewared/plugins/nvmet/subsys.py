@@ -236,7 +236,7 @@ class NVMetSubsysService(CRUDService, NVMetStandbyMixin):
         else:
             if system_product.lower().startswith('truenas'):
                 return system_product[:MAX_MODEL_LEN]
-            return f'TrueNAS {system_product}'[:MAX_MODEL_LEN]
+            return f'X-NAS {system_product}'[:MAX_MODEL_LEN]
 
     @private
     @cache

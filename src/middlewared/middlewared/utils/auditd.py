@@ -17,7 +17,7 @@ class AUDITRules(enum.StrEnum):
     FINALIZE = '99-finalize.rules'
     COMMUNITY = 'truenas-community-edition.rules'
     TRUENAS_STIG = 'truenas-stig.rules'
-    TRUENAS = 'truenas.rules'  # Rules for all versions of TrueNAS
+    TRUENAS = 'truenas.rules'  # Rules for all versions of X-NAS
 
 
 # Set of rules applied for STIG mode

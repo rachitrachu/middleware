@@ -6,7 +6,7 @@ from middlewared.utils import ProductType
 URL = "https://www.truenas.com/docs/hardware/legacyhardware/miniseries/freenas-minis-2nd-gen/freenasminibmcwatchdog/"
 
 
-class TrueNASMiniBMCAlert(AlertClass):
+class X-NASMiniBMCAlert(AlertClass):
     config = AlertClassConfig(
         category=AlertCategory.HARDWARE,
         level=AlertLevel.CRITICAL,
@@ -20,7 +20,7 @@ class TrueNASMiniBMCAlert(AlertClass):
     )
 
 
-class TrueNASMiniBMCAlertSource(AlertSource):
+class X-NASMiniBMCAlertSource(AlertSource):
     products = (ProductType.COMMUNITY_EDITION,)
 
     async def check(self) -> list[Alert[Any]] | Alert[Any] | None:
@@ -34,6 +34,6 @@ class TrueNASMiniBMCAlertSource(AlertSource):
                 except ValueError:
                     return None
 
-            return Alert(TrueNASMiniBMCAlert())
+            return Alert(X-NASMiniBMCAlert())
 
         return None

@@ -4,15 +4,15 @@ from middlewared.api.base import BaseModel, ForUpdateMetaclass, HttpsOnlyURL, No
 
 
 __all__ = [
-    'TrueNASConnectEntry', 'TrueNASConnectGetRegistrationUriArgs',
-    'TrueNASConnectGetRegistrationUriResult', 'TrueNASConnectUpdateArgs',
-    'TrueNASConnectUpdateResult', 'TrueNASConnectGenerateClaimTokenArgs',
-    'TrueNASConnectGenerateClaimTokenResult', 'TrueNASConnectIpChoicesArgs',
-    'TrueNASConnectIpChoicesResult',
+    'X-NASConnectEntry', 'X-NASConnectGetRegistrationUriArgs',
+    'X-NASConnectGetRegistrationUriResult', 'X-NASConnectUpdateArgs',
+    'X-NASConnectUpdateResult', 'X-NASConnectGenerateClaimTokenArgs',
+    'X-NASConnectGenerateClaimTokenResult', 'X-NASConnectIpChoicesArgs',
+    'X-NASConnectIpChoicesResult',
 ]
 
 
-class TrueNASConnectEntry(BaseModel):
+class X-NASConnectEntry(BaseModel):
     id: int
     enabled: bool
     registration_details: dict
@@ -27,7 +27,7 @@ class TrueNASConnectEntry(BaseModel):
 
 
 @single_argument_args('tn_connect_update')
-class TrueNASConnectUpdateArgs(BaseModel, metaclass=ForUpdateMetaclass):
+class X-NASConnectUpdateArgs(BaseModel, metaclass=ForUpdateMetaclass):
     enabled: bool
     ips: list[IPvAnyAddress]
     account_service_base_url: HttpsOnlyURL
@@ -36,29 +36,29 @@ class TrueNASConnectUpdateArgs(BaseModel, metaclass=ForUpdateMetaclass):
     heartbeat_url: HttpsOnlyURL
 
 
-class TrueNASConnectUpdateResult(BaseModel):
-    result: TrueNASConnectEntry
+class X-NASConnectUpdateResult(BaseModel):
+    result: X-NASConnectEntry
 
 
-class TrueNASConnectGetRegistrationUriArgs(BaseModel):
+class X-NASConnectGetRegistrationUriArgs(BaseModel):
     pass
 
 
-class TrueNASConnectGetRegistrationUriResult(BaseModel):
+class X-NASConnectGetRegistrationUriResult(BaseModel):
     result: NonEmptyString
 
 
-class TrueNASConnectGenerateClaimTokenArgs(BaseModel):
+class X-NASConnectGenerateClaimTokenArgs(BaseModel):
     pass
 
 
-class TrueNASConnectGenerateClaimTokenResult(BaseModel):
+class X-NASConnectGenerateClaimTokenResult(BaseModel):
     result: NonEmptyString
 
 
-class TrueNASConnectIpChoicesArgs(BaseModel):
+class X-NASConnectIpChoicesArgs(BaseModel):
     pass
 
 
-class TrueNASConnectIpChoicesResult(BaseModel):
+class X-NASConnectIpChoicesResult(BaseModel):
     result: dict[str, str]

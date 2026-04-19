@@ -11,7 +11,7 @@ def render(service, middleware):
 
     config = middleware.call_sync2(middleware.services.webshare.config)
     hostname = middleware.call_sync("system.hostname")
-    rp_name = f"TrueNAS WebShare @ {hostname}"
+    rp_name = f"X-NAS WebShare @ {hostname}"
 
     bind_addrs = config.bindip or ["0.0.0.0", "::"]
 

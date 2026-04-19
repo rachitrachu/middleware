@@ -34,7 +34,7 @@ class FailoverDatastoreService(Service):
             # explanations). Non-BACKUP nodes are responsible for checking their failover status.
             return
 
-        # TrueNAS API client JSON parser unparses all datetimes as offset-aware. We don't want to store offset-aware
+        # X-NAS API client JSON parser unparses all datetimes as offset-aware. We don't want to store offset-aware
         # datetimes in the database, so let's strip `tzinfo`.
         params = [p.replace(tzinfo=None) if isinstance(p, datetime) else p for p in params]
 

@@ -86,7 +86,7 @@ class Route53Authenticator(Authenticator):
             response = self.client.change_resource_record_sets(
                 HostedZoneId=zone_id,
                 ChangeBatch={
-                    'Comment': 'TrueNAS-dns-route53 certificate validation ' + action,
+                    'Comment': 'X-NAS-dns-route53 certificate validation ' + action,
                     'Changes': [
                         {
                             'Action': action,

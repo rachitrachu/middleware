@@ -137,7 +137,7 @@ class Enclosure:
 
     def _get_model_and_controller(self):
         """This determines the model and whether or not this a controller enclosure.
-        The term "controller" refers to the enclosure device where the TrueNAS OS
+        The term "controller" refers to the enclosure device where the X-NAS OS
         is installed (sometimes referred to as the head-unit). We check 2 different
         values to determine the model/controller.
 
@@ -192,7 +192,7 @@ class Enclosure:
                 # more R series
                 self.model = dmi_model.value
                 self.controller = True
-            case 'iX_TrueNASR20p' | 'SMC_SC826-P' | 'iX_2012Sp' | 'iX_TrueNASSMCSC826-P':
+            case 'iX_X-NASR20p' | 'SMC_SC826-P' | 'iX_2012Sp' | 'iX_X-NASSMCSC826-P':
                 # R20 series
                 self.model = dmi_model.value
                 self.controller = True

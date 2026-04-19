@@ -20,54 +20,54 @@ release_manifest = {
 @pytest.mark.parametrize("trains_releases,result", [
     (
         {
-            "TrueNAS-SCALE-ElectricEel": {
+            "X-NAS-SCALE-ElectricEel": {
                 "24.10.0": {"filename": "24.10.0.update"},
                 "24.10.1": {"filename": "24.10.1.update"},
                 "24.10.2": {"filename": "24.10.2.update"},
             },
-            "TrueNAS-SCALE-Fangtooth": {
+            "X-NAS-SCALE-Fangtooth": {
                 "25.04.0": {"filename": "25.04.0.update"},
                 "25.04.1": {"filename": "25.04.1.update"},
             },
         },
         [
             UpdateAvailableVersion.model_validate({
-                "train": "TrueNAS-SCALE-Fangtooth",
+                "train": "X-NAS-SCALE-Fangtooth",
                 "version": {
                     "version": "25.04.1",
                     "manifest": {**release_manifest,
-                                 "train": "TrueNAS-SCALE-Fangtooth",
+                                 "train": "X-NAS-SCALE-Fangtooth",
                                  "version": "25.04.1",
                                  "filename": "25.04.1.update"},
-                    "release_notes": "Release notes for TrueNAS-SCALE-"
+                    "release_notes": "Release notes for X-NAS-SCALE-"
                                      "Fangtooth/25.04.1.update",
                     "release_notes_url": "https://truenas.com/25.04.1",
                 },
             }),
 
             UpdateAvailableVersion.model_validate({
-                "train": "TrueNAS-SCALE-Fangtooth",
+                "train": "X-NAS-SCALE-Fangtooth",
                 "version": {
                     "version": "25.04.0",
                     "manifest": {**release_manifest,
-                                 "train": "TrueNAS-SCALE-Fangtooth",
+                                 "train": "X-NAS-SCALE-Fangtooth",
                                  "version": "25.04.0",
                                  "filename": "25.04.0.update"},
-                    "release_notes": "Release notes for TrueNAS-SCALE-"
+                    "release_notes": "Release notes for X-NAS-SCALE-"
                                      "Fangtooth/25.04.0.update",
                     "release_notes_url": "https://truenas.com/25.04.0"
                 },
             }),
 
             UpdateAvailableVersion.model_validate({
-                "train": "TrueNAS-SCALE-ElectricEel",
+                "train": "X-NAS-SCALE-ElectricEel",
                 "version": {
                     "version": "24.10.2",
                     "manifest": {**release_manifest,
-                                 "train": "TrueNAS-SCALE-ElectricEel",
+                                 "train": "X-NAS-SCALE-ElectricEel",
                                  "version": "24.10.2",
                                  "filename": "24.10.2.update"},
-                    "release_notes": "Release notes for TrueNAS-SCALE-"
+                    "release_notes": "Release notes for X-NAS-SCALE-"
                                      "ElectricEel/24.10.2.update",
                     "release_notes_url": "https://truenas.com/24.10.2",
                 },

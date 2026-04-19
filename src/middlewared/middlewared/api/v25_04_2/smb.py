@@ -129,13 +129,13 @@ class SMBEntry(BaseModel):
     syslog: bool
     """ Send log messages to syslog. This should be enabled if system administrator
     wishes for SMB server error logs to be included in information sent to remote syslog
-    server if this is globally configured for TrueNAS."""
+    server if this is globally configured for X-NAS."""
     aapl_extensions: bool
-    """ Enable support for SMB2/3 AAPL protocol extensions. This changes the TrueNAS server
+    """ Enable support for SMB2/3 AAPL protocol extensions. This changes the X-NAS server
     so that it is advertised as supporting Apple protocol extensions as a MacOS server, and
     is required for Time Machine support. """
     admin_group: str | None
-    """ The selected group will have full administrator privileges on TrueNAS over SMB protocol. """
+    """ The selected group will have full administrator privileges on X-NAS over SMB protocol. """
     guest: NonEmptyString
     filemask: UnixPerm | Literal['DEFAULT']
     """ smb.conf create mask. DEFAULT applies current server default which is 664. """

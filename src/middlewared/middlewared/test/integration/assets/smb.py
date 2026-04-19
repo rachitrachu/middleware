@@ -173,7 +173,7 @@ def get_stream(
 ) -> bytes:
     """
     Retrieve binary data for an alternate data stream via the xattr handler on
-    a SMB client mount via the remote TrueNAS server. The python script below uses
+    a SMB client mount via the remote X-NAS server. The python script below uses
     the samba wrapper around getxattr due to limitations in os.getxattr regarding
     maximum xattr size.
 
@@ -198,7 +198,7 @@ def set_stream(
 ) -> None:
     """
     Write binary data for an alternate data stream via the xattr handler on
-    a SMB client mount via the remote TrueNAS server. The python script below uses
+    a SMB client mount via the remote X-NAS server. The python script below uses
     the samba wrapper around setxattr due to limitations in os.setxattr regarding
     maximum xattr size.
 

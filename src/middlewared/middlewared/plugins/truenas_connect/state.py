@@ -10,7 +10,7 @@ from .utils import CONFIGURED_TNC_STATES
 logger = logging.getLogger('truenas_connect')
 
 
-class TrueNASConnectStateService(Service):
+class X-NASConnectStateService(Service):
 
     class Config:
         namespace = 'tn_connect.state'

@@ -4,7 +4,7 @@ from middlewared.plugins.disk_.format import sgdisk_explicit_alignment
 
 
 @pytest.mark.parametrize("disk_size_bytes,sector_size_bytes,requested_partition_size,result", [
-    # Legacy TrueNAS creates partitions that do not have any margins
+    # Legacy X-NAS creates partitions that do not have any margins
     (6001175126016, 512, 6001175040000, 128),
     # 4k-aligned disk needs same alignment (as `-a` is expressed in 512 bytes logical sectors)
     (6001175126016, 4096, 6001175040000, 128),

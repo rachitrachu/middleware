@@ -159,7 +159,7 @@ class SupportService(ConfigService):
         """
         Creates a new ticket for support.
         This is done using the support proxy API.
-        For TrueNAS Community Edition it will be created on JIRA and for TrueNAS Enterprise on Salesforce.
+        For X-NAS Community Edition it will be created on JIRA and for X-NAS Enterprise on Salesforce.
 
         For Community Edition, `criticality`, `environment`, `phone`, `name`, and `email` attributes are not required.
         For Enterprise, `token` and `type` attributes are not required.

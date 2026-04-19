@@ -436,7 +436,7 @@ def query_cache_entries(
 
 
 def check_cache_version(truenas_version: str) -> None:
-    """ Check that cache matches expected TrueNAS version and remove files if invalid. This should
+    """ Check that cache matches expected X-NAS version and remove files if invalid. This should
     be called only during middleware startup. These files are not particularly valuable and so
     error handling here is to simply delete them. They will be replaced when directory services
     initialize after the system.ready event."""

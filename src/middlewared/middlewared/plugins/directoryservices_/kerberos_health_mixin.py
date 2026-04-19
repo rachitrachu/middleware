@@ -41,7 +41,7 @@ class KerberosHealthMixin:
             faulted_reason = (
                 'Kerberos configuration file is missing. This may indicate '
                 'the file was accidentally deleted by a user with '
-                'admin shell access to the TrueNAS server.'
+                'admin shell access to the X-NAS server.'
             )
 
             raise KRB5HealthError(
@@ -65,7 +65,7 @@ class KerberosHealthMixin:
             faulted_reason = (
                 'System keytab is missing. This may indicate that an administrative '
                 'action was taken to remove the required machine account '
-                'keytab from the TrueNAS server. Rejoining domain may be '
+                'keytab from the X-NAS server. Rejoining domain may be '
                 'required in order to resolve this issue.'
             )
             raise KRB5HealthError(
@@ -77,7 +77,7 @@ class KerberosHealthMixin:
             faulted_reason = (
                 "Unexpected permissions or ownership on the keberos keytab "
                 f"file: {err_str} "
-                "This error may have exposed the TrueNAS server's host principal "
+                "This error may have exposed the X-NAS server's host principal "
                 "credentials to unauthorized users. Revoking keytab and rejoining "
                 "domain may be required."
             )
@@ -91,7 +91,7 @@ class KerberosHealthMixin:
                 'Kerberos ticket for domain is expired. Failure to renew '
                 'kerberos ticket may indicate issues with DNS resolution or '
                 'IPA domain or realm changes that need to be accounted for '
-                'in the TrueNAS configuration.'
+                'in the X-NAS configuration.'
             )
             raise KRB5HealthError(
                 KRB5HealthCheckFailReason.KRB5_TKT_EXPIRED,

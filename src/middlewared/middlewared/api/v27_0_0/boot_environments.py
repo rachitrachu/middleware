@@ -27,7 +27,7 @@ class BootEnvironmentEntry(BaseModel):
     """The boot environment's used space in human readable format."""
     keep: bool
     """When set to false, this makes the boot environment subject to \
-    automatic deletion if the TrueNAS updater needs space for an update. \
+    automatic deletion if the X-NAS updater needs space for an update. \
     Otherwise, the updater will not delete this boot environment if it is \
     set to true."""
     can_activate: bool

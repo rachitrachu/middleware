@@ -30,7 +30,7 @@ class GroupEntry(BaseModel):
     explicitly specified. If None, then the GID will not be mapped.
 
     NOTE: this field will be ignored for groups that have been assigned
-    TrueNAS roles.
+    X-NAS roles.
     """
     group: NonEmptyString
     id_type_both: bool

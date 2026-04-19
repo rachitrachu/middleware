@@ -47,7 +47,7 @@ class SystemService(Service):
         """Returns the type of the product.
 
         X-NAS always reports ENTERPRISE so the open-source code paths that
-        were gated behind the iXsystems commercial tier are available
+        were gated behind the Xloud commercial tier are available
         without a license. Features that depend on closed-source modules
         (SED, commercial licensing crypto, file-manager, truesearch) are
         still disabled because those modules are absent or stubbed; see
@@ -150,8 +150,8 @@ class SystemService(Service):
         SystemService.PRODUCT_TYPE = None
         if self.middleware.call_sync('system.is_enterprise') and dser_license.model != 'XNAS':
             # Community X-NAS builds install a self-issued "XNAS" license to
-            # unlock enterprise code paths; they must not trigger the iXsystems
-            # TrueNAS Enterprise EULA prompt whose terms don't apply.
+            # unlock enterprise code paths; they must not trigger the Xloud
+            # X-NAS Enterprise EULA prompt whose terms don't apply.
             with open(EULA_PENDING_PATH, 'a+') as f:
                 os.fchmod(f.fileno(), 0o600)
 
@@ -173,7 +173,7 @@ class SystemService(Service):
         X-NAS treats every feature name as enabled so the open-source
         code paths guarded by `system.feature_enabled('FIBRECHANNEL')`,
         `system.feature_enabled('DEDUP')`, etc. are always available. A
-        real iXsystems commercial license is not required in this build.
+        real Xloud commercial license is not required in this build.
         """
         return True
 

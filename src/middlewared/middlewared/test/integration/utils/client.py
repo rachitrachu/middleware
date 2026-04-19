@@ -29,7 +29,7 @@ class Client(TNClient):
         return
 
 
-class TrueNAS_Server:
+class X-NAS_Server:
     __slots__ = (
         '_ip',
         '_nodea_ip',
@@ -48,9 +48,9 @@ class TrueNAS_Server:
     @property
     def ip(self) -> str | None:
         """
-        default target IP address for TrueNAS server
+        default target IP address for X-NAS server
 
-        Will be virtual IP on TrueNAS HA but otherwise set through the
+        Will be virtual IP on X-NAS HA but otherwise set through the
         `MIDDLEWARE_TEST_IP` environmental variable in non-HA case.
         """
         return self._ip
@@ -84,7 +84,7 @@ class TrueNAS_Server:
     @property
     def server_type(self) -> str | None:
         """
-        Server type of target TrueNAS server
+        Server type of target X-NAS server
 
         Returns
             str - 'ENTERPRISE_HA' or 'STANDARD'
@@ -101,7 +101,7 @@ class TrueNAS_Server:
 
     @property
     def client(self) -> Client:
-        """ websocket client connection to target TrueNAS server """
+        """ websocket client connection to target X-NAS server """
         if self._client is not None:
             try:
                 self._client.ping()
@@ -137,7 +137,7 @@ class TrueNAS_Server:
             raise ValueError('Not an HA server')
 
         elif self.server_type is None:
-            raise RuntimeError('TrueNAS server object not initialized')
+            raise RuntimeError('X-NAS server object not initialized')
 
         failover_node = self.client.call('failover.node')
         if failover_node not in ('A', 'B'):
@@ -157,7 +157,7 @@ class TrueNAS_Server:
         }
 
 
-truenas_server = TrueNAS_Server()
+truenas_server = X-NAS_Server()
 
 
 @contextlib.contextmanager

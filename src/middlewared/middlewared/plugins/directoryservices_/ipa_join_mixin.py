@@ -98,7 +98,7 @@ class IPAJoinMixin:
             _parse_ipa_response(join)
         except Exception:
             self.logger.warning(
-                'Failed to disable TrueNAS machine account in the IPA domain. '
+                'Failed to disable X-NAS machine account in the IPA domain. '
                 'Further action by the IPA administrator to fully remove '
                 'the server from the domain will be required.', exc_info=True
             )
@@ -115,7 +115,7 @@ class IPAJoinMixin:
         self.middleware.call_sync('kerberos.start')
 
     def _ipa_insert_keytab(self, service: ipa_constants.IpaConfigName, keytab_data: str) -> None:
-        """ Insert a keytab into the TrueNAS config (replacing existing) """
+        """ Insert a keytab into the X-NAS config (replacing existing) """
         if service is ipa_constants.IpaConfigName.IPA_CACERT:
             raise ValueError('Not a keytab file')
 
@@ -135,7 +135,7 @@ class IPAJoinMixin:
             )
 
     def _ipa_grant_privileges(self, domain: str) -> None:
-        """ Grant domain admins ability to manage TrueNAS """
+        """ Grant domain admins ability to manage X-NAS """
 
         existing_privileges = self.middleware.call_sync(
             'privilege.query',
@@ -187,7 +187,7 @@ class IPAJoinMixin:
             # our webui
             self.logger.warning(
                 'Failed to grant domain administrators access to the '
-                'TrueNAS API.', exc_info=True
+                'X-NAS API.', exc_info=True
             )
 
     @kerberos_ticket
@@ -404,15 +404,15 @@ class IPAJoinMixin:
     @kerberos_ticket
     def _ipa_join(self, job: Job, ds_config: dict):
         """
-        This method performs all the steps required to join TrueNAS to an
-        IPA domain and update our TrueNAS configuration with details gleaned
+        This method performs all the steps required to join X-NAS to an
+        IPA domain and update our X-NAS configuration with details gleaned
         from the IPA domain settings. Once it is completed we will:
 
 
         1. have created host account in IPA domain
         2. registered our IP addresses in IPA
-        3. stored up to three keytabs on TrueNAS (host, nfs, and smb)
-        4. stored the IPA cacert on TrueNAS
+        3. stored up to three keytabs on X-NAS (host, nfs, and smb)
+        4. stored the IPA cacert on X-NAS
         5. updated samba's secrets.tdb to contain the info from SMB keytab
         6. backed up samba's secrets.tdb
         """
@@ -464,7 +464,7 @@ class IPAJoinMixin:
         # in future.
 
         # insert the IPA host principal keytab into our database
-        job.set_progress(description='Updating TrueNAS configuration with IPA domain details.')
+        job.set_progress(description='Updating X-NAS configuration with IPA domain details.')
         self._ipa_insert_keytab(ipa_constants.IpaConfigName.IPA_HOST_KEYTAB, resp['keytab'])
 
         # make sure database also has the IPA realm
@@ -504,9 +504,9 @@ class IPAJoinMixin:
                     '[%s]: Stored CA certificate for IPA domain does not match '
                     'certificate returned from the IPA LDAP server. This may '
                     'prevent the IPA directory service from properly functioning '
-                    'and should be resolved by the TrueNAS administrator. '
+                    'and should be resolved by the X-NAS administrator. '
                     'An example of such adminstrative action would be to remove '
-                    'the possibly incorrect CA certificate from the TrueNAS '
+                    'the possibly incorrect CA certificate from the X-NAS '
                     'server and re-join the IPA domain to ensure the correct '
                     'CA certificate is installed after reviewing the issue with '
                     'the person or team responsible for maintaining the IPA domain.',
@@ -535,7 +535,7 @@ class IPAJoinMixin:
 
                     self.logger.warning(
                         'Unable to resolve kerberos realm via DNS. This may indicate misconfigured '
-                        'nameservers on the TrueNAS server or a misconfigured IPA domain.', exc_info=True
+                        'nameservers on the X-NAS server or a misconfigured IPA domain.', exc_info=True
                     )
 
                     self._ipa_remove_kerberos_cert_config(None, ds_config)

@@ -116,7 +116,7 @@ class PDBEntry:
     """
     username: str  # Unix username
     nt_username: str  # Windows username
-    domain: str  # Windows domain name (netbios name of TrueNAS)
+    domain: str  # Windows domain name (netbios name of X-NAS)
     full_name: str  # user's full name
     comment: str
     home_dir: str  # home directory

@@ -452,7 +452,7 @@ class PoolDatasetUnlockOptions(BaseModel):
     toggle_attachments: bool = True
     """Whether attachments should be put in action after unlocking the dataset(s). Toggling attachments can \
     theoretically lead to service interruption when daemons configurations are reloaded (this should not happen, and \
-    if this happens it should be considered a bug). As TrueNAS does not have a state for resources that should be \
+    if this happens it should be considered a bug). As X-NAS does not have a state for resources that should be \
     unlocked but are still locked, disabling this option will put the system into an inconsistent state so it should \
     really never be disabled."""
     datasets: list[PoolDatasetUnlockOptionsDataset] = []

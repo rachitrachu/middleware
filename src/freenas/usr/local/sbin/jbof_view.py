@@ -1,28 +1,28 @@
 #!/usr/bin/env python3
 
 """
-TrueNAS JBOF Visualizer
+X-NAS JBOF Visualizer
 
 This script provides comprehensive visualization and analysis of JBOFs connected
-to TrueNAS. It displays both textual and ASCII visual representations of JBOF
+to X-NAS. It displays both textual and ASCII visual representations of JBOF
 drive inventories, connectivity status, and ZFS pool mappings.
 
 ## Architecture Overview:
 
 1. **Data Collection Layer** (Functions: get_jbof_info, gather_jbof_data, _collect_jbof_data_from_ip)
-   - Queries TrueNAS API for JBOF configurations
+   - Queries X-NAS API for JBOF configurations
    - Connects to JBOF management interfaces via Redfish API
    - Collects drive inventories, datapath interfaces, and connectivity status
-   - Gathers TrueNAS NVMe devices, ZFS pools, and RDMA interface data
+   - Gathers X-NAS NVMe devices, ZFS pools, and RDMA interface data
 
 2. **Data Processing Layer** (Functions: map_*, analyze_*, get_primary_drives)
    - Maps management IPs to specific IOMs (Input/Output Modules)
-   - Analyzes RDMA connectivity between TrueNAS and JBOF datapath interfaces
-   - Correlates JBOF drive serial numbers with TrueNAS NVMe devices and ZFS pools
+   - Analyzes RDMA connectivity between X-NAS and JBOF datapath interfaces
+   - Correlates JBOF drive serial numbers with X-NAS NVMe devices and ZFS pools
    - Generates drive state flags for mismatch detection between IOMs
 
 3. **Data Structures** (Classes: JBOFConfiguration, JBOFSystem, *Result classes)
-   - JBOFConfiguration: Raw JBOF config from TrueNAS API
+   - JBOFConfiguration: Raw JBOF config from X-NAS API
    - JBOFSystem: Complete processed JBOF data with drives, connectivity, pool mappings
    - *Result classes: Structured results from API calls with status, details, and data
 
@@ -143,7 +143,7 @@ class JBOFConfig:
 # JBOF Data Structure Classes
 @dataclass
 class JBOFConfiguration:
-    """JBOF configuration data from TrueNAS API jbof.query."""
+    """JBOF configuration data from X-NAS API jbof.query."""
     index: int
     description: str
     uuid: str
@@ -257,7 +257,7 @@ class RDMAConnectivity:
 
 @dataclass
 class RDMAInterfaceResult:
-    """Result of TrueNAS RDMA interface query"""
+    """Result of X-NAS RDMA interface query"""
     status: str
     details: str
     interfaces: List[Dict[str, Any]]
@@ -346,7 +346,7 @@ class PartUUIDMapping:
 
 @dataclass
 class NVMEDeviceResult:
-    """Result of TrueNAS NVMe device query"""
+    """Result of X-NAS NVMe device query"""
     status: str
     details: str
     devices: List[NVMEDevice]
@@ -369,8 +369,8 @@ class ZFSPoolResult:
 
 
 @dataclass
-class TrueNASNodeInfoResult:
-    """Result of TrueNAS node information query"""
+class X-NASNodeInfoResult:
+    """Result of X-NAS node information query"""
     status: str
     details: str
     current_node: str
@@ -379,19 +379,19 @@ class TrueNASNodeInfoResult:
 
 
 @dataclass
-class TrueNASSystemInfo:
-    """TrueNAS system-wide information"""
+class X-NASSystemInfo:
+    """X-NAS system-wide information"""
     nvme_devices: NVMEDeviceResult
     partuuid_mappings: PartUUIDMappingResult
     zfs_pools: ZFSPoolResult
-    node_info: TrueNASNodeInfoResult
+    node_info: X-NASNodeInfoResult
     rdma_interfaces: RDMAInterfaceResult
 
 
 @dataclass
 class JBOFSystemData:
     """Top-level container for all JBOF system data"""
-    truenas_info: TrueNASSystemInfo
+    truenas_info: X-NASSystemInfo
     jbof_systems: List[JBOFSystem]
 
 
@@ -442,7 +442,7 @@ def get_primary_drives(drives1: List[DriveInfo], drives2: List[DriveInfo]) -> Li
 
 
 def get_jbof_info() -> List[JBOFConfiguration]:
-    """Retrieve JBOF information from TrueNAS API.
+    """Retrieve JBOF information from X-NAS API.
 
     Returns:
         List of JBOFConfiguration objects containing management IPs,
@@ -457,7 +457,7 @@ def get_jbof_info() -> List[JBOFConfiguration]:
                 jbof_config = JBOFConfiguration.from_dict(jbof_dict)
                 jbof_configs.append(jbof_config)
     except Exception as e:
-        logger.error(f"Error connecting to TrueNAS API: {e}")
+        logger.error(f"Error connecting to X-NAS API: {e}")
         return []
 
     return jbof_configs
@@ -799,7 +799,7 @@ def map_management_ips_to_ioms(jbof_config: JBOFConfiguration) -> IOMMappingResu
 
 
 def get_truenas_nvme_devices() -> NVMEDeviceResult:
-    """Get NVMe device list from TrueNAS using nvme list command.
+    """Get NVMe device list from X-NAS using nvme list command.
 
     Returns:
         NVMEDeviceResult containing:
@@ -833,7 +833,7 @@ def get_truenas_nvme_devices() -> NVMEDeviceResult:
                 return NVMEDeviceResult(
                     status=JBOFConfig.STATUS_SUCCESS,
                     devices=devices,
-                    details=f"Found {len(devices)} NVMe devices on TrueNAS"
+                    details=f"Found {len(devices)} NVMe devices on X-NAS"
                 )
             except json.JSONDecodeError as e:
                 return NVMEDeviceResult(
@@ -908,7 +908,7 @@ def get_partuuid_to_nvme_mapping() -> PartUUIDMappingResult:
 
 
 def get_zfs_pools() -> ZFSPoolResult:
-    """Get ZFS pool information from TrueNAS API.
+    """Get ZFS pool information from X-NAS API.
 
     Returns:
         ZFSPoolResult containing:
@@ -932,8 +932,8 @@ def get_zfs_pools() -> ZFSPoolResult:
         )
 
 
-def get_truenas_node_info() -> TrueNASNodeInfoResult:
-    """Get TrueNAS node information (HA status)."""
+def get_truenas_node_info() -> X-NASNodeInfoResult:
+    """Get X-NAS node information (HA status)."""
     try:
         with Client() as c:
             node = c.call('failover.node')
@@ -941,7 +941,7 @@ def get_truenas_node_info() -> TrueNASNodeInfoResult:
             # Treat MANUAL as standalone (same as 'A' for interface purposes)
             current_node = node if node in ['A', 'B'] else 'A'
 
-            return TrueNASNodeInfoResult(
+            return X-NASNodeInfoResult(
                 status=JBOFConfig.STATUS_SUCCESS,
                 current_node=current_node,
                 is_ha=is_ha,
@@ -949,7 +949,7 @@ def get_truenas_node_info() -> TrueNASNodeInfoResult:
                 details=f"Node: {node}" + (" (HA pair)" if is_ha else " (standalone)")
             )
     except Exception as e:
-        return TrueNASNodeInfoResult(
+        return X-NASNodeInfoResult(
             status="error",
             current_node="A",
             is_ha=False,
@@ -959,7 +959,7 @@ def get_truenas_node_info() -> TrueNASNodeInfoResult:
 
 
 def get_truenas_rdma_interfaces() -> RDMAInterfaceResult:
-    """Get TrueNAS RDMA interface configuration."""
+    """Get X-NAS RDMA interface configuration."""
     try:
         with Client() as c:
             rdma_interfaces = c.call('rdma.interface.query')
@@ -977,14 +977,14 @@ def get_truenas_rdma_interfaces() -> RDMAInterfaceResult:
         )
 
 
-def analyze_rdma_connectivity(rdma_interfaces: RDMAInterfaceResult, node_info: TrueNASNodeInfoResult,
+def analyze_rdma_connectivity(rdma_interfaces: RDMAInterfaceResult, node_info: X-NASNodeInfoResult,
                               jbof_datapath_interfaces: Dict[str, Dict[str, DatapathInterface]]
                               ) -> RDMAConnectivityResult:
-    """Analyze RDMA connectivity between TrueNAS and JBOF.
+    """Analyze RDMA connectivity between X-NAS and JBOF.
 
     Args:
-        rdma_interfaces: RDMA interface configuration from TrueNAS API
-        node_info: TrueNAS HA node information and current node status
+        rdma_interfaces: RDMA interface configuration from X-NAS API
+        node_info: X-NAS HA node information and current node status
         jbof_datapath_interfaces: JBOF datapath network interface data
 
     Returns:
@@ -997,7 +997,7 @@ def analyze_rdma_connectivity(rdma_interfaces: RDMAInterfaceResult, node_info: T
     if not rdma_interfaces.interfaces:
         return RDMAConnectivityResult(
             status="no_rdma_config",
-            details="No RDMA interfaces configured on TrueNAS",
+            details="No RDMA interfaces configured on X-NAS",
             connectivity=[],
             summary={"total_interfaces": 0, "active_interfaces": 0, "connected_jbofs": 0}
         )
@@ -1226,7 +1226,7 @@ def _map_rdma_to_datapath(rdma_analysis, datapath_interfaces):
 
 
 def create_host_box(pool_mapping: PoolMappingResult, rdma_analysis: RDMAConnectivityResult,
-                    node_info: Optional[TrueNASNodeInfoResult],
+                    node_info: Optional[X-NASNodeInfoResult],
                     datapath_interfaces: Dict[str, Dict[str, DatapathInterface]],
                     box_height: int, col_widths: Dict[str, int], drives1: List[DriveInfo],
                     drives2: List[DriveInfo]) -> List[str]:
@@ -1541,7 +1541,7 @@ def calculate_column_widths(drives1: List[DriveInfo], drives2: List[DriveInfo],
     return widths
 
 
-def create_jbof_visualization(jbof_system: JBOFSystem, node_info: Optional[TrueNASNodeInfoResult] = None) -> str:
+def create_jbof_visualization(jbof_system: JBOFSystem, node_info: Optional[X-NASNodeInfoResult] = None) -> str:
     """Create enhanced ASCII visualization of JBOF system with side-by-side layout."""
     # Extract fields from jbof_system for clarity
     jbof_config = jbof_system.config
@@ -1616,7 +1616,7 @@ def map_jbof_disks_to_pools(jbof_drives, truenas_nvme_devices, partuuid_mapping,
     if not truenas_nvme_devices:
         return PoolMappingResult(
             status="no_nvme_data",
-            details="No TrueNAS NVMe device data available",
+            details="No X-NAS NVMe device data available",
             mappings=[],
             summary={"total_drives": len(jbof_drives), "nvme_visible": 0, "pool_assigned": 0}
         )
@@ -1696,7 +1696,7 @@ def map_jbof_disks_to_pools(jbof_drives, truenas_nvme_devices, partuuid_mapping,
     nvme_found = sum(1 for m in drive_mappings
                      if m.status in ["nvme_found", "partuuid_found", "no_pool", "pool_assigned"])
 
-    details = f"✓ {nvme_found}/{len(jbof_drives)} drives visible to TrueNAS"
+    details = f"✓ {nvme_found}/{len(jbof_drives)} drives visible to X-NAS"
     if pool_assigned > 0:
         details += f", {pool_assigned} assigned to pools"
 
@@ -1770,12 +1770,12 @@ def gather_jbof_data(jbofs: List[JBOFConfiguration]) -> Optional[JBOFSystemData]
     """Gather all JBOF information once to avoid duplication between display modes.
 
     Args:
-        jbofs: List of JBOFConfiguration objects from TrueNAS API containing
+        jbofs: List of JBOFConfiguration objects from X-NAS API containing
                management IPs, credentials, UUIDs, and other configuration data.
 
     Returns:
         JBOFSystemData containing:
-        - truenas_info: TrueNASSystemInfo with consolidated TrueNAS data
+        - truenas_info: X-NASSystemInfo with consolidated X-NAS data
         - jbof_systems: List of JBOFSystem objects with complete JBOF information
 
         Returns None if no JBOFs provided.
@@ -1783,7 +1783,7 @@ def gather_jbof_data(jbofs: List[JBOFConfiguration]) -> Optional[JBOFSystemData]
     if not jbofs:
         return None
 
-    # Get common TrueNAS data once
+    # Get common X-NAS data once
     truenas_nvme_result = get_truenas_nvme_devices()
     truenas_nvme_devices = truenas_nvme_result.devices
     partuuid_result = get_partuuid_to_nvme_mapping()
@@ -1791,8 +1791,8 @@ def gather_jbof_data(jbofs: List[JBOFConfiguration]) -> Optional[JBOFSystemData]
     node_info = get_truenas_node_info()
     rdma_interfaces_result = get_truenas_rdma_interfaces()
 
-    # Create TrueNAS system info
-    truenas_info = TrueNASSystemInfo(
+    # Create X-NAS system info
+    truenas_info = X-NASSystemInfo(
         nvme_devices=truenas_nvme_result,
         partuuid_mappings=partuuid_result,
         zfs_pools=zfs_pools_result,
@@ -1858,10 +1858,10 @@ def display_jbof_simple_with_data(data: JBOFSystemData) -> None:
 
     Args:
         data: Pre-gathered JBOF data from gather_jbof_data() containing
-              TrueNAS system information and JBOF systems.
+              X-NAS system information and JBOF systems.
     """
     if not data or not data.jbof_systems:
-        message = "No JBOFs found or unable to connect to TrueNAS."
+        message = "No JBOFs found or unable to connect to X-NAS."
         logger.warning(message)
         print(message)
         return
@@ -1872,16 +1872,16 @@ def display_jbof_simple_with_data(data: JBOFSystemData) -> None:
     print(f"Found {len(jbof_systems)} JBOF system(s):")
     print(JBOFConfig.SEPARATOR_50)
 
-    # Display common TrueNAS information
-    print("Checking TrueNAS NVMe devices...")
-    print(f"TrueNAS NVMe Status: {truenas_info.nvme_devices.details}")
+    # Display common X-NAS information
+    print("Checking X-NAS NVMe devices...")
+    print(f"X-NAS NVMe Status: {truenas_info.nvme_devices.details}")
     print("Checking partuuid mappings...")
     print(f"Partuuid Mappings: {truenas_info.partuuid_mappings.details}")
     print("Checking ZFS pools...")
     print(f"ZFS Pools: {truenas_info.zfs_pools.details}")
-    print("Checking TrueNAS node status...")
-    print(f"TrueNAS Node: {truenas_info.node_info.details}")
-    print("Checking TrueNAS RDMA interfaces...")
+    print("Checking X-NAS node status...")
+    print(f"X-NAS Node: {truenas_info.node_info.details}")
+    print("Checking X-NAS RDMA interfaces...")
     print(f"RDMA Interfaces: {truenas_info.rdma_interfaces.details}")
     print()
 
@@ -1920,14 +1920,14 @@ def display_jbof_simple_with_data(data: JBOFSystemData) -> None:
 
         print(f"    Slot Utilization: {present_count1}/{JBOFConfig.STANDARD_SLOTS} slots occupied")
 
-        # Display TrueNAS drive visibility with JBOF-specific summary
+        # Display X-NAS drive visibility with JBOF-specific summary
         pool_mapping = jbof_system.pool_mapping
         if pool_mapping and pool_mapping.mappings:
             total_drives = len(pool_mapping.mappings)
             visible_statuses = ["nvme_found", "partuuid_found", "no_pool", "no_partuuid", "pool_assigned"]
             visible_drives = len([m for m in pool_mapping.mappings if m.status in visible_statuses])
             pool_assigned = len([m for m in pool_mapping.mappings if m.status == "pool_assigned"])
-            print(f"  TrueNAS NVMe Visibility: {visible_drives}/{total_drives} drives visible, "
+            print(f"  X-NAS NVMe Visibility: {visible_drives}/{total_drives} drives visible, "
                   f"{pool_assigned} in pools")
 
         # Display ZFS pool associations
@@ -1960,10 +1960,10 @@ def display_jbof_visual_with_data(data: JBOFSystemData) -> None:
 
     Args:
         data: Pre-gathered JBOF data from gather_jbof_data() containing
-              TrueNAS system information and JBOF systems.
+              X-NAS system information and JBOF systems.
     """
     if not data or not data.jbof_systems:
-        message = "No JBOFs found or unable to connect to TrueNAS."
+        message = "No JBOFs found or unable to connect to X-NAS."
         logger.warning(message)
         print(message)
         return
@@ -1985,11 +1985,11 @@ def display_jbof_visual_with_data(data: JBOFSystemData) -> None:
 def main() -> None:
     """Main function to run the JBOF visualizer.
 
-    Parses command line arguments, retrieves JBOF configuration from TrueNAS API,
+    Parses command line arguments, retrieves JBOF configuration from X-NAS API,
     gathers all necessary data once, and displays results in the requested format
     (simple, visual, or both modes).
     """
-    parser = argparse.ArgumentParser(description="TrueNAS JBOF Visualizer")
+    parser = argparse.ArgumentParser(description="X-NAS JBOF Visualizer")
     parser.add_argument("-v", "--visual", action="store_true",
                         help="Display visual ASCII representation of JBOFs")
     parser.add_argument("-s", "--simple", action="store_true",
@@ -2005,13 +2005,13 @@ def main() -> None:
     log_level = logging.DEBUG if args.debug else logging.WARNING
     setup_logging(log_level)
 
-    logger.debug("Starting TrueNAS JBOF Visualizer")
+    logger.debug("Starting X-NAS JBOF Visualizer")
 
     # Default to simple if no mode specified
     if not args.visual and not args.simple and not args.both:
         args.simple = True
 
-    print("TrueNAS JBOF Visualizer")
+    print("X-NAS JBOF Visualizer")
     if args.both:
         print("Both Modes (Simple + Visual)")
         logger.debug("Running in both modes")

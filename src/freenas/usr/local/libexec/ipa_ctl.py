@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
-# IPA control script for TrueNAS IPA Client. This provides support for some
-# basic IPA-related operations that the TrueNAS middleware performs.
+# IPA control script for X-NAS IPA Client. This provides support for some
+# basic IPA-related operations that the X-NAS middleware performs.
 #
 # Although it is written as a standalone script, it is not intended for use
-# outside of the scope of TrueNAS developers. Ad-hoc usage of this script may
+# outside of the scope of X-NAS developers. Ad-hoc usage of this script may
 # result in undefined sever behavior and is not supported in any way.
 
 import argparse
@@ -35,8 +35,8 @@ from middlewared.utils.directoryservices.krb5_constants import KRB_ETYPE
 from middlewared.plugins.smb_.util_param import smbconf_getparm
 
 DESCRIPTION = (
-    "This program is intended for exclusive use by TrueNAS developers. "
-    "Any use of it outside of the scope of TrueNAS backend operations is "
+    "This program is intended for exclusive use by X-NAS developers. "
+    "Any use of it outside of the scope of X-NAS backend operations is "
     "unsupported and may result in a production outage. "
     "This program provides support for some basic FreeIPA server related "
     "operations. "

@@ -36,7 +36,7 @@ class AuthService(Service):
 
         if user_info['uid'] != user['pw_uid']:
             # For some reason there's a mismatch between the passwd file
-            # and what is stored in the TrueNAS configuration.
+            # and what is stored in the X-NAS configuration.
             self.logger.error(
                 '%s: rejecting access for local user due to uid [%d] not '
                 'matching expected value [%d]',
@@ -49,7 +49,7 @@ class AuthService(Service):
             # based on our database and what NSS _actually_ returned.
             self.logger.error(
                 '%d: Rejecting access by user id due to potential collision between '
-                'local and directory service user account. TrueNAS configuration '
+                'local and directory service user account. X-NAS configuration '
                 'expected a %s user account but received an account provided by %s.',
                 user['pw_uid'], 'local' if user_info['local'] else 'non-local', user['source']
             )

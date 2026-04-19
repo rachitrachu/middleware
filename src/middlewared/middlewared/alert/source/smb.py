@@ -37,7 +37,7 @@ class SMBLegacyProtocolAlert(AlertClass):
     config = AlertClassConfig(
         category=AlertCategory.SHARING,
         level=AlertLevel.NOTICE,
-        title="SMB1 connections to TrueNAS server have been performed in last 24 hours",
+        title="SMB1 connections to X-NAS server have been performed in last 24 hours",
         text="The following clients have established SMB1 sessions: %(err)s.",
     )
 
@@ -201,10 +201,10 @@ class SMBUserMissingHashAlert(OneShotAlertClass):
         level=AlertLevel.WARNING,
         title="SMB user is missing required password hash",
         text=(
-            "One or more SMB users do not have a valid SMB password hash. This can happen if the TrueNAS configuration "
+            "One or more SMB users do not have a valid SMB password hash. This can happen if the X-NAS configuration "
             "was restored without the secret seed. This can also happen if an SMB user was created with an empty "
-            "password in an older version of TrueNAS. To correct this, do one of these steps: reset the user password "
-            "in the TrueNAS UI or API, or disable SMB access for the user. Affected users: %(entries)s"
+            "password in an older version of X-NAS. To correct this, do one of these steps: reset the user password "
+            "in the X-NAS UI or API, or disable SMB access for the user. Affected users: %(entries)s"
         ),
         keys=[],
     )

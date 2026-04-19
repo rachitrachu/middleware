@@ -1,4 +1,4 @@
-Welcome to TrueNAS developer documentation!
+Welcome to X-NAS developer documentation!
 ===========================================
 
 .. toctree::

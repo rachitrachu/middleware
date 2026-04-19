@@ -34,9 +34,9 @@ def get_domain_info(domain: str, retry: bool = False) -> dict:
 
     Returned dictionary contains following info:
 
-    `ldap_server` IP address of current LDAP server to which TrueNAS is connected.
+    `ldap_server` IP address of current LDAP server to which X-NAS is connected.
 
-    `ldap_server_name` DNS name of LDAP server to which TrueNAS is connected
+    `ldap_server_name` DNS name of LDAP server to which X-NAS is connected
 
     `realm` Kerberos realm
 
@@ -44,7 +44,7 @@ def get_domain_info(domain: str, retry: bool = False) -> dict:
 
     `server_time` timestamp.
 
-    `kdc_server` Kerberos KDC to which TrueNAS is connected
+    `kdc_server` Kerberos KDC to which X-NAS is connected
 
     `server_time_offset` current time offset from DC.
 

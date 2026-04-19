@@ -1,10 +1,10 @@
 Role-Based Access Control
 =========================
 
-TrueNAS uses a role-based access control (RBAC) system to restrict which API
+X-NAS uses a role-based access control (RBAC) system to restrict which API
 methods a session may call.  Roles are grouped into *privileges*, and privileges
 are linked to local or directory-service groups.  When a user authenticates, the
-TrueNAS resolves that user's group memberships to a set of active roles, which
+X-NAS resolves that user's group memberships to a set of active roles, which
 are then checked against every API call the user makes.
 
 Privilege management is performed via the ``privilege.*`` API namespace
@@ -306,7 +306,7 @@ session when ``system.security`` has ``enable_gpos_stig=true``.
    * - TrueCommand
      - ``TRUECOMMAND_READ``, ``TRUECOMMAND_WRITE``
      - ``TRUECOMMAND_WRITE`` unavailable under STIG
-   * - TrueNAS Connect
+   * - X-NAS Connect
      - ``TRUENAS_CONNECT_READ``, ``TRUENAS_CONNECT_WRITE``
      - ``TRUENAS_CONNECT_WRITE`` unavailable under STIG
    * - Virtual Machines
@@ -351,7 +351,7 @@ STIG profile; a non-null value identifies the profile(s) that allow it.
    * - ``TRUECOMMAND_WRITE``
      - TrueCommand integration
    * - ``TRUENAS_CONNECT_WRITE``
-     - TrueNAS Connect cloud service
+     - X-NAS Connect cloud service
 
 For ``FULL_ADMIN`` specifically, see the note in the `FULL_ADMIN`_ section above.
 

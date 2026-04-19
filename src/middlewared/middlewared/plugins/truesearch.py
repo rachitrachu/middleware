@@ -30,7 +30,7 @@ class TrueSearchService(Service):
         if await self.middleware.call('system.license') is None:
             if (await self.middleware.call('tn_connect.config'))['status'] != 'CONFIGURED':
                 reasons.append(
-                    'The system must be connected to TrueNAS Connect, or have an Enterprise License key installed.'
+                    'The system must be connected to X-NAS Connect, or have an Enterprise License key installed.'
                 )
 
         return reasons

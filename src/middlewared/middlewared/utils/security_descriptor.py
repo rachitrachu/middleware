@@ -55,7 +55,7 @@ def share_acl_to_sd_bytes(share_acl: list[dict[str, Any]]) -> bytes:
             raise ValueError(
                 'CUSTOM perm is not supported for writing an ACL. The '
                 'presence of this value indicates that the share ACL was '
-                'written outside of the TrueNAS API / UI and so should be '
+                'written outside of the X-NAS API / UI and so should be '
                 'adjusted to a supported value'
             )
 

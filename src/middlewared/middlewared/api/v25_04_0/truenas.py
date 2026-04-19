@@ -2,77 +2,77 @@ from middlewared.api.base import BaseModel, LongString
 
 
 __all__ = [
-    'TrueNASSetProductionArgs', 'TrueNASSetProductionResult',
-    'TrueNASIsProductionArgs', 'TrueNASIsProductionResult',
-    'TrueNASAcceptEulaArgs', 'TrueNASAcceptEulaResult',
-    'TrueNASIsEulaAcceptedArgs', 'TrueNASIsEulaAcceptedResult',
-    'TrueNASGetEulaArgs', 'TrueNASGetEulaResult',
-    'TrueNASIsIxHardwareArgs', 'TrueNASIsIxHardwareResult',
-    'TrueNASGetChassisHardwareArgs', 'TrueNASGetChassisHardwareResult',
-    'TrueNASManagedByTruecommandArgs', 'TrueNASManagedByTruecommandResult'
+    'X-NASSetProductionArgs', 'X-NASSetProductionResult',
+    'X-NASIsProductionArgs', 'X-NASIsProductionResult',
+    'X-NASAcceptEulaArgs', 'X-NASAcceptEulaResult',
+    'X-NASIsEulaAcceptedArgs', 'X-NASIsEulaAcceptedResult',
+    'X-NASGetEulaArgs', 'X-NASGetEulaResult',
+    'X-NASIsIxHardwareArgs', 'X-NASIsIxHardwareResult',
+    'X-NASGetChassisHardwareArgs', 'X-NASGetChassisHardwareResult',
+    'X-NASManagedByTruecommandArgs', 'X-NASManagedByTruecommandResult'
 ]
 
 
-class TrueNASManagedByTruecommandArgs(BaseModel):
+class X-NASManagedByTruecommandArgs(BaseModel):
     pass
 
 
-class TrueNASManagedByTruecommandResult(BaseModel):
+class X-NASManagedByTruecommandResult(BaseModel):
     result: bool
 
 
-class TrueNASGetChassisHardwareArgs(BaseModel):
+class X-NASGetChassisHardwareArgs(BaseModel):
     pass
 
 
-class TrueNASGetChassisHardwareResult(BaseModel):
+class X-NASGetChassisHardwareResult(BaseModel):
     result: str
 
 
-class TrueNASIsIxHardwareArgs(BaseModel):
+class X-NASIsIxHardwareArgs(BaseModel):
     pass
 
 
-class TrueNASIsIxHardwareResult(BaseModel):
+class X-NASIsIxHardwareResult(BaseModel):
     result: bool
 
 
-class TrueNASGetEulaArgs(BaseModel):
+class X-NASGetEulaArgs(BaseModel):
     pass
 
 
-class TrueNASGetEulaResult(BaseModel):
+class X-NASGetEulaResult(BaseModel):
     result: LongString | None
 
 
-class TrueNASIsEulaAcceptedArgs(BaseModel):
+class X-NASIsEulaAcceptedArgs(BaseModel):
     pass
 
 
-class TrueNASIsEulaAcceptedResult(BaseModel):
+class X-NASIsEulaAcceptedResult(BaseModel):
     result: bool
 
 
-class TrueNASAcceptEulaArgs(BaseModel):
+class X-NASAcceptEulaArgs(BaseModel):
     pass
 
 
-class TrueNASAcceptEulaResult(BaseModel):
+class X-NASAcceptEulaResult(BaseModel):
     result: None
 
 
-class TrueNASIsProductionArgs(BaseModel):
+class X-NASIsProductionArgs(BaseModel):
     pass
 
 
-class TrueNASIsProductionResult(BaseModel):
+class X-NASIsProductionResult(BaseModel):
     result: bool
 
 
-class TrueNASSetProductionArgs(BaseModel):
+class X-NASSetProductionArgs(BaseModel):
     production: bool
     attach_debug: bool = False
 
 
-class TrueNASSetProductionResult(BaseModel):
+class X-NASSetProductionResult(BaseModel):
     result: dict | None

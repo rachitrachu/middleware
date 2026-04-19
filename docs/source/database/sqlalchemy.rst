@@ -2,7 +2,7 @@ SQLAlchemy
 ==========
 
 `SQLAlchemy <https://www.sqlalchemy.org>`_ is a powerful SQL toolkit for Python. For our modest purpose of structuring
-TrueNAS configuration we only use the following components:
+X-NAS configuration we only use the following components:
 
 * `Database Abstraction Layer <https://docs.sqlalchemy.org/en/latest/core/engines.html>`_
 * `SQL Query Generator <https://docs.sqlalchemy.org/en/14/core/tutorial.html>`_

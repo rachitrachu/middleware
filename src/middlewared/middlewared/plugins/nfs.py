@@ -344,7 +344,7 @@ class NFSService(SystemServiceService):
             if not gc["gc_hostname_virtual"] or not gc["gc_domain"]:
                 verrors.add(
                     "nfs_update.v4",
-                    "Enabling kerberos authentication on TrueNAS HA requires setting the virtual hostname and "
+                    "Enabling kerberos authentication on X-NAS HA requires setting the virtual hostname and "
                     "domain"
                 )
 
@@ -443,7 +443,7 @@ class SharingNFSService(SharingService):
         `hosts` is a list of IP's/hostnames which are allowed to access the share. If empty, all IP's/hostnames are
         allowed.
 
-        `expose_snapshots` enable TrueNAS Enterprise feature to allow access
+        `expose_snapshots` enable X-NAS Enterprise feature to allow access
         to the ZFS snapshot directory over NFS. This feature requires a valid
         enterprise license.
         """

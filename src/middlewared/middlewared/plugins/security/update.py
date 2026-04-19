@@ -104,7 +104,7 @@ class SystemSecurityService(ConfigService):
     @private
     async def validate_stig(self, current_cred):
         # The following validation steps ensure that users have the ability to
-        # manage the TrueNAS server after enabling STIG compatibility.
+        # manage the X-NAS server after enabling STIG compatibility.
         two_factor = await self.middleware.call('auth.twofactor.config')
         if not two_factor['enabled']:
             raise ValidationError(
@@ -144,7 +144,7 @@ class SystemSecurityService(ConfigService):
         if (await self.middleware.call('tn_connect.config'))['enabled']:
             raise ValidationError(
                 'system_security_update.enable_gpos_stig',
-                'Please disable TrueNAS Connect as it is not supported under '
+                'Please disable X-NAS Connect as it is not supported under '
                 'General Purpose OS STIG compatibility mode.'
             )
 
@@ -327,8 +327,8 @@ class SystemSecurityService(ConfigService):
         Update System Security Service Configuration.
 
         This method is used to change the FIPS, STIG, and local account
-        policies for TrueNAS Enterprise. These features are not
-        available in community editions of TrueNAS.
+        policies for X-NAS Enterprise. These features are not
+        available in community editions of X-NAS.
         """
         is_ha = await self.middleware.call('failover.licensed')
         reasons = await self.middleware.call('failover.disabled.reasons')

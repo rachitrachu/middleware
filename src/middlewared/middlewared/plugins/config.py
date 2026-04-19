@@ -175,7 +175,7 @@ class ConfigService(Service):
                     break
 
             if found_db_file is None:
-                raise CallError('Neither a valid tar or TrueNAS database file was provided.')
+                raise CallError('Neither a valid tar or X-NAS database file was provided.')
 
             p = subprocess.run([
                 'migrate',
@@ -184,7 +184,7 @@ class ConfigService(Service):
             ], capture_output=True, text=True)
             if p.returncode != 0:
                 raise CallError(
-                    f'Uploaded TrueNAS database file is not valid:\n{p.stderr}'
+                    f'Uploaded X-NAS database file is not valid:\n{p.stderr}'
                 )
 
             # now copy uploaded files/dirs to respective location

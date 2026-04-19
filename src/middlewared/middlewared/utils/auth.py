@@ -70,7 +70,7 @@ def aal_auth_mechanism_check(mechanism_str: str, aal: AuthenticatorAssuranceLeve
 # Reauthentication should be performed every 30 days after which session should be
 # logged out.
 #
-# NOTE: this is baseline for TrueNAS authentication
+# NOTE: this is baseline for X-NAS authentication
 AA_LEVEL1 = AuthenticatorAssuranceLevel(
     max_session_age=86400 * 30,
     max_inactivity=None,
@@ -144,7 +144,7 @@ class OTPWResponse:
 class OnetimePasswordManager:
     """
     This class stores passkeys that may be used precisely once to authenticate
-    to the TrueNAS server as a particular user. This is to provide a mechanism
+    to the X-NAS server as a particular user. This is to provide a mechanism
     for a system administrator to provision a temporary password for a user
     that may be used to set two-factor authentication and user password.
     """

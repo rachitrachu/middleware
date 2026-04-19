@@ -25,22 +25,22 @@ Persistent state
 ****************
 
 There are several directories that are used to store persistent state related to the middlewared
-process and TrueNAS servers.
+process and X-NAS servers.
 
 `/conf` -- this ZFS dataset is readonly and contains configuration that is not expected to change at runtime.
 An example of this would be our audit rulesets or some metadata about the boot pool when it is installed.
 This dataset is not cloned during the upgrade process and information is not preserved as part of configuration
 backups.
 
-`/data` -- this ZFS dataset contains the TrueNAS configuration file `freenas-v1.db` and various install-specific
-configuration files that must persist across TrueNAS upgrades. Items that need to be included in the configuration
+`/data` -- this ZFS dataset contains the X-NAS configuration file `freenas-v1.db` and various install-specific
+configuration files that must persist across X-NAS upgrades. Items that need to be included in the configuration
 tarball should generally be placed here. Permissions on this directory must be 0o755, but many files here should
 be set to 0o700. All files and directories should be owned by root:root.
 
 `/data/subsystems` -- this directory contains application-specific configuration that must persist between
 installs that is not suitable for datastore insertion. The convention is to create a new directory with the name of
 the middleware plugin that needs persistent state. Configuration information stored in these directories must be
-included in the TrueNAS configuration backup and restored on configuration upload.
+included in the X-NAS configuration backup and restored on configuration upload.
 
 `/var/lib/truenas-middleware` -- this directory contains persistent middleware state that is applicable to the
 current boot environment only. It is a safe place to store data that we want to persist across reboots, but not

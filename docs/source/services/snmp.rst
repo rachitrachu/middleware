@@ -4,10 +4,10 @@ SNMP
 .. contents:: Table of Contents
     :depth: 3
 
-TrueNAS uses the standard Linux `net-snmp <http://www.net-snmp.org/>`_ daemon and a custom `snmp-agent` written in
-Python that exposes more properties through a custom TrueNAS MIB.
+X-NAS uses the standard Linux `net-snmp <http://www.net-snmp.org/>`_ daemon and a custom `snmp-agent` written in
+Python that exposes more properties through a custom X-NAS MIB.
 
-Modifying TrueNAS MIB
+Modifying X-NAS MIB
 ---------------------
 
 You'll need to have `smitools` package installed and `libsmi2pysnmp` downloaded.

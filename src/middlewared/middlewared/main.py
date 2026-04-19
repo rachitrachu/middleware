@@ -109,7 +109,7 @@ from middlewared.plugins.container.lxc import LXCConfigService
 from middlewared.plugins.ntp import NTPServerService
 from middlewared.plugins.ports import PortService
 from middlewared.plugins.snapshot import PeriodicSnapshotTaskService
-from middlewared.plugins.truenas import TrueNASService
+from middlewared.plugins.truenas import X-NASService
 from middlewared.plugins.truesearch import TrueSearchService
 from middlewared.plugins.tunable import TunableService
 from middlewared.plugins.webshare import WebshareService
@@ -222,7 +222,7 @@ class ServiceContainer(BaseServiceContainer):
         self.port = PortService(middleware)
         self.sharing = SharingServicesContainer(middleware)
         self.system = SystemServicesContainer(middleware)
-        self.truenas = TrueNASService(middleware)
+        self.truenas = X-NASService(middleware)
         self.truesearch = TrueSearchService(middleware)
         self.tunable = TunableService(middleware)
         self.update = UpdateService(middleware)

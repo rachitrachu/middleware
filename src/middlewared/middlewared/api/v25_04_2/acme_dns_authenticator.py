@@ -14,7 +14,7 @@ __all__ = [
     'DNSAuthenticatorDeleteResult', 'DNSAuthenticatorAuthenticatorSchemasArgs',
     'DNSAuthenticatorAuthenticatorSchemasResult',
     'Route53SchemaArgs', 'ACMECustomDNSAuthenticatorReturns', 'CloudFlareSchemaArgs', 'DigitalOceanSchemaArgs',
-    'OVHSchemaArgs', 'ShellSchemaArgs', 'TrueNASConnectSchemaArgs',
+    'OVHSchemaArgs', 'ShellSchemaArgs', 'X-NASConnectSchemaArgs',
 ]
 
 
@@ -32,12 +32,12 @@ class ACMECustomDNSAuthenticatorReturns(BaseModel):
     result: dict
 
 
-class TrueNASConnectSchema(BaseModel):
+class X-NASConnectSchema(BaseModel):
     pass
 
 
 @single_argument_args('attributes')
-class TrueNASConnectSchemaArgs(TrueNASConnectSchema):
+class X-NASConnectSchemaArgs(X-NASConnectSchema):
     pass
 
 

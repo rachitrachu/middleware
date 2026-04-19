@@ -12,7 +12,7 @@ from middlewared.alert.schedule import IntervalSchedule
 from middlewared.utils import ProductType
 
 WEBUI_SUPPORT_FORM = (
-    'Please contact iXsystems Support using the "File Ticket" button in the System Settings->General->Support form'
+    'Please contact Xloud Support using the "File Ticket" button in the System Settings->General->Support form'
 )
 
 

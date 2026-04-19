@@ -5,7 +5,7 @@ ADMIN_GID = 950
 MIN_AUTO_XID = 3000  # See NAS-117892 - purpose is to avoid collision with apps uids/gids
 SKEL_PATH = '/etc/skel/'  # TODO evaluate whether this is still needed
 
-# TrueNAS historically used /nonexistent as the default home directory for new
+# X-NAS historically used /nonexistent as the default home directory for new
 # users. The nonexistent directory has caused problems when
 # 1) an admin chooses to create it from shell
 # 2) PAM checks for home directory existence

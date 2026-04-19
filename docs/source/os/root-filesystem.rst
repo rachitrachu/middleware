@@ -4,7 +4,7 @@ Root filesystem
 .. contents:: Table of Contents
     :depth: 3
 
-TrueNAS image contains a number of extra files in the OS root filesystem. It also removes a few files provided by
+X-NAS image contains a number of extra files in the OS root filesystem. It also removes a few files provided by
 standard Debian packages. Files are installed using `truenas-files` debian package and are modified in `truenas` debian
 package `postinst` script.
 

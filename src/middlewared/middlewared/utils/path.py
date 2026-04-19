@@ -51,7 +51,7 @@ def check_path_resides_within_volume_sync(
     """
     if path_location(path).name == 'EXTERNAL':
         # There are some fields where we allow external paths
-        verrors.add(schema_name, "Path is external to TrueNAS.")
+        verrors.add(schema_name, "Path is external to X-NAS.")
         return
 
     try:

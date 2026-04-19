@@ -4,7 +4,7 @@ from middlewared.common.attachment.certificate import CertificateServiceAttachme
 class TNCCertificateAttachment(CertificateServiceAttachmentDelegate):
 
     CERT_FIELD = 'certificate'
-    HUMAN_NAME = 'TrueNAS Connect Service'
+    HUMAN_NAME = 'X-NAS Connect Service'
     SERVICE = 'tn_connect'
 
 

@@ -411,7 +411,7 @@ class FilesystemService(Service):
         NOTE: depending on platform this may be changed from userspace.
 
         `dev(int)`: device id of the device containing the file. In the
-        context of the TrueNAS API, this is sufficient to uniquely identify
+        context of the X-NAS API, this is sufficient to uniquely identify
         a given dataset.
 
         `mount_id(int)`: the mount id for the filesystem underlying the given path.
@@ -435,7 +435,7 @@ class FilesystemService(Service):
         file. See statx(2) manpage for more details.
         """
         if path_location(_path) is FSLocation.EXTERNAL:
-            raise CallError(f'{_path} is external to TrueNAS', errno.EXDEV)
+            raise CallError(f'{_path} is external to X-NAS', errno.EXDEV)
 
         path = pathlib.Path(_path)
         if not path.is_absolute():

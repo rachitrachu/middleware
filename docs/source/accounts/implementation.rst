@@ -6,12 +6,12 @@ Implementation notes                                                            
 
 Identity providers
 ==================
-Users and groups on the TrueNAS servers are provided by Name Service Switch (NSS) modules configured on the TrueNAS
+Users and groups on the X-NAS servers are provided by Name Service Switch (NSS) modules configured on the X-NAS
 server. Local accounts are provided by the standard "files" NSS module provided by glibc. Directory services accounts
-are provided by winbindd when TrueNAS is joined to an Active Directory domain, or SSSD if TrueNAS is joined to a FreeIPA
-domain or bound to an LDAP server. In the context of TrueNAS accounts, these modules provide the standard passwd(5) and
-group(5) entries on the server as exposed in cpython by the pwd and grp modules, and in the TrueNAS middleware by
-`utils/nss/pwd` and `utils/nss/grp`. The configured identity providers in TrueNAS control the implementation of
+are provided by winbindd when X-NAS is joined to an Active Directory domain, or SSSD if X-NAS is joined to a FreeIPA
+domain or bound to an LDAP server. In the context of X-NAS accounts, these modules provide the standard passwd(5) and
+group(5) entries on the server as exposed in cpython by the pwd and grp modules, and in the X-NAS middleware by
+`utils/nss/pwd` and `utils/nss/grp`. The configured identity providers in X-NAS control the implementation of
 of authorization of authenticated middlewared sessions. Authentication itself is provided by Linux Pluggable
 Authentication Modules (PAM). See `docs/source/middleware/session.rst` for details on authentication and session
 management.
@@ -20,12 +20,12 @@ management.
 Configuration
 -------------
 Identity providers are initially configured through administrative interaction with the middlewared process through
-the TrueNAS webui or API. Relevant state is stored in the freenas-v1.db sqlite3 database, but this file is not
+the X-NAS webui or API. Relevant state is stored in the freenas-v1.db sqlite3 database, but this file is not
 consumed by identity providers. The configuration files and steps for identity providers are defined as below in
 the context of headings associated by the relevant NSS modules. NSS modules are enabled by writing the
 `/etc/nsswitch.conf` file, which is performed by the middlewared process when `etc.generate` `nss` is called.
 NOTE: older versions of glibc would not allow applications to reload the nsswitch.conf file at runtime, which
-is reflected in early versions of TrueNAS SCALE having a static `nsswitch.conf` file. The contents of the
+is reflected in early versions of X-NAS SCALE having a static `nsswitch.conf` file. The contents of the
 `nsswitch.conf` file are changed as directory services are enabled and disabled.
 
 
@@ -41,7 +41,7 @@ nss_winbind
 ^^^^^^^^^^^
 The winbind NSS module is provided by the samba suite (https://github.com/truenas/samba) and provides accounts
 when joined to active directory. Note that the winbindd process (not the NSS module) provides SIDs for local
-accounts provided by the files NSS module when TrueNAS does not have directory services configured. Hence,
+accounts provided by the files NSS module when X-NAS does not have directory services configured. Hence,
 it is expected the winbindd process will be present and running even if SMB or directory services are not
 configured. The relevant configuration file is `/etc/smb4.conf`, but management of winbindd in the context of
 its role as an identity provider must be through the `directoryservices` middlewared plugin and is non-trivial.
@@ -50,7 +50,7 @@ its role as an identity provider must be through the `directoryservices` middlew
 nss_sss
 ^^^^^^^
 The SSS NSS module is provided by System Security Services Daemon (https://github.com/truenas/sssd) and provides
-directory services accounts when TrueNAS is joined to a FreeIPA domain or bound to an LDAP server.
+directory services accounts when X-NAS is joined to a FreeIPA domain or bound to an LDAP server.
 The relevant configuration file is `/etc/sssd/sssd.conf`, but management of sssd in the context of its role as
 an identity provider must be throuh the `directoryservices` middlewared plugin and is non-trivial.
 
@@ -59,12 +59,12 @@ Caching
 -------
 
 The name service cache daemon (nscd(8)) is provided by glibc and has the capability to cache NSS responses
-for accounts. This capability is *disabled* in TrueNAS and must remain disabled because it interacts poorly
+for accounts. This capability is *disabled* in X-NAS and must remain disabled because it interacts poorly
 with NSS modules that implement their own internal caching such as nss_winbind and nss_sss.
 
 The nss_winbind and nss_sss modules implement internal caches for directory server responses in order to
 avoid introducing network-related latencies to application requests for account information. This is critical
-to the proper operation of the TrueNAS server under load.
+to the proper operation of the X-NAS server under load.
 
 
 Data structures
@@ -105,7 +105,7 @@ NOTE: not all NSS modules will populate `gr_mem` in responses due to cost of ret
 Errata
 ------
 A broken directory services configuration may introduce significant delays for almost all shell or API
-interactions with the TrueNAS server to the point where it can become unusable. This can for example manifest
+interactions with the X-NAS server to the point where it can become unusable. This can for example manifest
 as hangs for up to 60 seconds when trying to stat(1) a file, ls(1) a directory, or perform various
 administrative actions. A temporary remedy if access for local accounts is available is to manually edit
 `/etc/nsswitch.conf` to remove the `sss` or `winbind` entries from the `group` and `passwd` lines of the
@@ -185,14 +185,14 @@ Local - the `uid` or `gid` value is written to the `/etc/passwd` or `/etc/group`
 are written when `etc.generate` `users` is called.
 
 LDAP / IPA - the `uid` or `gid` value is assigned in the LDAP schema of the remote LDAP server. The NSS
-modules on TrueNAS prevent honoring values that are less than `1000` to prevent collisions between accounts
+modules on X-NAS prevent honoring values that are less than `1000` to prevent collisions between accounts
 on the LDAP server and local system accounts.
 
 Active Directory - by default the LDAP schema in active directory does not explicitly specify `uid` or `gid`
 mappings and so the onus is on the system administrator to select reasonable ranges to assign to the AD domain.
 
-NOTE that TrueNAS may have multiple ranges assigned to different active directory domains depending on TrueNAS
-configuration and the particulars of the domain to which TrueNAS is joined.
+NOTE that X-NAS may have multiple ranges assigned to different active directory domains depending on X-NAS
+configuration and the particulars of the domain to which X-NAS is joined.
 
 
 user.get_user_obj and group.get_group_obj
@@ -211,11 +211,11 @@ user.query and group.query
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 These APIs retrieve much expanded user account information, and reflect a significant amount of technical debt
-from the early days of FreeNAS / TrueNAS. Many fields in the query respone are extended at call time through
+from the early days of FreeNAS / X-NAS. Many fields in the query respone are extended at call time through
 datastore extend methods because the fields are implemented in separate database tables from the main account-related
 table. The reason why this was adopted is that directory service accounts are not tracked in our database, but
 we want users to be able to perform administrative actions such as granting them API keys or configuring two-factor
-authentication to TrueNAS. Since many fields here are not available for directory services users and groups, there
+authentication to X-NAS. Since many fields here are not available for directory services users and groups, there
 are methods in the idmap plugin to create `synthetic_user` and `synthetic_group` based on NSS responses to ensure
 API stability. The practical impact of this is that any schema change to user and group entries must also update
 those methods for users and groups provided by directory services. NOTE that changes to directory services accounts
@@ -236,16 +236,16 @@ cache entries as accounts are looked up for various reasons (for example when lo
 PAM Configuration
 =================
 
-TrueNAS uses Linux Pluggable Authentication Modules (PAM) for authentication and session management. While NSS
+X-NAS uses Linux Pluggable Authentication Modules (PAM) for authentication and session management. While NSS
 modules provide account information (passwd/group entries), PAM handles the authentication flow and session
-lifecycle. TrueNAS provides three primary PAM service configurations that applications should use depending on
+lifecycle. X-NAS provides three primary PAM service configurations that applications should use depending on
 their authentication requirements.
 
 
-TrueNAS PAM Service Files
+X-NAS PAM Service Files
 --------------------------
 
-All TrueNAS PAM configuration files are defined as Mako templates in
+All X-NAS PAM configuration files are defined as Mako templates in
 ``src/middlewared/middlewared/etc_files/pam.d/`` and are rendered during system configuration to generate the
 actual PAM configuration files in ``/etc/pam.d/``. The rendering incorporates system settings such as directory
 service authentication state (a licensed feature), STIG mode security settings (including faillock
@@ -269,7 +269,7 @@ This is the primary PAM service for standard username/password authentication th
 * Password changes are denied through this service
 
 **Use this service when:** Your application needs to authenticate users with username and password credentials
-in the same manner as the TrueNAS Web UI and API. This is the most common authentication method for interactive
+in the same manner as the X-NAS Web UI and API. This is the most common authentication method for interactive
 user sessions.
 
 
@@ -291,7 +291,7 @@ This PAM service is used for authentication with API keys and SCRAM credentials.
 
 **Use this service when:** Your application needs to authenticate API requests using API keys or SCRAM-SHA512
 authentication. This is appropriate for programmatic access where users have generated API keys through the
-TrueNAS interface.
+X-NAS interface.
 
 
 /etc/pam.d/truenas-unix
@@ -323,7 +323,7 @@ password verification itself.
 Session Management
 ------------------
 
-All three TrueNAS PAM services support session management through the shared ``/etc/pam.d/truenas-session``
+All three X-NAS PAM services support session management through the shared ``/etc/pam.d/truenas-session``
 configuration. Applications using these PAM services **must** call ``pam_open_session()`` and
 ``pam_close_session()`` to properly manage sessions.
 
@@ -359,14 +359,14 @@ Example session lifecycle in a PAM application::
     pam_end(pamh, PAM_SUCCESS);
 
 
-Guidelines for TrueNAS Applications
+Guidelines for X-NAS Applications
 ------------------------------------
 
-TrueNAS-developed applications should follow these guidelines when implementing authentication:
+X-NAS-developed applications should follow these guidelines when implementing authentication:
 
-1. **Use TrueNAS PAM services**: Always use one of the three TrueNAS PAM service files (``truenas``,
+1. **Use X-NAS PAM services**: Always use one of the three X-NAS PAM service files (``truenas``,
    ``truenas-api-key``, or ``truenas-unix``) rather than creating custom PAM configurations. This ensures
-   consistency with TrueNAS security policies and proper integration with features like directory services, 2FA,
+   consistency with X-NAS security policies and proper integration with features like directory services, 2FA,
    and STIG mode.
 
 2. **Choose the appropriate service**: Select the PAM service that matches your authentication method:
@@ -387,7 +387,7 @@ TrueNAS-developed applications should follow these guidelines when implementing 
    repeated failures.
 
 6. **Do not implement custom authentication**: If you need an authentication method not supported by the existing
-   TrueNAS PAM services, discuss with the middleware team rather than implementing a custom solution. The
+   X-NAS PAM services, discuss with the middleware team rather than implementing a custom solution. The
    ``truenas-unix`` service exists for cases where authentication happens outside PAM, but this requires careful
    security review.
 
@@ -438,7 +438,7 @@ Common Pitfalls
    alternative mechanism.
 
 3. **Creating custom PAM configurations**: Don't create application-specific PAM files like
-   ``/etc/pam.d/myapp``. Use the TrueNAS services to ensure consistency with system security policies.
+   ``/etc/pam.d/myapp``. Use the X-NAS services to ensure consistency with system security policies.
 
 4. **Ignoring account validation**: Always call ``pam_acct_mgmt()`` after authentication. An account may
    authenticate successfully but still be locked, expired, or otherwise invalid.
@@ -447,10 +447,10 @@ Common Pitfalls
    ``middlewared.utils.account.authenticator.TruenasPamFile`` rather than hardcoding service names as strings.
 
 
-TrueNAS PAM Module Environmental Variables
+X-NAS PAM Module Environmental Variables
 ===========================================
 
-The TrueNAS PAM module (``pam_truenas.so``) uses environmental variables for session data exchange with PAM
+The X-NAS PAM module (``pam_truenas.so``) uses environmental variables for session data exchange with PAM
 applications. For full implementation details, see https://github.com/truenas/pam_truenas
 
 Application to PAM Module
@@ -601,10 +601,10 @@ connection origin details, and session creation timestamps. Sessions are automat
 properly call ``pam_open_session()`` and cleaned up when ``pam_close_session()`` is called.
 
 
-Identity providers and TrueNAS features
+Identity providers and X-NAS features
 =======================================
 
-The interaction between accounts from the configured NSS modules and features / services provided by the TrueNAS
+The interaction between accounts from the configured NSS modules and features / services provided by the X-NAS
 server are complex. An example is when a service defines a guest account or overrides NSS responses when generating
 internal user account tokens ("unix token" in following discussion). What follows is a rough overview of this
 interaction on a per-service basis.

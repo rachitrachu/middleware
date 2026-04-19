@@ -74,7 +74,7 @@ class NetworkConfigurationService(ConfigService):
     @private
     def network_config_extend(self, data):
         # hostname_local will be used when the hostname of the current machine
-        # needs to be used so it works with either TrueNAS COMMUNITY_EDITION or ENTERPRISE
+        # needs to be used so it works with either X-NAS COMMUNITY_EDITION or ENTERPRISE
         data['hostname_local'] = data['hostname']
 
         if not self.middleware.call_sync('system.is_enterprise'):
@@ -251,7 +251,7 @@ class NetworkConfigurationService(ConfigService):
             if ds['type'] in (DSType.AD.value, DSType.IPA.value) and ds['status'] != DSStatus.JOINING.name:
                 verrors.add(
                     schema,
-                    'You cannot change this parameter after TrueNAS joins a domain. '
+                    'You cannot change this parameter after X-NAS joins a domain. '
                     'To change it, first leave the domain cleanly. '
                     'Then change the parameter and rejoin the domain.'
                 )
@@ -261,7 +261,7 @@ class NetworkConfigurationService(ConfigService):
             if ds['type'] in (DSType.AD.value, DSType.IPA.value) and ds['status'] == DSStatus.HEALTHY.name:
                 verrors.add(
                     'global_configuration_update.domain',
-                    'You cannot change this parameter after TrueNAS joins a domain.'
+                    'You cannot change this parameter after X-NAS joins a domain.'
                 )
 
         verrors.check()

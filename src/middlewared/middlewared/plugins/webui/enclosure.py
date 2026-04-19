@@ -76,7 +76,7 @@ class WebUIEnclosureService(Service):
         roles=['ENCLOSURE_READ']
     )
     def dashboard(self):
-        """This endpoint is used by the webUI for the enclosure dashboard page for TrueNAS sold hardware.
+        """This endpoint is used by the webUI for the enclosure dashboard page for X-NAS sold hardware.
 
         An example of what this returns looks like the following (some redundant information cut out for brevity)::
 

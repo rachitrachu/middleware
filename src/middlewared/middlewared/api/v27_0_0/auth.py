@@ -79,7 +79,7 @@ class AuthSessionsEntry(BaseModel):
     * `LOGIN_ONETIME_PASSWORD`: One-time password authentication
     * `API_KEY`: API key authentication
     * `TOKEN`: Token-based authentication
-    * `TRUENAS_NODE`: TrueNAS cluster node authentication
+    * `TRUENAS_NODE`: X-NAS cluster node authentication
     """
     credentials_data: BaseCredentialData | UserCredentialData | APIKeyCredentialData | TokenCredentialData
     """Detailed credential information specific to the authentication method."""
@@ -94,7 +94,7 @@ class AuthCommonOptions(BaseModel):
     """Whether to include detailed user information in the authentication response."""
     reconnect_token: bool = False
     """Whether to include a reauthentication token in the authentication response. The `ttl` for the \
-    generated token depends on the TrueNAS webui setting for preferences->lifetime, with a default \
+    generated token depends on the X-NAS webui setting for preferences->lifetime, with a default \
     value of 600 seconds."""
 
 

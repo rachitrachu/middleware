@@ -26,12 +26,12 @@ class FailoverInterfaceNotFoundAlert(AlertClass):
     )
 
 
-class TrueNASVersionsMismatchAlert(AlertClass):
+class X-NASVersionsMismatchAlert(AlertClass):
     config = AlertClassConfig(
         category=AlertCategory.HA,
         level=AlertLevel.CRITICAL,
-        title='TrueNAS Software Versions Must Match Between Storage Controllers',
-        text='TrueNAS software versions must match between storage controllers.',
+        title='X-NAS Software Versions Must Match Between Storage Controllers',
+        text='X-NAS software versions must match between storage controllers.',
         products=(ProductType.ENTERPRISE,),
     )
 
@@ -85,7 +85,7 @@ class FailoverAlertSource(AlertSource):
             local_version = await self.middleware.call('system.version')
             remote_version = await self.middleware.call('failover.call_remote', 'system.version')
             if local_version != remote_version:
-                return [Alert(TrueNASVersionsMismatchAlert())]
+                return [Alert(X-NASVersionsMismatchAlert())]
 
             local = await self.middleware.call('failover.vip.get_states')
             remote = await self.middleware.call('failover.call_remote', 'failover.vip.get_states')

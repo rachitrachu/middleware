@@ -109,7 +109,7 @@ class BootService(Service):
 
         format_opts = {}
         if not options['expand']:
-            # Lets try to find out the size of the current ZFS or FreeBSD-ZFS (upgraded TrueNAS CORE installation)
+            # Lets try to find out the size of the current ZFS or FreeBSD-ZFS (upgraded X-NAS CORE installation)
             # partition so the new partition is not bigger, preventing size mismatch if one of them fail later on.
             zfs_part = await self.middleware.call(
                 'disk.get_partition_with_uuids',

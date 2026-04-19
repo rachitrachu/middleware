@@ -596,7 +596,7 @@ class RsyncTaskService(TaskPathService, TaskStateMixin):
                 err = (
                     "rsync command with compression enabled failed with STREAMIO error. "
                     "This may indicate that remote server lacks support for the new-style "
-                    "compression used by TrueNAS."
+                    "compression used by X-NAS."
                 )
 
             if not rsync['quiet']:

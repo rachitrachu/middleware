@@ -132,7 +132,7 @@ class SystemAdvancedService(ConfigService):
 
         with tempfile.NamedTemporaryFile(mode="w+", encoding="utf-8") as f:
             f.write(textwrap.dedent(f"""\
-                menuentry 'TrueNAS' {{
+                menuentry 'X-NAS' {{
                     linux /boot/vmlinuz {kernel_extra_options}
                 }}
             """))

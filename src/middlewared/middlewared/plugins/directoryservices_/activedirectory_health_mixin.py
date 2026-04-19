@@ -90,7 +90,7 @@ class ADHealthMixin:
 
     def _recover_keytab(self) -> None:
         """
-        TrueNAS administrator has deleted the active directory machine account
+        X-NAS administrator has deleted the active directory machine account
         keytab. We can most likely recover it using the stored secrets in Samba's
         secrets.tdb file.
         """
@@ -138,22 +138,22 @@ class ADHealthMixin:
                 case KRB5ErrCode.KRB5KDC_ERR_C_PRINCIPAL_UNKNOWN:
                     faulted_reason = (
                         f"The domain controller at {kdc_override} said that the "
-                        "TrueNAS computer account does not exist. This happened after the "
-                        "TrueNAS server tried to recover the secret from a saved backup. "
-                        "This means that the TrueNAS account was deleted or that the domain "
+                        "X-NAS computer account does not exist. This happened after the "
+                        "X-NAS server tried to recover the secret from a saved backup. "
+                        "This means that the X-NAS account was deleted or that the domain "
                         "controllers do not agree about the list of computer accounts. "
-                        "You may need to re-join TrueNAS to Active Directory. "
+                        "You may need to re-join X-NAS to Active Directory. "
                     )
                 case KRB5ErrCode.KRB5_PREAUTH_FAILED:
                     faulted_reason = (
                         f"The domain controller at {kdc_override} said that the "
-                        "TrueNAS computer account credentials are not valid. This means that "
-                        "saved credentials on TrueNAS do not match the credentials expected by"
-                        "the domain controller. This can happen if the TrueNAS configuration was "
+                        "X-NAS computer account credentials are not valid. This means that "
+                        "saved credentials on X-NAS do not match the credentials expected by"
+                        "the domain controller. This can happen if the X-NAS configuration was "
                         "restored from a backup, if the domain controllers in the domain do "
-                        "not agree about the credentials, or if someone changed the TrueNAS "
+                        "not agree about the credentials, or if someone changed the X-NAS "
                         "credentials through an unsupported method. You may need to re-join "
-                        "TrueNAS to Active Directory."
+                        "X-NAS to Active Directory."
                     )
                 case _:
                     faulted_reason = f'Failed to validate stored credential: {krberr.errmsg}'
@@ -231,7 +231,7 @@ class ADHealthMixin:
             )
         except MatchNotFound:
             faulted_reason = (
-                'Active Directory secrets file lacks an entry for this TrueNAS server.'
+                'Active Directory secrets file lacks an entry for this X-NAS server.'
             )
             raise ADHealthError(
                 ADHealthCheckFailReason.AD_SECRET_ENTRY_MISSING,
@@ -250,7 +250,7 @@ class ADHealthMixin:
                 faulted_reason = (
                     'Stored machine account secret is invalid. This may indicate that '
                     'the machine account password was reset in Active Directory without '
-                    'corresponding changes being made to the TrueNAS server configuration.'
+                    'corresponding changes being made to the X-NAS server configuration.'
                 )
                 raise ADHealthError(
                     ADHealthCheckFailReason.AD_SECRET_INVALID,
@@ -263,7 +263,7 @@ class ADHealthMixin:
             ], {'get': True})
         except MatchNotFound:
             faulted_reason = (
-                'Machine account keytab is absent from TrueNAS configuration.'
+                'Machine account keytab is absent from X-NAS configuration.'
             )
             raise ADHealthError(
                 ADHealthCheckFailReason.AD_KEYTAB_INVALID,

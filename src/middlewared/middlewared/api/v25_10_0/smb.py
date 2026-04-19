@@ -131,16 +131,16 @@ SMBEncryption = Literal['DEFAULT', 'NEGOTIATE', 'DESIRED', 'REQUIRED']
 
 
 class SMBEntry(BaseModel):
-    """ TrueNAS SMB server configuration. """
+    """ X-NAS SMB server configuration. """
     id: int
     """Unique identifier for the SMB service configuration."""
     netbiosname: NetbiosName
     """ The NetBIOS name of this server. """
     netbiosalias: list[NetbiosName]
-    """ Alternative netbios names of the TrueNAS server. These names are announced through NetBIOS name server and \
-    registered in Active Directory when TrueNAS joins the domain."""
+    """ Alternative netbios names of the X-NAS server. These names are announced through NetBIOS name server and \
+    registered in Active Directory when X-NAS joins the domain."""
     workgroup: NetbiosDomain
-    """ Workgroup name. When TrueNAS joins active directory, it automatically changes this value to match the NetBIOS \
+    """ Workgroup name. When X-NAS joins active directory, it automatically changes this value to match the NetBIOS \
     domain of the Active Directory domain. """
     description: str
     """ Description of the SMB server. SMB clients may see this description during some operations. """
@@ -150,7 +150,7 @@ class SMBEntry(BaseModel):
     """ Select character set for file names on local filesystem. Use this option only if you know the names are not \
     UTF-8. """
     localmaster: bool
-    """ When set to `true` the NetBIOS name server in TrueNAS participates in elections for the local master browser.
+    """ When set to `true` the NetBIOS name server in X-NAS participates in elections for the local master browser.
     When set to `false` the NetBIOS name server does not attempt to become a local master browser on a subnet and \
     loses all browsing elections.
 
@@ -158,12 +158,12 @@ class SMBEntry(BaseModel):
     syslog: bool
     """ Send log messages to syslog. Enable this option if you want SMB server error logs to be included in \
     information sent to a remote syslog server. NOTE: This requires that remote syslog is globally configured on \
-    TrueNAS. """
+    X-NAS. """
     aapl_extensions: bool
-    """ Enable support for SMB2/3 AAPL protocol extensions. This setting makes the TrueNAS server advertise support \
+    """ Enable support for SMB2/3 AAPL protocol extensions. This setting makes the X-NAS server advertise support \
     for Apple protocol extensions as a MacOS server. Enabling this is required for Time Machine support. """
     admin_group: str | None
-    """ The selected group has full administrator privileges on TrueNAS via the SMB protocol. """
+    """ The selected group has full administrator privileges on X-NAS via the SMB protocol. """
     guest: NonEmptyString
     """ SMB guest account username. This username provides access to legacy SMB shares with guest access enabled. \
     It must be a valid, existing local user account. """
@@ -177,19 +177,19 @@ class SMBEntry(BaseModel):
     multichannel: bool
     """ Enable SMB3 multi-channel support. """
     encryption: SMBEncryption
-    """ SMB2/3 transport encryption setting for the TrueNAS SMB server.
+    """ SMB2/3 transport encryption setting for the X-NAS SMB server.
 
     * `NEGOTIATE`: Enable negotiation of data encryption. Encrypt data only if the client explicitly requests it.
     * `DESIRED`: Enable negotiation of data encryption. Encrypt data on sessions and share connections for clients \
       that support it.
     * `REQUIRED`: Require data encryption for sessions and share connections.
       NOTE: Clients that do not support encryption cannot access SMB shares.
-    * `DEFAULT`: Use the TrueNAS SMB server default encryption settings. Currently, this is the same as `NEGOTIATE`.
+    * `DEFAULT`: Use the X-NAS SMB server default encryption settings. Currently, this is the same as `NEGOTIATE`.
     """
     bindip: list[IPvAnyInterface]
-    """ List of IP addresses used by the TrueNAS SMB server. """
+    """ List of IP addresses used by the X-NAS SMB server. """
     server_sid: SID | None
-    """ The unique identifier for the TrueNAS SMB server. It also serves as the domain SID for all local SMB user and \
+    """ The unique identifier for the X-NAS SMB server. It also serves as the domain SID for all local SMB user and \
     group accounts. """
     smb_options: str
     """ Additional unvalidated and unsupported configuration options for the SMB server.
@@ -370,9 +370,9 @@ class LegacyOpt(BaseModel):
 
     WARNING: This value should not be changed once data is written to the SMB share. """
     vuid: NonEmptyString | None = Field(default=None, examples=['d12aafdc-a7ac-4e3c-8bbd-6001f7f19819'])
-    """ This value is the Time Machine volume UUID for the SMB share. The TrueNAS server uses this value in the mDNS \
+    """ This value is the Time Machine volume UUID for the SMB share. The X-NAS server uses this value in the mDNS \
     advertisement for the Time Machine share. MacOS clients may use it to identify the volume. When you create or \
-    update a share, setting this value to null makes the TrueNAS server generate a new UUID for the share. """
+    update a share, setting this value to null makes the X-NAS server generate a new UUID for the share. """
     auxsmbconf: LongString = ''
     """ Additional parameters to set on the SMB share. Parameters must be separated by the new-line character.
 
@@ -408,9 +408,9 @@ class TimeMachineOpt(BaseModel):
     WARNING: ZFS dataset naming rules are more restrictive than normal path rules. For example, if `%u` is specified \
     then the character `\\` may be inserted in the username (which is not supported in ZFS)."""
     vuid: NonEmptyString | None = Field(default=None, examples=['d12aafdc-a7ac-4e3c-8bbd-6001f7f19819'])
-    """ This value is the Time Machine volume UUID for the SMB share. The TrueNAS server uses this value in the mDNS \
+    """ This value is the Time Machine volume UUID for the SMB share. The X-NAS server uses this value in the mDNS \
     advertisement for the Time Machine share. MacOS clients may use it to identify the volume. When you create or \
-    update a share, setting this value to null makes the TrueNAS server generate a new UUID for the share. """
+    update a share, setting this value to null makes the X-NAS server generate a new UUID for the share. """
 
 
 class MultiprotocolOpt(BaseModel):
@@ -448,7 +448,7 @@ class PrivateDatasetOpt(BaseModel):
 
     WARNING: ZFS dataset naming rules are more restrictive than normal path rules."""
     auto_quota: int = Field(default=0, examples=[10], ge=0)
-    """ Set the specified ZFS quota (in gibibytes) on new datasets. If the value is zero, TrueNAS disables \
+    """ Set the specified ZFS quota (in gibibytes) on new datasets. If the value is zero, X-NAS disables \
     automatic quotas for the share."""
     aapl_name_mangling: bool = False
     """ If set, illegal NTFS characters commonly used by MacOS clients are stored with their native values on the SMB \
@@ -470,7 +470,7 @@ class ExternalOpt(BaseModel):
     """ This is the path to the external server and share. Each server entry must include a full domain name or IP \
     address and share name. Separate the server and share with the `\\` character.
 
-    WARNING: The SMB server and TrueNAS middleware do not check if external paths are reachable. """
+    WARNING: The SMB server and X-NAS middleware do not check if external paths are reachable. """
 
     @field_validator('remote_path')
     @classmethod
@@ -501,7 +501,7 @@ SmbShareOptions = Annotated[
 
 
 class SharingSMBEntry(BaseModel):
-    """ SMB share entry on the TrueNAS server. """
+    """ SMB share entry on the X-NAS server. """
     id: int
     """Unique identifier for this SMB share."""
     purpose: Literal[
@@ -520,7 +520,7 @@ class SharingSMBEntry(BaseModel):
 
     * `DEFAULT_SHARE`: Set the SMB share for best compatibility with common SMB clients.
 
-    * `LEGACY_SHARE`: Set the SMB share for compatibility with older TrueNAS versions. Automated backend migrations \
+    * `LEGACY_SHARE`: Set the SMB share for compatibility with older X-NAS versions. Automated backend migrations \
       use this to help the administrator move to better-supported share settings. It should not be used for new SMB \
       shares.
 
@@ -544,7 +544,7 @@ class SharingSMBEntry(BaseModel):
     * `EXTERNAL_SHARE`: The SMB share is a DFS proxy to a share hosted on an external SMB server.
 
     * `VEEAM_REPOSITORY_SHARE`: The SMB share is a repository for Veeam Backup & Replication and supports Fast Clone.
-      NOTE: This feature is available only for TrueNAS Enterprise customers.
+      NOTE: This feature is available only for X-NAS Enterprise customers.
     """
     name: SmbShareName = Field(examples=['SHARE', 'Macrodata_refinement'])
     """ SMB share name. SMB share names are case-insensitive and must be unique, and are subject \
@@ -564,18 +564,18 @@ class SharingSMBEntry(BaseModel):
 
     Use the string `EXTERNAL` if the share works as a DFS proxy.
 
-    WARNING: The TrueNAS server does not check if external paths are reachable. """
+    WARNING: The X-NAS server does not check if external paths are reachable. """
     enabled: bool = True
     """ If unset, the SMB share is not available over the SMB protocol. """
     comment: str = Field(default='', examples=['Mammalian nurturable'])
-    """ Text field that is seen next to a share when an SMB client requests a list of SMB shares on the TrueNAS \
+    """ Text field that is seen next to a share when an SMB client requests a list of SMB shares on the X-NAS \
     server. """
     readonly: bool = False
     """ If set, SMB clients cannot create or change files and directories in the SMB share.
 
     NOTE: If set, the share path is still writeable by local processes or other file sharing protocols. """
     browsable: bool = True
-    """ If set, the share is included when an SMB client requests a list of SMB shares on the TrueNAS server. """
+    """ If set, the share is included when an SMB client requests a list of SMB shares on the X-NAS server. """
     access_based_share_enumeration: bool = False
     """ If set, the share is only included when an SMB client requests a list of shares on the SMB server if \
     the share (not filesystem) access control list (see `sharing.smb.getacl`) grants access to the user. """

@@ -448,7 +448,7 @@ class DiskEntry:
             if isinstance(e, OSError) and e.errno in (errno.ENOMEDIUM, errno.EACCES, errno.EPERM):
                 # when we access the "identifier" attribute of the disk object
                 # we try to read partitions on the devices which requires
-                # opening the underlying device. Our users run TrueNAS
+                # opening the underlying device. Our users run X-NAS
                 # on extravagant hardware and, sometimes, the devices dont
                 # respond very well to even opening them in RD_ONLY mode.
                 # For example, opening an empty sd-card reader device

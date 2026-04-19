@@ -4,8 +4,8 @@ JSON-RPC 2.0 over WebSocket API
 Overview
 --------
 
-The TrueNAS API implements the `JSON-RPC 2.0 <https://www.jsonrpc.org/specification>`_ protocol over WebSocket for
-communication between clients and the TrueNAS server. This allows
+The X-NAS API implements the `JSON-RPC 2.0 <https://www.jsonrpc.org/specification>`_ protocol over WebSocket for
+communication between clients and the X-NAS server. This allows
 real-time interaction, including method calls and event notifications.
 
 JSON-RPC 2.0 Protocol
@@ -15,7 +15,7 @@ Communication Mechanism
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 - Messages are exchanged using the **WebSocket protocol**.
-- The client initiates a WebSocket connection to the TrueNAS API
+- The client initiates a WebSocket connection to the X-NAS API
   endpoint.
 - The API follows the `JSON-RPC 2.0 <https://www.jsonrpc.org/specification>`_ specification for
   request-response messaging.
@@ -26,7 +26,7 @@ Request and Response Format
 JSON-RPC Request Structure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A typical **method call** request from the client to TrueNAS follows
+A typical **method call** request from the client to X-NAS follows
 this structure:
 
 .. code:: javascript
@@ -55,7 +55,7 @@ Calling the ``system.info`` method:
 JSON-RPC Response Structure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The TrueNAS API will respond with a standard JSON-RPC response:
+The X-NAS API will respond with a standard JSON-RPC response:
 
 .. code:: javascript
 
@@ -74,7 +74,7 @@ Example Response:
       "jsonrpc": "2.0",
       "id": 1,
       "result": {
-        "version": "TrueNAS-25.04",
+        "version": "X-NAS-25.04",
         "uptime": "15 days"
       }
     }

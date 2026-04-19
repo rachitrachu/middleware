@@ -447,7 +447,7 @@ class DirectoryServices(ConfigService):
             verrors.add(
                 f'{SCHEMA}.timeout',
                 f'{dns_name}: DNS query for proposed truenas server hostname timed out before it could '
-                'complete. This may indicate a DNS misconfiguration on the TrueNAS server.'
+                'complete. This may indicate a DNS misconfiguration on the X-NAS server.'
             )
             return
 
@@ -646,8 +646,8 @@ class DirectoryServices(ConfigService):
                 errmsg = (
                     'Failed to properly join domain and start up services. This may be related to issues '
                     'with account setup on the domain controller. To help with debugging, the '
-                    'TrueNAS configuration and new domain account are left intact for investigation. '
-                    'Once investigation is concluded, you should clear the domain configuration on TrueNAS '
+                    'X-NAS configuration and new domain account are left intact for investigation. '
+                    'Once investigation is concluded, you should clear the domain configuration on X-NAS '
                     'and re-join the domain cleanly.'
                 )
                 self.logger.error(errmsg)
@@ -687,7 +687,7 @@ class DirectoryServices(ConfigService):
             # The join process may have updated our configuration
             new = self.middleware.call_sync('directoryservices.config')
 
-        # When IPA support was first added to TrueNAS we did not persistently store IPA SMB domain information.
+        # When IPA support was first added to X-NAS we did not persistently store IPA SMB domain information.
         # This means we may need to update the IPA domain information.
         if ds_type is DSType.IPA and not new['configuration']['smb_domain']:
             if (smb_domain := self.domain_info()) is not None:
@@ -799,8 +799,8 @@ class DirectoryServices(ConfigService):
     @job(lock='directoryservices_change')
     def leave(self, job, cred):
         """ Leave an Active Directory or IPA domain. Calling this endpoint when the directory services status is
-        `HEALTHY` will cause TrueNAS to remove its account from the domain and then reset the local directory
-        services configuration on TrueNAS. """
+        `HEALTHY` will cause X-NAS to remove its account from the domain and then reset the local directory
+        services configuration on X-NAS. """
         revert = []
         verrors = ValidationErrors()
 
@@ -809,7 +809,7 @@ class DirectoryServices(ConfigService):
         ds_config = self.middleware.call_sync('directoryservices.config')
         if not ds_config['enable']:
             raise CallError(
-                'The directory service must be enabled before the TrueNAS server can leave the domain.'
+                'The directory service must be enabled before the X-NAS server can leave the domain.'
             )
 
         if failover_status not in ('SINGLE', 'MASTER'):
@@ -875,7 +875,7 @@ class DirectoryServices(ConfigService):
     async def certificate_choices(self):
         """ Available certificate choices for use with the `LDAP_MTLS` `credential_type`.
         Note that prior configuration of LDAP server is required and uploading a custom
-        certificate to TrueNAS may also be required. """
+        certificate to X-NAS may also be required. """
         return {
             i['name']: i['name']
             for i in await self.middleware.call(

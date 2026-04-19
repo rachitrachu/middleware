@@ -17,7 +17,7 @@ QueryFilters = Annotated[list[Any], QF_FIELD, AfterValidator(validate_filters)]
 
 class QueryOptions(BaseModel):
     """ Query options customize the results returned by a query method. More complete documentation with examples \
-    are covered in the "Query methods" section of the TrueNAS API documentation. """
+    are covered in the "Query methods" section of the X-NAS API documentation. """
     extra: dict[str, Any] = {}
     """ Extra options are defined on a per-endpoint basis and are described in the documentation for the associated \
     query method. """

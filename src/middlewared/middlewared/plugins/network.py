@@ -448,7 +448,7 @@ class InterfaceService(CRUDService):
             route because it exists in the kernel FIB but doesn't exist
             in the database.
         7. IF the user is connecting via layer3, then they will lose all
-            access to the TrueNAS and never be able to finalize the changes
+            access to the X-NAS and never be able to finalize the changes
             to the network because we ripped out the default route which
             is how they were communicating to begin with.
 
@@ -617,7 +617,7 @@ class InterfaceService(CRUDService):
         await self.__restore_datastores()
 
         # All entries are deleted from the network tables on a rollback operation.
-        # This breaks `failover.status` on TrueNAS HA systems.
+        # This breaks `failover.status` on X-NAS HA systems.
         # Because of this, we need to manually sync the database to the standby
         # controller.
         await self.middleware.call_hook('interface.post_rollback')
@@ -894,7 +894,7 @@ class InterfaceService(CRUDService):
             if data['lag_protocol'] not in await self.middleware.call('interface.lag_supported_protocols'):
                 verrors.add(
                     f'{schema_name}.lag_protocol',
-                    f'TrueNAS SCALE does not support LAG protocol {data["lag_protocol"]}',
+                    f'X-NAS SCALE does not support LAG protocol {data["lag_protocol"]}',
                 )
             lag_ports = data.get('lag_ports')
             if not lag_ports:

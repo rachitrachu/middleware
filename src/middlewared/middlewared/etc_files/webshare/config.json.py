@@ -38,7 +38,7 @@ def render(service, middleware):
             "max_file_size": 10737418240,
             "timeout": 300,
             "max_redirects": 10,
-            "user_agent": "TrueNAS-FileManager/1.0",
+            "user_agent": "X-NAS-FileManager/1.0",
             "domain_allowlist": [],
             "domain_blocklist": ["localhost", "127.0.0.1", "0.0.0.0", "::1", "10.0.0.0/8", "172.16.0.0/12",
                                  "192.168.0.0/16"],

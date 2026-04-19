@@ -2,15 +2,15 @@ import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
 from middlewared.service import ValidationErrors
-from middlewared.plugins.truenas_connect.update import TrueNASConnectService
+from middlewared.plugins.truenas_connect.update import X-NASConnectService
 from middlewared.plugins.truenas_connect.hostname import TNCHostnameService
 from middlewared.plugins.truenas_connect.utils import TNC_IPS_CACHE_KEY
 
 
 @pytest.fixture
 def tnc_service():
-    """Create a mock TrueNASConnectService instance."""
-    service = TrueNASConnectService(MagicMock())
+    """Create a mock X-NASConnectService instance."""
+    service = X-NASConnectService(MagicMock())
     service.middleware.call2 = AsyncMock()
     return service
 

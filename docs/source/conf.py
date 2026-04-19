@@ -19,9 +19,9 @@ sys.path.insert(0, os.path.abspath('../../src/middlewared'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'TrueNAS'
-copyright = '2021, iXsystems'
-author = 'iXsystems'
+project = 'X-NAS'
+copyright = '2021, Xloud'
+author = 'Xloud'
 
 # The short X.Y version
 version = ''
@@ -110,7 +110,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'TrueNASdoc'
+htmlhelp_basename = 'X-NASdoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -137,8 +137,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'TrueNAS.tex', 'TrueNAS Documentation',
-     'iXsystems', 'manual'),
+    (master_doc, 'X-NAS.tex', 'X-NAS Documentation',
+     'Xloud', 'manual'),
 ]
 
 
@@ -147,7 +147,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'truenas', 'TrueNAS Documentation',
+    (master_doc, 'truenas', 'X-NAS Documentation',
      [author], 1)
 ]
 
@@ -158,8 +158,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'TrueNAS', 'TrueNAS Documentation',
-     author, 'TrueNAS', 'One line description of project.',
+    (master_doc, 'X-NAS', 'X-NAS Documentation',
+     author, 'X-NAS', 'One line description of project.',
      'Miscellaneous'),
 ]
 

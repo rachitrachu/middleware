@@ -2,87 +2,87 @@ from middlewared.api.base import BaseModel, LongString
 
 
 __all__ = [
-    'TrueNASSetProductionArgs', 'TrueNASSetProductionResult',
-    'TrueNASIsProductionArgs', 'TrueNASIsProductionResult',
-    'TrueNASAcceptEulaArgs', 'TrueNASAcceptEulaResult',
-    'TrueNASIsEulaAcceptedArgs', 'TrueNASIsEulaAcceptedResult',
-    'TrueNASGetEulaArgs', 'TrueNASGetEulaResult',
-    'TrueNASIsIxHardwareArgs', 'TrueNASIsIxHardwareResult',
-    'TrueNASGetChassisHardwareArgs', 'TrueNASGetChassisHardwareResult',
-    'TrueNASManagedByTruecommandArgs', 'TrueNASManagedByTruecommandResult'
+    'X-NASSetProductionArgs', 'X-NASSetProductionResult',
+    'X-NASIsProductionArgs', 'X-NASIsProductionResult',
+    'X-NASAcceptEulaArgs', 'X-NASAcceptEulaResult',
+    'X-NASIsEulaAcceptedArgs', 'X-NASIsEulaAcceptedResult',
+    'X-NASGetEulaArgs', 'X-NASGetEulaResult',
+    'X-NASIsIxHardwareArgs', 'X-NASIsIxHardwareResult',
+    'X-NASGetChassisHardwareArgs', 'X-NASGetChassisHardwareResult',
+    'X-NASManagedByTruecommandArgs', 'X-NASManagedByTruecommandResult'
 ]
 
 
-class TrueNASManagedByTruecommandArgs(BaseModel):
+class X-NASManagedByTruecommandArgs(BaseModel):
     pass
 
 
-class TrueNASManagedByTruecommandResult(BaseModel):
+class X-NASManagedByTruecommandResult(BaseModel):
     result: bool
-    """Whether this TrueNAS system is currently managed by TrueCommand."""
+    """Whether this X-NAS system is currently managed by TrueCommand."""
 
 
-class TrueNASGetChassisHardwareArgs(BaseModel):
+class X-NASGetChassisHardwareArgs(BaseModel):
     pass
 
 
-class TrueNASGetChassisHardwareResult(BaseModel):
+class X-NASGetChassisHardwareResult(BaseModel):
     result: str
-    """Hardware chassis model identifier for this TrueNAS system."""
+    """Hardware chassis model identifier for this X-NAS system."""
 
 
-class TrueNASIsIxHardwareArgs(BaseModel):
+class X-NASIsIxHardwareArgs(BaseModel):
     pass
 
 
-class TrueNASIsIxHardwareResult(BaseModel):
+class X-NASIsIxHardwareResult(BaseModel):
     result: bool
-    """Whether this system is running on iXsystems hardware."""
+    """Whether this system is running on Xloud hardware."""
 
 
-class TrueNASGetEulaArgs(BaseModel):
+class X-NASGetEulaArgs(BaseModel):
     pass
 
 
-class TrueNASGetEulaResult(BaseModel):
+class X-NASGetEulaResult(BaseModel):
     result: LongString | None
     """Full text of the End User License Agreement. `null` if no EULA is required."""
 
 
-class TrueNASIsEulaAcceptedArgs(BaseModel):
+class X-NASIsEulaAcceptedArgs(BaseModel):
     pass
 
 
-class TrueNASIsEulaAcceptedResult(BaseModel):
+class X-NASIsEulaAcceptedResult(BaseModel):
     result: bool
     """Whether the End User License Agreement has been formally accepted."""
 
 
-class TrueNASAcceptEulaArgs(BaseModel):
+class X-NASAcceptEulaArgs(BaseModel):
     pass
 
 
-class TrueNASAcceptEulaResult(BaseModel):
+class X-NASAcceptEulaResult(BaseModel):
     result: None
     """Returns `null` on successful EULA acceptance."""
 
 
-class TrueNASIsProductionArgs(BaseModel):
+class X-NASIsProductionArgs(BaseModel):
     pass
 
 
-class TrueNASIsProductionResult(BaseModel):
+class X-NASIsProductionResult(BaseModel):
     result: bool
-    """Whether this TrueNAS system is configured for production use."""
+    """Whether this X-NAS system is configured for production use."""
 
 
-class TrueNASSetProductionArgs(BaseModel):
+class X-NASSetProductionArgs(BaseModel):
     production: bool
     """Whether to configure the system for production use."""
     attach_debug: bool = False
     """Whether to attach debug information when transitioning to production mode."""
 
 
-class TrueNASSetProductionResult(BaseModel):
+class X-NASSetProductionResult(BaseModel):
     result: dict | None
     """Result object containing production configuration details. `null` if transition failed."""

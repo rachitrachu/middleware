@@ -11,7 +11,7 @@ class DisabledReasonsEnum(StrEnum):
     NO_CRITICAL_INTERFACES = "No network interfaces are marked critical for failover."
     MISMATCH_DISKS = "The quantity of disks do not match between the nodes."
     MISMATCH_VERSIONS = (
-        "TrueNAS software versions do not match between storage controllers."
+        "X-NAS software versions do not match between storage controllers."
     )
     MISMATCH_NICS = "Network interfaces do not match between storage controllers."
     DISAGREE_VIP = "Nodes Virtual IP states do not agree."

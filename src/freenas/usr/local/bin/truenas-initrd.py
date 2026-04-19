@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # WARNING: this script is executed within a host system during upgrades. This means that it
-# may be initially running on a version of TrueNAS that does not match the git branch in
+# may be initially running on a version of X-NAS that does not match the git branch in
 # which you currently find this code. We need to keep imports at the head of this file
 # to an absolute minimum (base cpython modules for example) and lazy-import anything else
 # down below where comment "# BEGIN LAZY IMPORTS" is located

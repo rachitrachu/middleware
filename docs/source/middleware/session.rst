@@ -42,7 +42,7 @@ Token manager
 
 This refers to the TokenManager instance that is created in AuthService.token_manager in plugins/auth.py.
 Authenticated sessions can create authentication tokens with varying characteristics and use them to re-authenticate
-to the NAS. Tokens do not persist across middlewared restarts and are only for the current TrueNAS node on which they
+to the NAS. Tokens do not persist across middlewared restarts and are only for the current X-NAS node on which they
 are created. Tokens are keyed by their token string (which is returned to API clients when they generate the token).
 See `middlewared.utils.crypto.generate_token`.
 
@@ -51,7 +51,7 @@ Token
 =====
 
 An authentication token is an internal middleware object that stores a reference to a root SessionManagerCredentials
-object from which it derives authorization to the TrueNAS server. The originating credential can be retrieved through
+object from which it derives authorization to the X-NAS server. The originating credential can be retrieved through
 the `root_credentials()` method of the token object. Tokens have various security-related attributes such as
 a ttl, origin matching, and a single-use option. There are two primary use-cases for tokens:
 
@@ -81,7 +81,7 @@ Connection origin
 
 From the standpoint of authentication and session lifecycles, there are three broad categories of client connection
 origins when viewed from the context of authenticated sessions: unix socket origins, external TCP socket origins, and
-TrueNAS node connection origins. See `utils/origin.py` for details and ConnectionOrigin dataclass. This is
+X-NAS node connection origins. See `utils/origin.py` for details and ConnectionOrigin dataclass. This is
 covered in more depth in the "Connection origins" section below.
 
 
@@ -113,7 +113,7 @@ Connection origins
 Unix socket origin
 ==================
 
-Processes on the TrueNAS host may establish authenticated middleware sessions by using the truenas_api_client
+Processes on the X-NAS host may establish authenticated middleware sessions by using the truenas_api_client
 to connect to the middlewared AF_UNIX socket at `/run/middleware/middlewared.sock`. When the session is
 established, the client is automatically authenticated to middleware using the client credentials used by the
 peer process connected to the socket. See SO_PEERCRED in unix(7). If the peer process has an unset loginuid,
@@ -123,7 +123,7 @@ most typical reason for the loginuid to be unset for a process opening a middlew
 client being used in a systemd unit.
 
 
-TrueNAS node origin
+X-NAS node origin
 ===================
 
 This is a special type of client TCP connection originating from the remote node in an HA pair. It establishes
@@ -157,7 +157,7 @@ PAM configuration files. There should be corresponding files in the `etc_files/p
 New UserPamAuthenticator
 ========================
 
-Generally, adding a new PAM file and setting it as the `service` in the `TrueNASAuthenticatorState` should be
+Generally, adding a new PAM file and setting it as the `service` in the `X-NASAuthenticatorState` should be
 sufficient. If the authentication method requires multiple round trips between the middleware client and backend
 then more work may be required to properly implement `pam_conv(3)`.
 
@@ -166,7 +166,7 @@ New SessionManagerCredentials
 =============================
 
 We currently use the SessionManagerCredentials class name to in our auditing to record how the user authenticated
-to the TrueNAS middleware.
+to the X-NAS middleware.
 
 
 API and constants
@@ -174,7 +174,7 @@ API and constants
 
 The `AuthMech` class will need to be updated for the new authentication mechanism, and potentially one or more
 new `AuthResp` types will need to be added as well. This should be detailed in a NEP design document since it
-will become part of the stable TrueNAS API. The supported authentication mechanisms at different authenticator
+will become part of the stable X-NAS API. The supported authentication mechanisms at different authenticator
 assurance levels defined in `utils/auth.py` will also need to be updated to account for the new authentication
 mechanism. Once these have been updated, then the API schema arguments for `auth.login_ex` and
 `auth.login_ex_continue` will also need to be updated for the new authentication mechanism. Logic for all

@@ -58,13 +58,13 @@ class KerberosRealmEntry(BaseModel):
     """Unique identifier for the Kerberos realm configuration."""
     realm: NonEmptyString
     """
-    Kerberos realm name. This is external to TrueNAS and is case-sensitive. \
+    Kerberos realm name. This is external to X-NAS and is case-sensitive. \
     The general convention for kerberos realms is that they are upper-case.
     """
     primary_kdc: NonEmptyString | None = None
-    """ The master Kerberos domain controller for this realm. TrueNAS uses this as a fallback if it cannot get \
+    """ The master Kerberos domain controller for this realm. X-NAS uses this as a fallback if it cannot get \
     credentials because of an invalid password. This can help in environments where the domain uses a hub-and-spoke \
-    topology. Use this setting to reduce credential errors after TrueNAS automatically changes its machine password. """
+    topology. Use this setting to reduce credential errors after X-NAS automatically changes its machine password. """
     kdc: list[NonEmptyString] = []
     """
     List of kerberos domain controllers. If the list is empty then the kerberos \

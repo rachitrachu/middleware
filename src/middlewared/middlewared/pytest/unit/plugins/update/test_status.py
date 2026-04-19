@@ -9,9 +9,9 @@ from middlewared.pytest.unit.middleware import Middleware
 
 CURRENT_CONFIG = Mock(profile="MISSION_CRITICAL")
 CURRENT_VERSION = "25.04.1"
-CURRENT_TRAIN_NAME = "TrueNAS-SCALE-Fangtooth"
+CURRENT_TRAIN_NAME = "X-NAS-SCALE-Fangtooth"
 CURRENT_VERSION_PROFILE = "MISSION_CRITICAL"
-NEXT_TRAIN_NAMES = ["TrueNAS-SCALE-Goldfish", "TrueNAS-SCALE-Fangtooth"]
+NEXT_TRAIN_NAMES = ["X-NAS-SCALE-Goldfish", "X-NAS-SCALE-Fangtooth"]
 
 release_manifest = {
     "filename": "",
@@ -22,7 +22,7 @@ release_manifest = {
     "filesize": 0,
 }
 new_version_manifest = {
-    "manifest": {**release_manifest, 'profile': 'MISSION_CRITICAL', 'train': 'TrueNAS-SCALE-Fangtooth'},
+    "manifest": {**release_manifest, 'profile': 'MISSION_CRITICAL', 'train': 'X-NAS-SCALE-Fangtooth'},
     "release_notes": "<release notes>",
     "release_notes_url": "<release notes url>",
 }
@@ -33,11 +33,11 @@ new_version_manifest = {
     # Stay on current train
     (
         {
-            "TrueNAS-SCALE-Fangtooth": {
+            "X-NAS-SCALE-Fangtooth": {
                 "25.04.1": Release(**release_manifest, profile="MISSION_CRITICAL"),
                 "25.04.2": Release(**release_manifest, profile="MISSION_CRITICAL"),
             },
-            "TrueNAS-SCALE-Goldfish": {
+            "X-NAS-SCALE-Goldfish": {
                 "25.10.0": Release(**release_manifest, profile="GENERAL"),
             },
         },
@@ -46,7 +46,7 @@ new_version_manifest = {
             "error": None,
             "status": {
                 "current_version": {
-                    "train": "TrueNAS-SCALE-Fangtooth",
+                    "train": "X-NAS-SCALE-Fangtooth",
                     "profile": "MISSION_CRITICAL",
                     "matches_profile": True,
                 },
@@ -55,7 +55,7 @@ new_version_manifest = {
                     "version": "25.04.2",
                     "manifest": {
                         **release_manifest,
-                        "train": "TrueNAS-SCALE-Fangtooth",
+                        "train": "X-NAS-SCALE-Fangtooth",
                         "version": "25.04.2",
                         "profile": "MISSION_CRITICAL",
                     },
@@ -67,11 +67,11 @@ new_version_manifest = {
     # Switch to next train
     (
         {
-            "TrueNAS-SCALE-Fangtooth": {
+            "X-NAS-SCALE-Fangtooth": {
                 "25.04.1": Release(**release_manifest, profile="MISSION_CRITICAL"),
                 "25.04.2": Release(**release_manifest, profile="MISSION_CRITICAL"),
             },
-            "TrueNAS-SCALE-Goldfish": {
+            "X-NAS-SCALE-Goldfish": {
                 "25.10.0": Release(**release_manifest, profile="MISSION_CRITICAL"),
                 "25.10.1": Release(**release_manifest, profile="GENERAL"),
             },
@@ -81,7 +81,7 @@ new_version_manifest = {
             "error": None,
             "status": {
                 "current_version": {
-                    "train": "TrueNAS-SCALE-Fangtooth",
+                    "train": "X-NAS-SCALE-Fangtooth",
                     "profile": "MISSION_CRITICAL",
                     "matches_profile": True,
                 },
@@ -90,7 +90,7 @@ new_version_manifest = {
                     "version": "25.10.0",
                     "manifest": {
                         **release_manifest,
-                        "train": "TrueNAS-SCALE-Goldfish",
+                        "train": "X-NAS-SCALE-Goldfish",
                         "version": "25.10.0",
                         "profile": "MISSION_CRITICAL",
                     },
@@ -102,11 +102,11 @@ new_version_manifest = {
     # Current version is the latest
     (
         {
-            "TrueNAS-SCALE-Fangtooth": {
+            "X-NAS-SCALE-Fangtooth": {
                 "25.04.1": Release(**release_manifest, profile="MISSION_CRITICAL"),
                 "25.04.2": Release(**release_manifest, profile="GENERAL"),
             },
-            "TrueNAS-SCALE-Goldfish": {
+            "X-NAS-SCALE-Goldfish": {
                 "25.10.0": Release(**release_manifest, profile="GENERAL"),
             },
         },
@@ -115,7 +115,7 @@ new_version_manifest = {
             "error": None,
             "status": {
                 "current_version": {
-                    "train": "TrueNAS-SCALE-Fangtooth",
+                    "train": "X-NAS-SCALE-Fangtooth",
                     "profile": "MISSION_CRITICAL",
                     "matches_profile": True,
                 },
@@ -127,10 +127,10 @@ new_version_manifest = {
     # Removed version
     (
         {
-            "TrueNAS-SCALE-Fangtooth": {
+            "X-NAS-SCALE-Fangtooth": {
                 "25.04.0": Release(**release_manifest, profile="MISSION_CRITICAL"),
             },
-            "TrueNAS-SCALE-Goldfish": {
+            "X-NAS-SCALE-Goldfish": {
                 "25.10.0": Release(**release_manifest, profile="GENERAL"),
             },
         },
@@ -140,7 +140,7 @@ new_version_manifest = {
                 "errname": "ENOPKG",
                 "reason": (
                     "Currently installed version 25.04.1 is newer than the newest version 25.04.0 provided by train "
-                    "TrueNAS-SCALE-Fangtooth."
+                    "X-NAS-SCALE-Fangtooth."
                 ),
             },
             "status": None,

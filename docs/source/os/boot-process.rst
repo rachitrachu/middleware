@@ -4,14 +4,14 @@ Boot Process
 .. contents:: Table of Contents
     :depth: 3
 
-TrueNAS is based on Debian, so it's just another modern Linux system with standard systemd boot process: a giant tangled
+X-NAS is based on Debian, so it's just another modern Linux system with standard systemd boot process: a giant tangled
 graph of hundreds of units executed in parallel. This document describes a few key moments a developer should know
 when making changes to this complicated setup.
 
 Early units
 -----------
 
-TrueNAS has a number of systemd units that should be executed as early in the boot process as possible. All of these
+X-NAS has a number of systemd units that should be executed as early in the boot process as possible. All of these
 units include
 
 .. code-block:: ini
@@ -26,10 +26,10 @@ Here are the most important of these units in their execution order.
 Group 0: Start middleware daemon
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Middleware daemon is a key component to TrueNAS system management so it (and its prerequisites) should be started
+Middleware daemon is a key component to X-NAS system management so it (and its prerequisites) should be started
 first.
 
-* `middlewared.service`: Starts middleware daemon making TrueNAS API available for internal use.
+* `middlewared.service`: Starts middleware daemon making X-NAS API available for internal use.
 
 Group 1: Pre-configure system services
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -48,15 +48,15 @@ units must be started exactly between `middlewared.service` and the rest of the 
 
 Here are the most important ones:
 
-* `ix-etc.service`: Generates `/etc` configuration files for all services TrueNAS uses.
+* `ix-etc.service`: Generates `/etc` configuration files for all services X-NAS uses.
 * `ix-zfs.service`: Imports ZFS storage pools.
 * `ix-netif.service`: Configures network (replaces `systemd-networkd`)
 
 Starting system services
 ------------------------
 
-After all configuration files were written, filesystems were configured and network interfaces were brought up, TrueNAS
-yields to systemd to start its common UNIX services: NTP, NFS, SSH, Samba... As most of them can be disabled in TrueNAS
+After all configuration files were written, filesystems were configured and network interfaces were brought up, X-NAS
+yields to systemd to start its common UNIX services: NTP, NFS, SSH, Samba... As most of them can be disabled in X-NAS
 configuration, this raises a question: what determines which services should be started and which should be not?
 
 The perfect solution would be to make `ix-etc` read configuration database and enable/disable corresponding systemd
@@ -65,14 +65,14 @@ is first started and there is no known way to make it re-calculate it based on u
 boot process. As a consequence, all necessary systemd units must be enabled before systemd boot process even starts.
 
 On a normal system we enable/disable systemd units upon user request during runtime. This configuration is preserved
-in the root filesystem across reboots and the boot process works as it should. However, when we upgrade a TrueNAS
+in the root filesystem across reboots and the boot process works as it should. However, when we upgrade a X-NAS
 installation, a new root filesystem is created and all the systemd units are disabled there; after restart, no services
 would be running. To fix that, we also maintain a list of enabled/disabled systemd units in `/data/user-services.json`.
 That way, the installer will be able to enable/disable systemd units in a newly created filesystem without being aware
-how to read the configuration database file and map the list of enabled TrueNAS services to systemd units.
+how to read the configuration database file and map the list of enabled X-NAS services to systemd units.
 
 By default all systemd services are enabled whenever their relevant debian packages are installed while making the
-root filesystem image for TrueNAS. However this is not desired behavior as this means that on first boot, all services
+root filesystem image for X-NAS. However this is not desired behavior as this means that on first boot, all services
 would start because that's the default behavior of systemd and would potentially fail to start spamming logs because
 of missing/malformed configuration. This can also be considered a security risk where user might not want to start
 some services automatically and they start exposing the system to outside user access. To make sure that this does

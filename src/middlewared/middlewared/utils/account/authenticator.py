@@ -11,9 +11,9 @@ from middlewared.utils.nss.nss_common import NssModule
 from middlewared.utils.nss.grp import getgrgid
 from middlewared.utils.nss.pwd import getpwnam
 from middlewared.utils.origin import ConnectionOrigin
-from truenas_authenticator import UserPamAuthenticator as TrueNASUserPamAuthenticator
-from truenas_authenticator import AuthenticatorStage as TrueNASAuthenticatorStage
-from truenas_authenticator import AuthenticatorResponse as TrueNASAuthenticatorResponse
+from truenas_authenticator import UserPamAuthenticator as X-NASUserPamAuthenticator
+from truenas_authenticator import AuthenticatorStage as X-NASAuthenticatorStage
+from truenas_authenticator import AuthenticatorResponse as X-NASAuthenticatorResponse
 from xnas_pypam import MSGStyle, PAMCode
 from socket import AF_INET, AF_INET6, AF_UNIX
 from .faillock import is_tally_locked
@@ -51,25 +51,25 @@ class AccountFlag(enum.StrEnum):
     PASSWORD_CHANGE_REQUIRED = 'PASSWORD_CHANGE_REQUIRED'  # Password change for account is required
 
 
-DEFAULT_LOGIN_SUCCESS = TrueNASAuthenticatorResponse(
-    TrueNASAuthenticatorStage.LOGIN, PAMCode.PAM_SUCCESS, None
+DEFAULT_LOGIN_SUCCESS = X-NASAuthenticatorResponse(
+    X-NASAuthenticatorStage.LOGIN, PAMCode.PAM_SUCCESS, None
 )
 
-DEFAULT_LOGIN_FAIL = TrueNASAuthenticatorResponse(
-    TrueNASAuthenticatorStage.LOGIN, PAMCode.PAM_SYSTEM_ERR, 'Unexpected Session Manager'
+DEFAULT_LOGIN_FAIL = X-NASAuthenticatorResponse(
+    X-NASAuthenticatorStage.LOGIN, PAMCode.PAM_SYSTEM_ERR, 'Unexpected Session Manager'
 )
 
-DEFAULT_LOGOUT_SUCCESS = TrueNASAuthenticatorResponse(
-    TrueNASAuthenticatorStage.LOGOUT, PAMCode.PAM_SUCCESS, None
+DEFAULT_LOGOUT_SUCCESS = X-NASAuthenticatorResponse(
+    X-NASAuthenticatorStage.LOGOUT, PAMCode.PAM_SUCCESS, None
 )
 
-DEFAULT_LOGOUT_FAIL = TrueNASAuthenticatorResponse(
-    TrueNASAuthenticatorStage.LOGOUT, PAMCode.PAM_SYSTEM_ERR, 'Unexpected Session Manager'
+DEFAULT_LOGOUT_FAIL = X-NASAuthenticatorResponse(
+    X-NASAuthenticatorStage.LOGOUT, PAMCode.PAM_SYSTEM_ERR, 'Unexpected Session Manager'
 )
 
 
-class UserPamAuthenticator(TrueNASUserPamAuthenticator):
-    """ TrueNAS authenticator object. These are allocated per middleware session and hold an
+class UserPamAuthenticator(X-NASUserPamAuthenticator):
+    """ X-NAS authenticator object. These are allocated per middleware session and hold an
     open pam handle with state information about the particular session. This includes the
     utmp entry generated for the authenticated user. """
 
@@ -182,7 +182,7 @@ class UserPamAuthenticator(TrueNASUserPamAuthenticator):
         self.otpw_possible = True
         self._session_uuid = None
 
-    def login(self) -> TrueNASAuthenticatorResponse:
+    def login(self) -> X-NASAuthenticatorResponse:
         resp = super().login()
         if resp.code == PAMCode.PAM_SUCCESS:
             # On successful session open, pam_truenas will set a pam environmental variable containing the
@@ -246,7 +246,7 @@ class UserPamAuthenticator(TrueNASUserPamAuthenticator):
 
         return code, reason
 
-    def pam_authenticate_simple(self, username: str, password: str) -> TrueNASAuthenticatorResponse:
+    def pam_authenticate_simple(self, username: str, password: str) -> X-NASAuthenticatorResponse:
         """ Simple version of authentication is user / password (with possibly request for 2FA token) """
         self.username = username  # ensure that PAM context is created with the provided username
         self._twofactor_user = False  # reset any old 2FA flag
@@ -303,11 +303,11 @@ class UserPamAuthenticator(TrueNASUserPamAuthenticator):
     def twofactor_user(self):
         return self._twofactor_user
 
-    def authenticate_oath(self, twofactor_token: str) -> TrueNASAuthenticatorResponse:
-        stage = TrueNASAuthenticatorStage.AUTH
+    def authenticate_oath(self, twofactor_token: str) -> X-NASAuthenticatorResponse:
+        stage = X-NASAuthenticatorStage.AUTH
 
         if not self.twofactor_user:
-            return TrueNASAuthenticatorResponse(stage, PAMCode.PAM_AUTH_ERR, 'User does not support two-factor auth')
+            return X-NASAuthenticatorResponse(stage, PAMCode.PAM_AUTH_ERR, 'User does not support two-factor auth')
 
         resp = self.auth_continue([twofactor_token])
         if resp.code == PAMCode.PAM_SUCCESS:
@@ -318,13 +318,13 @@ class UserPamAuthenticator(TrueNASUserPamAuthenticator):
 
         return resp
 
-    def authenticate(self, username: str, password: str) -> TrueNASAuthenticatorResponse:
-        stage = TrueNASAuthenticatorStage.AUTH
+    def authenticate(self, username: str, password: str) -> X-NASAuthenticatorResponse:
+        stage = X-NASAuthenticatorStage.AUTH
 
         try:
             pw = self._get_user_obj(username)
         except KeyError:
-            return TrueNASAuthenticatorResponse(stage, PAMCode.PAM_AUTH_ERR, f'{username}: user does not exist')
+            return X-NASAuthenticatorResponse(stage, PAMCode.PAM_AUTH_ERR, f'{username}: user does not exist')
 
         code = None
         reason = None
@@ -399,7 +399,7 @@ class ApiKeyPamAuthenticator(UserPamAuthenticator):
         super().__init__(username=username, origin=origin, service=TruenasPamFile.API_KEY)
         self.otpw_possible = False
 
-    def authenticate(self, username: str, password: str) -> TrueNASAuthenticatorResponse:
+    def authenticate(self, username: str, password: str) -> X-NASAuthenticatorResponse:
         """ Split up API key into DBID and actual key material then pass to backend """
         try:
             dbid, key = password.split('-', 1)
@@ -442,14 +442,14 @@ class ScramPamAuthenticator(UserPamAuthenticator):
     def authenticate(self, username: str, password: str):
         raise NotImplementedError("Plain authentication is not supported for SCRAM authentication")
 
-    def handle_first_message(self) -> TrueNASAuthenticatorResponse:
+    def handle_first_message(self) -> X-NASAuthenticatorResponse:
         """ handle the ClientFirstMessage from the initialization and generate ServerFirstMessage. """
-        stage = TrueNASAuthenticatorStage.AUTH
+        stage = X-NASAuthenticatorStage.AUTH
 
         if self.scram_error:
             # We had some sort of parsing error on the client-provided RFC string. We'll convert it
             # to a PAM response here
-            return TrueNASAuthenticatorResponse(stage, PAMCode.PAM_AUTH_ERR, str(self.scram_error))
+            return X-NASAuthenticatorResponse(stage, PAMCode.PAM_AUTH_ERR, str(self.scram_error))
 
         if self.sent_server_first:
             raise RuntimeError('Already sent server first response')
@@ -457,13 +457,13 @@ class ScramPamAuthenticator(UserPamAuthenticator):
         try:
             self._get_user_obj(self.username)
         except KeyError:
-            return TrueNASAuthenticatorResponse(
+            return X-NASAuthenticatorResponse(
                 stage, PAMCode.PAM_AUTH_ERR, f'{self.username}: user does not exist'
             )
 
         resp = self.auth_init()
         if resp.code != PAMCode.PAM_CONV_AGAIN:
-            return TrueNASAuthenticatorResponse(
+            return X-NASAuthenticatorResponse(
                 stage, PAMCode.PAM_AUTH_ERR,
                 f'{resp.code}: unexpected response code. Expected [PAM_CONV_AGAIN]'
             )
@@ -483,7 +483,7 @@ class ScramPamAuthenticator(UserPamAuthenticator):
         # now time to get the ServerFirstResponse
         resp = self.auth_continue(client_resp)
         if resp.code != PAMCode.PAM_CONV_AGAIN:
-            return TrueNASAuthenticatorResponse(
+            return X-NASAuthenticatorResponse(
                 stage, PAMCode.PAM_AUTH_ERR,
                 f'{resp.code}: unexpected response code. Expected [PAM_CONV_AGAIN]'
             )
@@ -492,10 +492,10 @@ class ScramPamAuthenticator(UserPamAuthenticator):
             raise RuntimeError(f'{resp.reason}: unexpected PAM response')
 
         self.sent_server_first = True
-        return TrueNASAuthenticatorResponse(stage, PAMCode.PAM_CONV_AGAIN, resp.reason[0].msg)
+        return X-NASAuthenticatorResponse(stage, PAMCode.PAM_CONV_AGAIN, resp.reason[0].msg)
 
-    def handle_final_message(self, rfc_string: str) -> TrueNASAuthenticatorResponse:
-        stage = TrueNASAuthenticatorStage.AUTH
+    def handle_final_message(self, rfc_string: str) -> X-NASAuthenticatorResponse:
+        stage = X-NASAuthenticatorStage.AUTH
         if self.sent_server_final:
             raise RuntimeError('Already sent ServerFinalMessage')
 
@@ -504,7 +504,7 @@ class ScramPamAuthenticator(UserPamAuthenticator):
 
         resp = self.auth_continue([rfc_string])
         if resp.code != PAMCode.PAM_CONV_AGAIN:
-            return TrueNASAuthenticatorResponse(
+            return X-NASAuthenticatorResponse(
                 stage, PAMCode.PAM_AUTH_ERR,
                 f'{resp.code}: unexpected response code. Expected [PAM_CONV_AGAIN]'
             )
@@ -522,7 +522,7 @@ class ScramPamAuthenticator(UserPamAuthenticator):
         # send final message to close out the authentication
         self.auth_continue([''])
 
-        return TrueNASAuthenticatorResponse(
+        return X-NASAuthenticatorResponse(
             stage=stage,
             code=PAMCode.PAM_SUCCESS,
             reason=msg.msg,
@@ -536,11 +536,11 @@ class InternalPamAuthenticator(UserPamAuthenticator):
         super().__init__(username=username, origin=origin, service=TruenasPamFile.UNIX)
         self.otpw_possible = False
 
-    def authenticate(self, username: str) -> TrueNASAuthenticatorResponse:
+    def authenticate(self, username: str) -> X-NASAuthenticatorResponse:
         """ Authentication for our unix socket is somewhat different. We just simply
         verify username exists and set up pam handle
 
-        In TrueNAS 25.10 and earlier this would be optionally skipped in case of
+        In X-NAS 25.10 and earlier this would be optionally skipped in case of
         internal sessions. Performance with the new cpython extensions and PAM module design
         should be good enough to generate proper sessions for everything going through middleware. """
         return super().authenticate(username, '')

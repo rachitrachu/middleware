@@ -55,7 +55,7 @@ class SystemProductTypeArgs(BaseModel):
 
 class SystemProductTypeResult(BaseModel):
     result: Literal["COMMUNITY_EDITION", "ENTERPRISE"]
-    """Product type of this TrueNAS system."""
+    """Product type of this X-NAS system."""
 
 
 class SystemVersionArgs(BaseModel):
@@ -64,7 +64,7 @@ class SystemVersionArgs(BaseModel):
 
 class SystemVersionResult(BaseModel):
     result: str
-    """Full version string of the TrueNAS system."""
+    """Full version string of the X-NAS system."""
 
 
 class SystemVersionShortArgs(BaseModel):
@@ -73,4 +73,4 @@ class SystemVersionShortArgs(BaseModel):
 
 class SystemVersionShortResult(BaseModel):
     result: str
-    """Short version string of the TrueNAS system."""
+    """Short version string of the X-NAS system."""

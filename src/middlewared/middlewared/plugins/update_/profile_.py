@@ -34,7 +34,7 @@ class UpdateProfiles(enum.IntEnum):
                 footnote='',
                 description=(
                     'Pre-release access to new features and functionality of '
-                    'TrueNAS software. Some issues may need workarounds, bug '
+                    'X-NAS software. Some issues may need workarounds, bug '
                     'reports or patience.'
                 ),
                 available=available,

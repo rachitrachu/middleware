@@ -107,7 +107,7 @@ class DiskService(Service):
             size = self.get_data_partition_size(disk)
 
         for info in self.middleware.call_sync('disk.get_disks', [disk]):
-            # Old TrueNAS systems:
+            # Old X-NAS systems:
             # * Used the entire disk for the data partition
             # * Used smaller partition alignment
             #

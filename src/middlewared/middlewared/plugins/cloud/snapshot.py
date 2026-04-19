@@ -17,7 +17,7 @@ def create_snapshot(
     whether the target path is at the dataset's mountpoint or within a subdirectory.
 
     Args:
-        middleware: TrueNAS middleware instance for making API calls
+        middleware: X-NAS middleware instance for making API calls
         path (str): Absolute filesystem path to snapshot. This can be either:
             - A dataset mountpoint (e.g., "/mnt/tank/dataset")
             - A subdirectory within a dataset (e.g., "/mnt/tank/dataset/folder/subfolder")

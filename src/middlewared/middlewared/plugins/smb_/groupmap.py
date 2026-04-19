@@ -173,9 +173,9 @@ class SMBService(Service):
             self.logger.error(
                 '%s: unexpected account present in group mapping configuration for groups '
                 'with the following sids %s. This grants the account privileges beyond what '
-                'would normally be granted by the backend in TrueNAS potentially indicating '
+                'would normally be granted by the backend in X-NAS potentially indicating '
                 'an underlying security issue. This mapping entry will be automatically '
-                'removed to restore TrueNAS to its expected configuration.',
+                'removed to restore X-NAS to its expected configuration.',
                 entry['sid'], entry['groups']
             )
 
@@ -401,7 +401,7 @@ class SMBService(Service):
         builtin groups are automatically allocated by winbindd / idmap_tdb. We want these
         mappings to be written deterministically so that if for some horrible reason an
         end-users decides to write these GIDs to an ACL entry it is consistent between
-        TrueNAS servers and persistent across updates.
+        X-NAS servers and persistent across updates.
         """
 
         # Because the beginning range is determined by the range of IDs allocated for BUILTIN

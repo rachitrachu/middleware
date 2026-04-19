@@ -1,7 +1,7 @@
 """Rename the default local administrator from truenas_admin to xnas_admin.
 
 Fresh X-NAS installs create xnas_admin directly, but any system upgraded
-from a TrueNAS SCALE image has a local user and group literally named
+from a X-NAS SCALE image has a local user and group literally named
 truenas_admin at UID/GID 950. Rename them in place so the product-name
 rebrand is consistent end-to-end (home directory, config paths, PAM
 tokens, WebUI display). The UID/GID 950 mapping is preserved so file

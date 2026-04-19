@@ -184,9 +184,9 @@ def _so_path(extent: dict) -> pathlib.Path:
 
 def _naa_to_vpd_components(naa: str) -> tuple[str, str] | None:
     """
-    Derive LIO vpd_unit_serial and company_id from a stored TrueNAS NAA.
+    Derive LIO vpd_unit_serial and company_id from a stored X-NAS NAA.
 
-    TrueNAS NAA format: '0x6589cfc000000' + sha256[0:19]
+    X-NAS NAA format: '0x6589cfc000000' + sha256[0:19]
     = '0x' + 32 hex chars (NAA type nibble + 6-char OUI + 25-char vendor-specific)
 
     LIO's spc_gen_naa_6h_vendor_specific() builds VPD page 0x83 NAA type 6 from:
@@ -326,7 +326,7 @@ def _set_storage_object_identity(so_dir: pathlib.Path, extent: dict):
 
     LIO's spc_gen_naa_6h_vendor_specific() derives the VPD page 0x83 NAA type 6
     from company_id (OUI) + hex digits of vpd_unit_serial.  We reverse-engineer
-    the stored TrueNAS NAA to recover those two fields so LIO emits the exact
+    the stored X-NAS NAA to recover those two fields so LIO emits the exact
     same NAA that SCST would.  Both must be written before the storage object is
     enabled (the kernel gates writes with export_count == 0).
     """
@@ -355,7 +355,7 @@ def _set_storage_object_identity(so_dir: pathlib.Path, extent: dict):
 
     vendor_id = wwn_dir / "vendor_id"
     if vendor_id.exists():
-        _write_if_changed(vendor_id, (extent.get("vendor") or "TrueNAS")[:8])
+        _write_if_changed(vendor_id, (extent.get("vendor") or "X-NAS")[:8])
 
     product_id_path = wwn_dir / "product_id"
     if product_id_path.exists():

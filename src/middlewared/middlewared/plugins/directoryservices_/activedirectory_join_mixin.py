@@ -314,7 +314,7 @@ class ADJoinMixin:
         )
 
     def _ad_grant_privileges(self, domain: str) -> None:
-        """ Grant domain admins ability to manage TrueNAS """
+        """ Grant domain admins ability to manage X-NAS """
 
         dom = wbclient.Ctx().domain()
 
@@ -338,7 +338,7 @@ class ADJoinMixin:
             # our webui
             self.logger.warning(
                 'Failed to grant domain administrators access to the '
-                'TrueNAS API.', exc_info=True
+                'X-NAS API.', exc_info=True
             )
 
     def _ad_post_join_actions(self, job: Job, conf: dict):
@@ -434,7 +434,7 @@ class ADJoinMixin:
 
         if (failover_status := self.middleware.call_sync('failover.status')) not in ('MASTER', 'SINGLE'):
             raise CallError(
-                f'{failover_status}: TrueNAS may only be joined to active directory '
+                f'{failover_status}: X-NAS may only be joined to active directory '
                 'through the active storage controller and if high availability is healthy.'
             )
 

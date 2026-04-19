@@ -733,7 +733,7 @@ def get_slot_info(enc):
                 'DEFAULT': {
                     'id': {
                         # First VirtualSES enclosure
-                        # Handles TrueNAS slots 1-10, 13-14
+                        # Handles X-NAS slots 1-10, 13-14
                         'NVME0': {
                             key: {SYSFS_SLOT_KEY: sysfs_key, MAPPED_SLOT_KEY: mapped_key, SUPPORTS_IDENTIFY_KEY: True}
                             for key, sysfs_key, mapped_key in (
@@ -752,7 +752,7 @@ def get_slot_info(enc):
                             )
                         },
                         # Second VirtualSES enclosure
-                        # Handles TrueNAS slots 11-12, 15-24
+                        # Handles X-NAS slots 11-12, 15-24
                         'NVME8': {
                             key: {SYSFS_SLOT_KEY: sysfs_key, MAPPED_SLOT_KEY: mapped_key, SUPPORTS_IDENTIFY_KEY: True}
                             for key, sysfs_key, mapped_key in (
