@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 async def removal_date_property(ctx: ServiceContext) -> str:
     host_id = await ctx.middleware.call("system.host_id")
-    return f"org.truenas:destroy_at_{host_id[:8]}"
+    return f"org.xnas:destroy_at_{host_id[:8]}"
 
 
 async def fixate_removal_date(

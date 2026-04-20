@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from acme import errors, messages
 from cryptography import x509
-from truenas_acme_utils.client_utils import ACMEClientAndKeyData, get_acme_client_and_key
+from xnas_acme_utils.client_utils import ACMEClientAndKeyData, get_acme_client_and_key
 
 from middlewared.service import ServiceContext
 from middlewared.service_exception import CallError

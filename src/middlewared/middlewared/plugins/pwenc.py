@@ -1,5 +1,5 @@
 import os
-import truenas_pypwenc
+import xnas_pypwenc
 
 from base64 import b64decode
 from tempfile import NamedTemporaryFile
@@ -63,11 +63,11 @@ class PWEncService(Service):
 
         try:
             return decrypt(settings['stg_pwenc_check'], _raise=True) == PWENC_CHECK
-        except truenas_pypwenc.PwencError as exc:
+        except xnas_pypwenc.PwencError as exc:
             # In principle on a totally fresh install it's expected that we need to generate a new
             # secret. In this case we expect SECRET_NOT_FOUND. Other errors are unexpected and
             # should be logged
-            if exc.code != truenas_pypwenc.PWENC_ERROR_SECRET_NOT_FOUND:
+            if exc.code != xnas_pypwenc.PWENC_ERROR_SECRET_NOT_FOUND:
                 self.logger.exception('Failed to decrypt stg_pwenc_check')
 
             return False
@@ -88,7 +88,7 @@ class PWEncService(Service):
             raise CallError(f'{type(app.authenticated_credentials)}: unexpected credential type for endpoint.')
 
         data = b64decode(b64secret)
-        if len(data) != truenas_pypwenc.PWENC_BLOCK_SIZE:
+        if len(data) != xnas_pypwenc.PWENC_BLOCK_SIZE:
             raise CallError('Unexpected data length for pwenc file')
 
         with open(PWENC_FILE_SECRET, 'rb') as f:

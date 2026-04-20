@@ -369,7 +369,7 @@ class ZFSPoolResult:
 
 
 @dataclass
-class X-NASNodeInfoResult:
+class XnasNodeInfoResult:
     """Result of X-NAS node information query"""
     status: str
     details: str
@@ -379,19 +379,19 @@ class X-NASNodeInfoResult:
 
 
 @dataclass
-class X-NASSystemInfo:
+class XnasSystemInfo:
     """X-NAS system-wide information"""
     nvme_devices: NVMEDeviceResult
     partuuid_mappings: PartUUIDMappingResult
     zfs_pools: ZFSPoolResult
-    node_info: X-NASNodeInfoResult
+    node_info: XnasNodeInfoResult
     rdma_interfaces: RDMAInterfaceResult
 
 
 @dataclass
 class JBOFSystemData:
     """Top-level container for all JBOF system data"""
-    truenas_info: X-NASSystemInfo
+    truenas_info: XnasSystemInfo
     jbof_systems: List[JBOFSystem]
 
 
@@ -932,7 +932,7 @@ def get_zfs_pools() -> ZFSPoolResult:
         )
 
 
-def get_truenas_node_info() -> X-NASNodeInfoResult:
+def get_truenas_node_info() -> XnasNodeInfoResult:
     """Get X-NAS node information (HA status)."""
     try:
         with Client() as c:
@@ -941,7 +941,7 @@ def get_truenas_node_info() -> X-NASNodeInfoResult:
             # Treat MANUAL as standalone (same as 'A' for interface purposes)
             current_node = node if node in ['A', 'B'] else 'A'
 
-            return X-NASNodeInfoResult(
+            return XnasNodeInfoResult(
                 status=JBOFConfig.STATUS_SUCCESS,
                 current_node=current_node,
                 is_ha=is_ha,
@@ -949,7 +949,7 @@ def get_truenas_node_info() -> X-NASNodeInfoResult:
                 details=f"Node: {node}" + (" (HA pair)" if is_ha else " (standalone)")
             )
     except Exception as e:
-        return X-NASNodeInfoResult(
+        return XnasNodeInfoResult(
             status="error",
             current_node="A",
             is_ha=False,
@@ -977,7 +977,7 @@ def get_truenas_rdma_interfaces() -> RDMAInterfaceResult:
         )
 
 
-def analyze_rdma_connectivity(rdma_interfaces: RDMAInterfaceResult, node_info: X-NASNodeInfoResult,
+def analyze_rdma_connectivity(rdma_interfaces: RDMAInterfaceResult, node_info: XnasNodeInfoResult,
                               jbof_datapath_interfaces: Dict[str, Dict[str, DatapathInterface]]
                               ) -> RDMAConnectivityResult:
     """Analyze RDMA connectivity between X-NAS and JBOF.
@@ -1226,7 +1226,7 @@ def _map_rdma_to_datapath(rdma_analysis, datapath_interfaces):
 
 
 def create_host_box(pool_mapping: PoolMappingResult, rdma_analysis: RDMAConnectivityResult,
-                    node_info: Optional[X-NASNodeInfoResult],
+                    node_info: Optional[XnasNodeInfoResult],
                     datapath_interfaces: Dict[str, Dict[str, DatapathInterface]],
                     box_height: int, col_widths: Dict[str, int], drives1: List[DriveInfo],
                     drives2: List[DriveInfo]) -> List[str]:
@@ -1541,7 +1541,7 @@ def calculate_column_widths(drives1: List[DriveInfo], drives2: List[DriveInfo],
     return widths
 
 
-def create_jbof_visualization(jbof_system: JBOFSystem, node_info: Optional[X-NASNodeInfoResult] = None) -> str:
+def create_jbof_visualization(jbof_system: JBOFSystem, node_info: Optional[XnasNodeInfoResult] = None) -> str:
     """Create enhanced ASCII visualization of JBOF system with side-by-side layout."""
     # Extract fields from jbof_system for clarity
     jbof_config = jbof_system.config
@@ -1775,7 +1775,7 @@ def gather_jbof_data(jbofs: List[JBOFConfiguration]) -> Optional[JBOFSystemData]
 
     Returns:
         JBOFSystemData containing:
-        - truenas_info: X-NASSystemInfo with consolidated X-NAS data
+        - truenas_info: XnasSystemInfo with consolidated X-NAS data
         - jbof_systems: List of JBOFSystem objects with complete JBOF information
 
         Returns None if no JBOFs provided.
@@ -1792,7 +1792,7 @@ def gather_jbof_data(jbofs: List[JBOFConfiguration]) -> Optional[JBOFSystemData]
     rdma_interfaces_result = get_truenas_rdma_interfaces()
 
     # Create X-NAS system info
-    truenas_info = X-NASSystemInfo(
+    truenas_info = XnasSystemInfo(
         nvme_devices=truenas_nvme_result,
         partuuid_mappings=partuuid_result,
         zfs_pools=zfs_pools_result,

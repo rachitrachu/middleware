@@ -149,7 +149,7 @@ class AuthSCRAM(BaseModel):
     mechanism.
 
     C and python libraries to for managing the client-side portion of the authentication
-    exchanges are provided at https://github.com/truenas/truenas_scram
+    exchanges are provided at https://example.invalid/xnas_scram
     """
     scram_type: Literal["CLIENT_FIRST_MESSAGE", "CLIENT_FINAL_MESSAGE"]
     """Scram message type from client. The scram types indicate the message type that is represented by the \

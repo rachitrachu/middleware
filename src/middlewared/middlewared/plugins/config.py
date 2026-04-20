@@ -328,7 +328,7 @@ def handle_db_upload_path(middleware):
                 middleware.logger.debug('Database uploaded without pwenc secret. Forcing generation of new secret.')
                 # We immediately generate a fresh (incorrect) secret so that any calls to read an encrypted field
                 # between datastore plugin load and pwenc plugin load (where we reset) will not raise a
-                # truenas_pypwenc.PwencError with code PWENC_ERROR_SECRET_NOT_FOUND
+                # xnas_pypwenc.PwencError with code PWENC_ERROR_SECRET_NOT_FOUND
                 pwenc_generate_secret()
 
         if os.path.exists(ADMIN_KEYS_UPLOADED):

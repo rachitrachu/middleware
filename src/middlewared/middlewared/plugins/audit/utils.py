@@ -4,7 +4,7 @@ from middlewared.utils.jsonpath import (
     query_filters_json_path_parse,
     query_select_json_path_parse
 )
-from truenas_verify import mtree_verify
+from xnas_verify import mtree_verify
 
 AUDIT_DATASET_PATH = '/audit'
 AUDIT_LIFETIME = 7
@@ -115,9 +115,9 @@ def parse_query_options(options: dict) -> dict:
     return out
 
 
-async def setup_truenas_verify(middleware, sysver: str) -> int:
+async def setup_xnas_verify(middleware, sysver: str) -> int:
     """
-    Called by audit setup to generate the initial truenas_verify
+    Called by audit setup to generate the initial xnas_verify
     file for an updated or initial X-NAS version.
     """
     if os.path.exists('/data/skip-xnas-verify'):

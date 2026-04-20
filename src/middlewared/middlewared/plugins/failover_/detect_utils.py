@@ -42,11 +42,11 @@ def detect_platform() -> tuple[str, str]:
         for i in ctx.list_devices(subsystem='scsi_generic'):
             if (model := i.attributes.get('device/model')) is not None:
                 model = model.decode().strip() if isinstance(model, bytes) else model.strip()
-                if model == 'X-NAS_A':
+                if model == 'Xnas_A':
                     NODE = 'A'
                     HARDWARE = 'BHYVE'
                     break
-                elif model == 'X-NAS_B':
+                elif model == 'Xnas_B':
                     NODE = 'B'
                     HARDWARE = 'BHYVE'
                     break

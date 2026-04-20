@@ -38,7 +38,7 @@ ContainerDataT = TypeVar('ContainerDataT', bound=ContainerEntry)
 
 # Based on RFC 1123 hostname rules but with a tighter total-length cap of 100
 # characters (RFC 1123 allows 253).  Container names become part of ZFS dataset
-# paths (e.g. pool/.truenas_containers/containers/<name>) and ZFS has a practical
+# paths (e.g. pool/.xnas_containers/containers/<name>) and ZFS has a practical
 # limit of ZFS_MAX_DATASET_NAME_LEN.  Capping at 100 leaves
 # comfortable headroom for the dataset path prefix and snapshot names.
 RE_NAME = re.compile(

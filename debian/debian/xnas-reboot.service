@@ -1,5 +1,5 @@
 [Unit]
-Description=Exec TrueNAS reboot tasks
+Description=Exec X-NAS reboot tasks
 
 After=network.target middlewared.service
 

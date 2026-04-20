@@ -1,5 +1,5 @@
 [Unit]
-Description=Setup TrueNAS Reporting
+Description=Setup X-NAS Reporting
 DefaultDependencies=no
 
 # The after here reflects the after of netdata.service

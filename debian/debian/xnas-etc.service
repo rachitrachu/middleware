@@ -1,5 +1,5 @@
 [Unit]
-Description=Generate TrueNAS /etc files
+Description=Generate X-NAS /etc files
 DefaultDependencies=no
 
 Before=network-pre.target

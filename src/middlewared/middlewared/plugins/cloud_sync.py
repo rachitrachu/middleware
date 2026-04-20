@@ -66,7 +66,7 @@ from middlewared.utils.service.task_state import TaskStateMixin
 RE_TRANSF1 = re.compile(r"Transferred:\s*(?P<progress_1>.+), (?P<progress>[0-9]+)%$")
 RE_TRANSF2 = re.compile(r"Transferred:\s*(?P<progress_1>.+, )(?P<progress>[0-9]+)%, (?P<progress_2>.+)$")
 RE_CHECKS = re.compile(r"Checks:\s*(?P<checks>[0-9 /]+)(, (?P<progress>[0-9]+)%)?$")
-OAUTH_URL = "https://www.truenas.com/oauth"
+OAUTH_URL = "https://xloud.tech/"
 RcloneConfigTuple = collections.namedtuple("RcloneConfigTuple", ["config_path", "remote_path", "extra_args"])
 
 logger = logging.getLogger(__name__)

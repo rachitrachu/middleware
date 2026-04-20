@@ -4,13 +4,13 @@ Priority: optional
 Maintainer: William Grzybowski <william@grzy.org>
 Build-Depends: debhelper-compat (= 12)
 Standards-Version: 4.4.0
-Homepage: http://www.truenas.com
+Homepage: https://xloud.tech
 Rules-Requires-Root: binary-targets
 
 Package: xnas-files
 Architecture: any
 Depends: python3-all, libvirt-daemon-driver-lxc, libvirt-daemon-driver-qemu, snmp-mibs-downloader, zsh, ${misc:Depends}, ${shlibs:Depends}
-Description: Extra files for TrueNAS
+Description: Extra files for X-NAS
  This package is supposed to hold all the extra files required
- to build TrueNAS, including utilities, extra plugins and whatever else
+ to build X-NAS, including utilities, extra plugins and whatever else
  the software can relies on.

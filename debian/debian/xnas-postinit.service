@@ -1,5 +1,5 @@
 [Unit]
-Description=Execute TrueNAS custom post-init tasks
+Description=Execute X-NAS custom post-init tasks
 
 After=multi-user.target
 

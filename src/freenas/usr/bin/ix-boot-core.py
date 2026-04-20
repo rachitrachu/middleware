@@ -9,14 +9,14 @@ if __name__ == "__main__":
         boot_pool = "freenas-boot"
 
     for line in subprocess.run(
-        ["zfs", "list", "-H", "-o", "name,truenas:12", "-r", f"{boot_pool}/ROOT"],
+        ["zfs", "list", "-H", "-o", "name,xnas:12", "-r", f"{boot_pool}/ROOT"],
         capture_output=True, text=True, check=True,
     ).stdout.splitlines():
         name, truenas_12 = line.split("\t")
         if truenas_12 == "1":
             break
     else:
-        sys.stderr.write(f"No dataset with truenas:12=1 found on {boot_pool}\n")
+        sys.stderr.write(f"No dataset with xnas:12=1 found on {boot_pool}\n")
         sys.exit(1)
 
     subprocess.run(["zpool", "set", f"bootfs={name}", boot_pool], check=True)

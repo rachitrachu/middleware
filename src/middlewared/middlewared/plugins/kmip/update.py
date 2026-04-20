@@ -3,7 +3,7 @@
 # Licensed under the terms of the TrueNAS Enterprise License Agreement
 # See the file LICENSE.IX for complete terms and conditions
 
-from truenas_crypto_utils.validation import validate_cert_with_chain
+from xnas_crypto_utils.validation import validate_cert_with_chain
 
 import middlewared.sqlalchemy as sa
 

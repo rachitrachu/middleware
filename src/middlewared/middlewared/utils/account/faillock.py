@@ -31,9 +31,9 @@
 #         |   `-- ...
 #         `-- tally_lock
 #
-# truenas_pam_faillog is provided by https://github.com/truenas/pam_truenas
+# xnas_pam_faillog is provided by pam_xnas
 
-from truenas_pam_faillog import PamFaillog
+from xnas_pam_faillog import PamFaillog
 
 
 try:
@@ -45,7 +45,7 @@ except Exception:
 
 
 def is_tally_locked(username) -> bool:
-    """ This function checks for whether the pam_truenas user keyring has a tally_lock key set on it. """
+    """ This function checks for whether the pam_xnas user keyring has a tally_lock key set on it. """
     if pam_log is None:
         raise RuntimeError('No keyring access')
 
@@ -62,7 +62,7 @@ def reset_tally(username) -> None:
 
 def tally_locked_users() -> set[str]:
     """ Create a set of usernames of all users who are currently tally locked. The
-    TRUENAS_PAM_KEYRING key descriptions contain the affected user's name. """
+    XNAS_PAM_KEYRING key descriptions contain the affected user's name. """
     if pam_log is None:
         raise RuntimeError('No keyring access')
 

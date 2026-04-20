@@ -344,7 +344,7 @@ class KeychainCredentialService(CRUDService):
                     {
                         "name": "Work SSH connection",
                         "attributes": {
-                            "host": "work.truenas.com",
+                            "host": "example.com",
                             "private_key": 12,
                             "remote_host_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMn1VjdSMatGnxbOsrneKyai+dh6d4Hm"
                         }

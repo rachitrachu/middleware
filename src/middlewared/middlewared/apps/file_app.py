@@ -133,7 +133,7 @@ async def authenticate(
         case 'TOKEN':
             # User is authenticating to file app using a token. This is the typical
             # workflow for file uploads / downloads. We basically allow re-authenticating
-            # using the token (gets pam handle for the user using our truenas-unix
+            # using the token (gets pam handle for the user using our xnas-unix
             # PAM file, which doesn't require knowing password). These ideally are
             # single-use tokens.
             try:

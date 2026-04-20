@@ -1,6 +1,6 @@
-# API endpoint to access active sessions from the PAM_TRUENAS keyring
+# API endpoint to access active sessions from the PAM_XNAS keyring
 #
-# pam_truenas tracks various user session info in per-user keyrings
+# pam_xnas tracks various user session info in per-user keyrings
 # When the application calls pam_open_session() information about
 # the session is inserted into the keyring, when pam_close_session()
 # is called by the application, the information is removed.
@@ -10,7 +10,7 @@ from datetime import datetime
 from middlewared.api.base import BaseModel, NonEmptyString
 from middlewared.service import filterable_api_method, Service
 from middlewared.utils.filter_list import filter_list
-from truenas_pam_session import iterate_sessions
+from xnas_pam_session import iterate_sessions
 
 # Currently session info is private and consumed for STIG purposes but we can
 # expose in future by moving APIs here to formal external definitions

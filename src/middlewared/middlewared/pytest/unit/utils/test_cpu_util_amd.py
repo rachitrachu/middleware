@@ -14,7 +14,7 @@ from middlewared.utils.cpu import amd_cpu_temperatures
         "Tccd1": 54.750,
     }, dict(enumerate([54.750] * 6))),
     # k10temp has temperature offset constant for this CPU so we should use Tdie
-    # https://jira.ixsystems.com/browse/NAS-110515
+    # https://xloud.tech/
     ("AMD Ryzen Threadripper 1950X 16-Core Processor", 16, {
         "Tctl": 67.0,
         "Tdie": 40.0,

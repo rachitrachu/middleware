@@ -1,5 +1,5 @@
 [Unit]
-Description=Enable required cgroups for TrueNAS
+Description=Enable required cgroups for X-NAS
 DefaultDependencies=no
 # We want to do this after ix-zfs and before network is setup
 # systemd disables cpuset during boot phase and after much

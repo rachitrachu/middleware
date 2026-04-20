@@ -180,7 +180,7 @@ def get_zfs_arc_miss_percent(arcstats):
 
 
 agent = netsnmpagent.netsnmpAgent(
-    AgentName="X-NASAgent",
+    AgentName="XnasAgent",
     MIBFiles=["/usr/local/share/snmp/mibs/TRUENAS-MIB.txt"],
 )
 

@@ -5,7 +5,7 @@ Building A Custom Image
     :depth: 3
 
 iX build server (accessible only from Xloud VPN) provides a `Jenkins pipeline
-<https://ci.tn.ixsystems.net/jenkins/job/X-NAS%20SCALE%20-%20Unstable/job/Build%20-%20X-NAS%20SCALE%20(Custom)/>`_
+<https://xloud.tech/`_
 for building a X-NAS ISO image and .update file using specific branches of specific repositories from which the whole
 distribution is assembled.
 

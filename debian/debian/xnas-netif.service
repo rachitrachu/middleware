@@ -1,5 +1,5 @@
 [Unit]
-Description=Setup TrueNAS Network
+Description=Setup X-NAS Network
 DefaultDependencies=no
 
 After=middlewared.service systemd-modules-load.service

@@ -119,7 +119,7 @@ class AutomaticAlertFailedAlert(OneShotAlertClass):
         title="Failed to Notify X-NAS About Alert",
         text=textwrap.dedent("""\
             Creating an automatic alert for X-NAS about system %(serial)s failed: %(error)s.
-            Please contact X-NAS Support: https://www.truenas.com/support/
+            Please contact X-NAS Support: https://xloud.tech//
 
             Alert:
 
@@ -659,7 +659,7 @@ class AlertService(Service):
                                 "criticality": "Loss of Functionality",
                                 "environment": "Production",
                                 "name": "Automatic Alert",
-                                "email": "auto-support@truenas.com",
+                                "email": "info@xloud.tech",
                                 "phone": "-",
                             })
                             await job.wait()

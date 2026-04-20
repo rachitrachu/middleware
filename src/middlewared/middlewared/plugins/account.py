@@ -362,7 +362,7 @@ class UserService(CRUDService):
             if user['username'] in ctx['pam_locked_users']:
                 user['locked'] = True
 
-        user['webshare'] = ctx['group_ids']['truenas_webshare'] in user['groups']
+        user['webshare'] = ctx['group_ids']['xnas_webshare'] in user['groups']
 
         return user
 
@@ -1737,7 +1737,7 @@ class UserService(CRUDService):
         webshare = self.middleware.call_sync(
             'datastore.query',
             'account.bsdgroups',
-            [('group', '=', 'truenas_webshare')],
+            [('group', '=', 'xnas_webshare')],
             {'prefix': 'bsdgrp_', 'get': True},
         )
         # root user is excluded from participating

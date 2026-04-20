@@ -1,5 +1,5 @@
 import pytest
-import truenas_pyscram
+import xnas_pyscram
 from base64 import b64decode
 from xnas_api_client import Client
 
@@ -42,7 +42,7 @@ def test__api_key_legacy(root_api_key):
 
 def test__api_key_scram(root_api_key):
     with Client('ws://127.0.0.1/api/current') as c:
-        client_first_message = truenas_pyscram.ClientFirstMessage(
+        client_first_message = xnas_pyscram.ClientFirstMessage(
             username=root_api_key['username'],
             api_key_id=root_api_key['id'],
         )
@@ -53,13 +53,13 @@ def test__api_key_scram(root_api_key):
         })
         assert resp['response_type'] == 'SCRAM_RESPONSE', str(resp)
         assert resp['scram_type'] == 'SERVER_FIRST_RESPONSE', str(resp)
-        server_first_response = truenas_pyscram.ServerFirstMessage(rfc_string=resp['rfc_str'])
+        server_first_response = xnas_pyscram.ServerFirstMessage(rfc_string=resp['rfc_str'])
 
-        client_final_message = truenas_pyscram.ClientFinalMessage(
+        client_final_message = xnas_pyscram.ClientFinalMessage(
             client_first=client_first_message,
             server_first=server_first_response,
-            client_key=truenas_pyscram.CryptoDatum(b64decode(root_api_key['client_key'])),
-            stored_key=truenas_pyscram.CryptoDatum(b64decode(root_api_key['stored_key'])),
+            client_key=xnas_pyscram.CryptoDatum(b64decode(root_api_key['client_key'])),
+            stored_key=xnas_pyscram.CryptoDatum(b64decode(root_api_key['stored_key'])),
         )
 
         resp = c.call('auth.login_ex', {
@@ -70,15 +70,15 @@ def test__api_key_scram(root_api_key):
         assert resp['response_type'] == 'SCRAM_RESPONSE', str(resp)
         assert resp['scram_type'] == 'SERVER_FINAL_RESPONSE', str(resp)
 
-        server_final_response = truenas_pyscram.ServerFinalMessage(rfc_string=resp['rfc_str'])
+        server_final_response = xnas_pyscram.ServerFinalMessage(rfc_string=resp['rfc_str'])
 
         # This will raise an exception if server signature incorrect
-        truenas_pyscram.verify_server_signature(
+        xnas_pyscram.verify_server_signature(
             client_first=client_first_message,
             client_final=client_final_message,
             server_first=server_first_response,
             server_final=server_final_response,
-            server_key=truenas_pyscram.CryptoDatum(b64decode(root_api_key['server_key']))
+            server_key=xnas_pyscram.CryptoDatum(b64decode(root_api_key['server_key']))
         )
 
 

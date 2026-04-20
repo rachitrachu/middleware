@@ -26,7 +26,7 @@ credentials.
 Used for authentication with API keys and SCRAM credentials.
 
 **Authentication flow:**
-- Authenticates via `pam_truenas.so` with support for:
+- Authenticates via `pam_xnas.so` with support for:
   - Raw API key authentication
   - SCRAM-SHA512 authentication (requires multistep PAM conversation)
 - Includes account validation based on directory service configuration
@@ -58,7 +58,7 @@ as it trusts the application to have performed authentication.
 ## Session Management
 
 All three TrueNAS PAM services (`truenas`, `truenas-api-key`, `truenas-unix`) support session management through
-the shared `/etc/pam.d/truenas-session` configuration.
+the shared `/etc/pam.d/xnas-session` configuration.
 
 **Important:** Applications using these PAM services should call `pam_open_session()` and `pam_close_session()` to
 properly manage sessions. This ensures that sessions appear in the `system.security.sessions` output and are

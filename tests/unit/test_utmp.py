@@ -2,7 +2,7 @@ import ipaddress
 import pyotp
 import pytest
 import socket
-import truenas_pam_session
+import xnas_pam_session
 
 from contextlib import contextmanager
 from middlewared.utils.account import authenticator, faillock
@@ -155,7 +155,7 @@ def get_totp_token(secret, interval, digits):
 
 
 # test__utmp_conversion and test__login_logout removed - utmp functionality
-# is now managed internally by pam_truenas module
+# is now managed internally by pam_xnas module
 
 
 def test__interactive_unix_login():
@@ -165,10 +165,10 @@ def test__interactive_unix_login():
         assert hdl.session_uuid is not None
 
         # Query session from keyring
-        session = truenas_pam_session.get_session_by_id(str(hdl.session_uuid))
+        session = xnas_pam_session.get_session_by_id(str(hdl.session_uuid))
         assert session is not None
         assert session.username == 'root'
-        assert session.service == 'truenas-unix'
+        assert session.service == 'xnas-unix'
         assert session.origin_family == 'AF_UNIX'
         assert session.origin.pid == unix_origin_interactive.pid
         assert session.origin.uid == unix_origin_interactive.uid
@@ -177,7 +177,7 @@ def test__interactive_unix_login():
         session_uuid = hdl.session_uuid
 
     # Verify session is removed after logout
-    session = truenas_pam_session.get_session_by_id(str(session_uuid))
+    session = xnas_pam_session.get_session_by_id(str(session_uuid))
     assert session is None
 
 
@@ -188,7 +188,7 @@ def test__noninteractive_unix_login():
         assert hdl.session_uuid is not None
 
         # Query session from keyring
-        session = truenas_pam_session.get_session_by_id(str(hdl.session_uuid))
+        session = xnas_pam_session.get_session_by_id(str(hdl.session_uuid))
         assert session is not None
         assert session.username == 'root'
         assert session.origin_family == 'AF_UNIX'
@@ -202,7 +202,7 @@ def test__ipv4_login(admin_user):
         assert hdl.session_uuid is not None
 
         # Query session from keyring
-        session = truenas_pam_session.get_session_by_id(str(hdl.session_uuid))
+        session = xnas_pam_session.get_session_by_id(str(hdl.session_uuid))
         assert session is not None
         assert session.username == admin_user['username']
         assert session.service == 'truenas'
@@ -213,7 +213,7 @@ def test__ipv4_login(admin_user):
         session_uuid = hdl.session_uuid
 
     # Verify session is removed after logout
-    session = truenas_pam_session.get_session_by_id(str(session_uuid))
+    session = xnas_pam_session.get_session_by_id(str(session_uuid))
     assert session is None
 
 
@@ -223,7 +223,7 @@ def test__ipv6_login(admin_user):
         assert hdl.session_uuid is not None
 
         # Query session from keyring
-        session = truenas_pam_session.get_session_by_id(str(hdl.session_uuid))
+        session = xnas_pam_session.get_session_by_id(str(hdl.session_uuid))
         assert session is not None
         assert session.username == admin_user['username']
         assert session.service == 'truenas'
@@ -234,7 +234,7 @@ def test__ipv6_login(admin_user):
         session_uuid = hdl.session_uuid
 
     # Verify session is removed after logout
-    session = truenas_pam_session.get_session_by_id(str(session_uuid))
+    session = xnas_pam_session.get_session_by_id(str(session_uuid))
     assert session is None
 
 
@@ -244,7 +244,7 @@ def test__wss_login(admin_user):
         assert hdl.session_uuid is not None
 
         # Query session from keyring
-        session = truenas_pam_session.get_session_by_id(str(hdl.session_uuid))
+        session = xnas_pam_session.get_session_by_id(str(hdl.session_uuid))
         assert session is not None
         assert session.username == admin_user['username']
         assert session.service == 'truenas'
@@ -255,7 +255,7 @@ def test__wss_login(admin_user):
         session_uuid = hdl.session_uuid
 
     # Verify session is removed after logout
-    session = truenas_pam_session.get_session_by_id(str(session_uuid))
+    session = xnas_pam_session.get_session_by_id(str(session_uuid))
     assert session is None
 
 

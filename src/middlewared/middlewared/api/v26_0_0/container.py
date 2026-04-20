@@ -90,7 +90,7 @@ class ContainerEntry(BaseModel):
     There are three two possible values:\
     \
     DEFAULT: This applies the standard X-NAS idmap namespace configuration.\
-    It changes user ID (UID) 0 (root) in the container to UID 2147000001 (truenas_container_unpriv_root).\
+    It changes user ID (UID) 0 (root) in the container to UID 2147000001 (xnas_container_unpriv_root).\
     It offsets the other container UIDs by the same amount.\
     For example, UID 1000 in the container becomes UID 2147001001 in the host.\
     \

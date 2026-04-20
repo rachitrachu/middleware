@@ -18,7 +18,7 @@ async def migrate(middleware: Middleware) -> None:
         # The dataset column was intentionally left out so we could rename the
         # ZFS datasets here and update the database field accordingly.
         # dataset field is something like the following:
-        # dozer/.truenas_containers/containers/test_underscore
+        # dozer/.xnas_containers/containers/test_underscore
         old_name = os.path.basename(dataset)
 
         # If the dataset basename already matches the current name, no rename is needed.

@@ -1,6 +1,6 @@
 import enum
 import os
-import truenas_pyscram
+import xnas_pyscram
 from json import dumps
 from uuid import UUID
 from middlewared.plugins.account_.constants import ADMIN_UID
@@ -11,22 +11,22 @@ from middlewared.utils.nss.nss_common import NssModule
 from middlewared.utils.nss.grp import getgrgid
 from middlewared.utils.nss.pwd import getpwnam
 from middlewared.utils.origin import ConnectionOrigin
-from truenas_authenticator import UserPamAuthenticator as X-NASUserPamAuthenticator
-from truenas_authenticator import AuthenticatorStage as X-NASAuthenticatorStage
-from truenas_authenticator import AuthenticatorResponse as X-NASAuthenticatorResponse
+from xnas_authenticator import UserPamAuthenticator as XnasUserPamAuthenticator
+from xnas_authenticator import AuthenticatorStage as XnasAuthenticatorStage
+from xnas_authenticator import AuthenticatorResponse as XnasAuthenticatorResponse
 from xnas_pypam import MSGStyle, PAMCode
 from socket import AF_INET, AF_INET6, AF_UNIX
 from .faillock import is_tally_locked
 
 
-class TruenasPamFile(enum.StrEnum):
-    DEFAULT = '/etc/pam.d/truenas'
+class XnasPamFile(enum.StrEnum):
+    DEFAULT = '/etc/pam.d/xnas'
     """ used for regular username / password authentication """
-    API_KEY = '/etc/pam.d/truenas-api-key'
+    API_KEY = '/etc/pam.d/xnas-api-key'
     """ used for authentication with API key """
-    UNIX = '/etc/pam.d/truenas-unix'
+    UNIX = '/etc/pam.d/xnas-unix'
     """ used for authentication via unix socket """
-    COMMON_SESSION = '/etc/pam.d/truenas-session'
+    COMMON_SESSION = '/etc/pam.d/xnas-session'
     """ session-related modules common to all middleware authenticators """
 
     @property
@@ -51,31 +51,31 @@ class AccountFlag(enum.StrEnum):
     PASSWORD_CHANGE_REQUIRED = 'PASSWORD_CHANGE_REQUIRED'  # Password change for account is required
 
 
-DEFAULT_LOGIN_SUCCESS = X-NASAuthenticatorResponse(
-    X-NASAuthenticatorStage.LOGIN, PAMCode.PAM_SUCCESS, None
+DEFAULT_LOGIN_SUCCESS = XnasAuthenticatorResponse(
+    XnasAuthenticatorStage.LOGIN, PAMCode.PAM_SUCCESS, None
 )
 
-DEFAULT_LOGIN_FAIL = X-NASAuthenticatorResponse(
-    X-NASAuthenticatorStage.LOGIN, PAMCode.PAM_SYSTEM_ERR, 'Unexpected Session Manager'
+DEFAULT_LOGIN_FAIL = XnasAuthenticatorResponse(
+    XnasAuthenticatorStage.LOGIN, PAMCode.PAM_SYSTEM_ERR, 'Unexpected Session Manager'
 )
 
-DEFAULT_LOGOUT_SUCCESS = X-NASAuthenticatorResponse(
-    X-NASAuthenticatorStage.LOGOUT, PAMCode.PAM_SUCCESS, None
+DEFAULT_LOGOUT_SUCCESS = XnasAuthenticatorResponse(
+    XnasAuthenticatorStage.LOGOUT, PAMCode.PAM_SUCCESS, None
 )
 
-DEFAULT_LOGOUT_FAIL = X-NASAuthenticatorResponse(
-    X-NASAuthenticatorStage.LOGOUT, PAMCode.PAM_SYSTEM_ERR, 'Unexpected Session Manager'
+DEFAULT_LOGOUT_FAIL = XnasAuthenticatorResponse(
+    XnasAuthenticatorStage.LOGOUT, PAMCode.PAM_SYSTEM_ERR, 'Unexpected Session Manager'
 )
 
 
-class UserPamAuthenticator(X-NASUserPamAuthenticator):
+class UserPamAuthenticator(XnasUserPamAuthenticator):
     """ X-NAS authenticator object. These are allocated per middleware session and hold an
     open pam handle with state information about the particular session. This includes the
     utmp entry generated for the authenticated user. """
 
     def _get_pam_session_info(self, origin: ConnectionOrigin) -> None:
         """ Set the connection origin and other middleware-session metadata into
-        pam environmental variable `pam_truenas_session_data`. This will then be inserted
+        pam environmental variable `pam_xnas_session_data`. This will then be inserted
         into our sessions keyring that is used for tracking sessions in general. """
 
         if origin.family == AF_UNIX:
@@ -149,7 +149,7 @@ class UserPamAuthenticator(X-NASUserPamAuthenticator):
                 else:
                     passwd['account_attributes'] = [AccountFlag.DIRECTORY_SERVICE, AccountFlag.LDAP]
 
-        if self.state.service == TruenasPamFile.API_KEY.service:
+        if self.state.service == XnasPamFile.API_KEY.service:
             passwd['account_attributes'].append(AccountFlag.API_KEY)
 
         # Compare normalized username from NSS with usernames in the /etc/users.oath file
@@ -164,7 +164,7 @@ class UserPamAuthenticator(X-NASUserPamAuthenticator):
         # Retrieve via property getter to ensure we're returning a proper copy
         return self.truenas_user_obj
 
-    def __init__(self, *, username: str, origin: ConnectionOrigin, service=TruenasPamFile.DEFAULT):
+    def __init__(self, *, username: str, origin: ConnectionOrigin, service=XnasPamFile.DEFAULT):
         # NOTE: we are limiting ourselves to non-blocking calls here because these objects are
         # created potentially in async co-routines. This means we input the username as sent by client.
         # We can later normalize when processing authentication requests.
@@ -177,25 +177,25 @@ class UserPamAuthenticator(X-NASUserPamAuthenticator):
             username=username,
             service=service.service,
             rhost=str(origin),
-            pam_env={'pam_truenas_session_data': dumps(session_info)}
+            pam_env={'pam_xnas_session_data': dumps(session_info)}
         )
         self.otpw_possible = True
         self._session_uuid = None
 
-    def login(self) -> X-NASAuthenticatorResponse:
+    def login(self) -> XnasAuthenticatorResponse:
         resp = super().login()
         if resp.code == PAMCode.PAM_SUCCESS:
-            # On successful session open, pam_truenas will set a pam environmental variable containing the
+            # On successful session open, pam_xnas will set a pam environmental variable containing the
             # session_uuid it assigned the session in the user keyring.
             #
             # This will fail with FileNotFoundError if for some reason the environmental variable wasn't
             # properly set by the PAM module. This is a very unexpected error and so we are intentionally
             # not attempting to handle it here.
             try:
-                uuid_str = self.ctx.get_env('pam_truenas_session_uuid')
+                uuid_str = self.ctx.get_env('pam_xnas_session_uuid')
                 self._session_uuid = UUID(uuid_str)
             except Exception as exc:
-                # PAM stack is misconfigured (pam_truenas possibly omitted). We don't
+                # PAM stack is misconfigured (pam_xnas possibly omitted). We don't
                 # want to raise an exception here because it will make recovery impossible
                 # because middleware auth will be broken.
                 self.session_error = str(exc)
@@ -246,7 +246,7 @@ class UserPamAuthenticator(X-NASUserPamAuthenticator):
 
         return code, reason
 
-    def pam_authenticate_simple(self, username: str, password: str) -> X-NASAuthenticatorResponse:
+    def pam_authenticate_simple(self, username: str, password: str) -> XnasAuthenticatorResponse:
         """ Simple version of authentication is user / password (with possibly request for 2FA token) """
         self.username = username  # ensure that PAM context is created with the provided username
         self._twofactor_user = False  # reset any old 2FA flag
@@ -303,11 +303,11 @@ class UserPamAuthenticator(X-NASUserPamAuthenticator):
     def twofactor_user(self):
         return self._twofactor_user
 
-    def authenticate_oath(self, twofactor_token: str) -> X-NASAuthenticatorResponse:
-        stage = X-NASAuthenticatorStage.AUTH
+    def authenticate_oath(self, twofactor_token: str) -> XnasAuthenticatorResponse:
+        stage = XnasAuthenticatorStage.AUTH
 
         if not self.twofactor_user:
-            return X-NASAuthenticatorResponse(stage, PAMCode.PAM_AUTH_ERR, 'User does not support two-factor auth')
+            return XnasAuthenticatorResponse(stage, PAMCode.PAM_AUTH_ERR, 'User does not support two-factor auth')
 
         resp = self.auth_continue([twofactor_token])
         if resp.code == PAMCode.PAM_SUCCESS:
@@ -318,13 +318,13 @@ class UserPamAuthenticator(X-NASUserPamAuthenticator):
 
         return resp
 
-    def authenticate(self, username: str, password: str) -> X-NASAuthenticatorResponse:
-        stage = X-NASAuthenticatorStage.AUTH
+    def authenticate(self, username: str, password: str) -> XnasAuthenticatorResponse:
+        stage = XnasAuthenticatorStage.AUTH
 
         try:
             pw = self._get_user_obj(username)
         except KeyError:
-            return X-NASAuthenticatorResponse(stage, PAMCode.PAM_AUTH_ERR, f'{username}: user does not exist')
+            return XnasAuthenticatorResponse(stage, PAMCode.PAM_AUTH_ERR, f'{username}: user does not exist')
 
         code = None
         reason = None
@@ -342,7 +342,7 @@ class UserPamAuthenticator(X-NASUserPamAuthenticator):
         # pass the normalized name to the PAM stack when authenticating
         resp = self.pam_authenticate_simple(pw['pw_name'], password)
         if resp.code != PAMCode.PAM_SUCCESS:
-            if resp.code == PAMCode.PAM_AUTH_ERR and self.state.service == TruenasPamFile.DEFAULT.service:
+            if resp.code == PAMCode.PAM_AUTH_ERR and self.state.service == XnasPamFile.DEFAULT.service:
                 # This is possibly due to tally lock. In this case we'll change PAM code to reflect locked
                 # status
                 if is_tally_locked(pw['pw_name']):
@@ -355,7 +355,7 @@ class UserPamAuthenticator(X-NASUserPamAuthenticator):
                         if code == PAMCode.PAM_SUCCESS:
                             # swap out our pam service with UNIX to properly initialize
                             # underlying PAM context.
-                            self.state.service = TruenasPamFile.UNIX.service
+                            self.state.service = XnasPamFile.UNIX.service
                             resp = self.pam_authenticate_simple(pw['pw_name'], '')
                             resp.user_info = pw
                         else:
@@ -396,10 +396,10 @@ class ApiKeyPamAuthenticator(UserPamAuthenticator):
         if not origin.is_tcp_ip_family:
             raise TypeError(f'{origin}: unexpected origin for ApiKeyPamAuthenticator')
 
-        super().__init__(username=username, origin=origin, service=TruenasPamFile.API_KEY)
+        super().__init__(username=username, origin=origin, service=XnasPamFile.API_KEY)
         self.otpw_possible = False
 
-    def authenticate(self, username: str, password: str) -> X-NASAuthenticatorResponse:
+    def authenticate(self, username: str, password: str) -> XnasAuthenticatorResponse:
         """ Split up API key into DBID and actual key material then pass to backend """
         try:
             dbid, key = password.split('-', 1)
@@ -417,12 +417,12 @@ class ScramPamAuthenticator(UserPamAuthenticator):
             raise TypeError(f'{origin}: unexpected origin for ScramPamAuthenticator')
 
         try:
-            self.client_first = truenas_pyscram.ClientFirstMessage(rfc_string=client_first_message)
+            self.client_first = xnas_pyscram.ClientFirstMessage(rfc_string=client_first_message)
         except Exception as exc:
             # Fill in some dummy values that will not grant access. We initialize here
             # so that we can minimally provide reasonable error responses to subsequent
             # calls and not fial in init.
-            super().__init__(username='nobody', origin=origin, service=TruenasPamFile.API_KEY)
+            super().__init__(username='nobody', origin=origin, service=XnasPamFile.API_KEY)
             self.scram_error = exc
             self.sent_server_first = False
             self.sent_server_final = False
@@ -431,7 +431,7 @@ class ScramPamAuthenticator(UserPamAuthenticator):
             self.scram_error = None
 
         super().__init__(
-            username=self.client_first.username, origin=origin, service=TruenasPamFile.API_KEY
+            username=self.client_first.username, origin=origin, service=XnasPamFile.API_KEY
         )
 
         self.sent_server_first = False
@@ -442,14 +442,14 @@ class ScramPamAuthenticator(UserPamAuthenticator):
     def authenticate(self, username: str, password: str):
         raise NotImplementedError("Plain authentication is not supported for SCRAM authentication")
 
-    def handle_first_message(self) -> X-NASAuthenticatorResponse:
+    def handle_first_message(self) -> XnasAuthenticatorResponse:
         """ handle the ClientFirstMessage from the initialization and generate ServerFirstMessage. """
-        stage = X-NASAuthenticatorStage.AUTH
+        stage = XnasAuthenticatorStage.AUTH
 
         if self.scram_error:
             # We had some sort of parsing error on the client-provided RFC string. We'll convert it
             # to a PAM response here
-            return X-NASAuthenticatorResponse(stage, PAMCode.PAM_AUTH_ERR, str(self.scram_error))
+            return XnasAuthenticatorResponse(stage, PAMCode.PAM_AUTH_ERR, str(self.scram_error))
 
         if self.sent_server_first:
             raise RuntimeError('Already sent server first response')
@@ -457,13 +457,13 @@ class ScramPamAuthenticator(UserPamAuthenticator):
         try:
             self._get_user_obj(self.username)
         except KeyError:
-            return X-NASAuthenticatorResponse(
+            return XnasAuthenticatorResponse(
                 stage, PAMCode.PAM_AUTH_ERR, f'{self.username}: user does not exist'
             )
 
         resp = self.auth_init()
         if resp.code != PAMCode.PAM_CONV_AGAIN:
-            return X-NASAuthenticatorResponse(
+            return XnasAuthenticatorResponse(
                 stage, PAMCode.PAM_AUTH_ERR,
                 f'{resp.code}: unexpected response code. Expected [PAM_CONV_AGAIN]'
             )
@@ -483,7 +483,7 @@ class ScramPamAuthenticator(UserPamAuthenticator):
         # now time to get the ServerFirstResponse
         resp = self.auth_continue(client_resp)
         if resp.code != PAMCode.PAM_CONV_AGAIN:
-            return X-NASAuthenticatorResponse(
+            return XnasAuthenticatorResponse(
                 stage, PAMCode.PAM_AUTH_ERR,
                 f'{resp.code}: unexpected response code. Expected [PAM_CONV_AGAIN]'
             )
@@ -492,10 +492,10 @@ class ScramPamAuthenticator(UserPamAuthenticator):
             raise RuntimeError(f'{resp.reason}: unexpected PAM response')
 
         self.sent_server_first = True
-        return X-NASAuthenticatorResponse(stage, PAMCode.PAM_CONV_AGAIN, resp.reason[0].msg)
+        return XnasAuthenticatorResponse(stage, PAMCode.PAM_CONV_AGAIN, resp.reason[0].msg)
 
-    def handle_final_message(self, rfc_string: str) -> X-NASAuthenticatorResponse:
-        stage = X-NASAuthenticatorStage.AUTH
+    def handle_final_message(self, rfc_string: str) -> XnasAuthenticatorResponse:
+        stage = XnasAuthenticatorStage.AUTH
         if self.sent_server_final:
             raise RuntimeError('Already sent ServerFinalMessage')
 
@@ -504,7 +504,7 @@ class ScramPamAuthenticator(UserPamAuthenticator):
 
         resp = self.auth_continue([rfc_string])
         if resp.code != PAMCode.PAM_CONV_AGAIN:
-            return X-NASAuthenticatorResponse(
+            return XnasAuthenticatorResponse(
                 stage, PAMCode.PAM_AUTH_ERR,
                 f'{resp.code}: unexpected response code. Expected [PAM_CONV_AGAIN]'
             )
@@ -522,7 +522,7 @@ class ScramPamAuthenticator(UserPamAuthenticator):
         # send final message to close out the authentication
         self.auth_continue([''])
 
-        return X-NASAuthenticatorResponse(
+        return XnasAuthenticatorResponse(
             stage=stage,
             code=PAMCode.PAM_SUCCESS,
             reason=msg.msg,
@@ -533,10 +533,10 @@ class ScramPamAuthenticator(UserPamAuthenticator):
 class InternalPamAuthenticator(UserPamAuthenticator):
     """ Authenticator for handling AF_UNIX connections, API token authentication, and HA connections. """
     def __init__(self, *, username: str, origin: ConnectionOrigin):
-        super().__init__(username=username, origin=origin, service=TruenasPamFile.UNIX)
+        super().__init__(username=username, origin=origin, service=XnasPamFile.UNIX)
         self.otpw_possible = False
 
-    def authenticate(self, username: str) -> X-NASAuthenticatorResponse:
+    def authenticate(self, username: str) -> XnasAuthenticatorResponse:
         """ Authentication for our unix socket is somewhat different. We just simply
         verify username exists and set up pam handle
 

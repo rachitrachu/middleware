@@ -60,7 +60,7 @@ class PoolSnapshotEntryPropertyFields(BaseModel):
 
 
 class PoolSnapshotHoldTag(BaseModel):
-    truenas: int = NotRequired
+    xnas: int = NotRequired
     """Present if a hold has been placed on the snapshot."""
 
 

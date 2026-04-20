@@ -17,7 +17,7 @@ from .utils import (
     AUDITED_SERVICES,
     parse_query_filters,
     parse_query_options,
-    setup_truenas_verify,
+    setup_xnas_verify,
 )
 from .schema.middleware import AUDIT_EVENT_MIDDLEWARE_JSON_SCHEMAS, AUDIT_EVENT_MIDDLEWARE_PARAM_SET
 from .schema.smb import AUDIT_EVENT_SMB_JSON_SCHEMAS, AUDIT_EVENT_SMB_PARAM_SET
@@ -497,17 +497,17 @@ class AuditService(ConfigService):
         except Exception:
             self.logger.error('Failed to apply auditing dataset configuration.', exc_info=True)
 
-        # Generate the initial truenas_verify file
+        # Generate the initial xnas_verify file
         try:
             current_version = await self.middleware.call('system.version')
-            rc = await setup_truenas_verify(self.middleware, current_version)
+            rc = await setup_xnas_verify(self.middleware, current_version)
             if rc:
                 self.logger.warning(
-                    'Did not get clean result from truenas_verify initial setup. See %s',
+                    'Did not get clean result from xnas_verify initial setup. See %s',
                     f'{AUDIT_LOG_PATH_NAME}.{current_version}.log'
                 )
         except Exception:
-            self.logger.error('Error detected in truenas_verify setup.', exc_info=True)
+            self.logger.error('Error detected in xnas_verify setup.', exc_info=True)
 
     @filterable_api_method(private=True)
     async def json_schemas(self, filters, options):

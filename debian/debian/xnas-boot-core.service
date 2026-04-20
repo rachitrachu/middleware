@@ -1,5 +1,5 @@
 [Unit]
-Description=Reboot to TrueNAS core
+Description=Reboot to X-NAS core
 DefaultDependencies=no
 
 Before=middlewared.service

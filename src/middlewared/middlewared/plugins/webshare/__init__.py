@@ -69,4 +69,4 @@ class WebshareService(GenericConfigService[WebshareEntry]):
 
 
 async def setup(middleware: Middleware) -> None:
-    middleware.register_hook("tn_connect.hostname.updated", tn_connect_hostname_updated)
+    middleware.register_hook("xnas_connect.hostname.updated", tn_connect_hostname_updated)

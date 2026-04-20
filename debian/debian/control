@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: William Grzybowski <william@grzy.org>
 Build-Depends: debhelper-compat (= 12)
 Standards-Version: 4.4.0
-Homepage: http://www.truenas.com
+Homepage: https://xloud.tech
 
 Package: truenas
 Architecture: all
@@ -69,7 +69,7 @@ Depends: acl,
 #        wireguard,
          zsh,
          ${misc:Depends}
-Description: Main package for TrueNAS
+Description: Main package for X-NAS
  This package is supposed to hold all the dependencies required
- to build TrueNAS as well as set the correction version so other
+ to build X-NAS as well as set the correction version so other
  software can rely on.

@@ -18,7 +18,7 @@ def render(service, middleware):
     os.makedirs("/etc/webshare-auth", exist_ok=True, mode=0o700)
     return json.dumps({
         "pam_service_name": "webshare",
-        "allowed_groups": ["truenas_webshare"] + config.groups,
+        "allowed_groups": ["xnas_webshare"] + config.groups,
         "webshare_config_path": "/etc/webshare/config.json",
         "log_level": "info",
         "data_directory": WEBSHARE_PATH,
@@ -42,7 +42,7 @@ def render(service, middleware):
             "port": 755,
             "bind_addrs": bind_addrs,
             "cert_path": "/etc/certificates",
-            "cert_prefix": "truenas_connect",
+            "cert_prefix": "xnas_connect",
             "dhparam_path": "/data/dhparam.pem",
             "timeouts": {
                 "read_timeout_seconds": 86400,

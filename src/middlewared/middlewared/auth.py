@@ -8,7 +8,7 @@ from middlewared.utils.account.authenticator import (
     DEFAULT_LOGIN_FAIL, DEFAULT_LOGIN_SUCCESS,
     DEFAULT_LOGOUT_FAIL, DEFAULT_LOGOUT_SUCCESS,
     UserPamAuthenticator, ApiKeyPamAuthenticator, UnixPamAuthenticator,
-    TokenPamAuthenticator, X-NASAuthenticatorResponse,
+    TokenPamAuthenticator, XnasAuthenticatorResponse,
 )
 from middlewared.utils.auth import AuthMech, AuthenticatorAssuranceLevel
 from time import monotonic
@@ -32,7 +32,7 @@ class SessionManagerCredentials:
             cls.__name__.replace("SessionManagerCredentials", "")
         ).lstrip("_").upper()
 
-    def login(self) -> X-NASAuthenticatorResponse:
+    def login(self) -> XnasAuthenticatorResponse:
         # Default to failure. This method should not be hit
         return DEFAULT_LOGIN_FAIL
 
@@ -48,7 +48,7 @@ class SessionManagerCredentials:
     def notify_used(self):
         pass
 
-    def logout(self) -> X-NASAuthenticatorResponse:
+    def logout(self) -> XnasAuthenticatorResponse:
         return DEFAULT_LOGOUT_FAIL
 
     def dump(self):
@@ -92,7 +92,7 @@ class UserSessionManagerCredentials(SessionManagerCredentials):
             self.expiry = now + self.assurance.max_session_age
             self.inactivity_timeout = self.assurance.max_inactivity
 
-    def login(self) -> X-NASAuthenticatorResponse:
+    def login(self) -> XnasAuthenticatorResponse:
         resp = self.authenticator.login()
         self.login_at = self.authenticator.login_at
         if self.authenticator.session_uuid:
@@ -106,7 +106,7 @@ class UserSessionManagerCredentials(SessionManagerCredentials):
 
         return resp
 
-    def logout(self) -> X-NASAuthenticatorResponse:
+    def logout(self) -> XnasAuthenticatorResponse:
         resp = self.authenticator.logout()
         self.authenticator = None
         return resp
@@ -270,7 +270,7 @@ class TokenSessionManagerCredentials(SessionManagerCredentials):
         self.root_credentials.notify_used()
         self.token.notify_used()
 
-    def login(self) -> X-NASAuthenticatorResponse:
+    def login(self) -> XnasAuthenticatorResponse:
         resp = self.authenticator.login()
         self.login_at = self.authenticator.login_at
         if self.authenticator.session_uuid:
@@ -284,7 +284,7 @@ class TokenSessionManagerCredentials(SessionManagerCredentials):
 
         return resp
 
-    def logout(self) -> X-NASAuthenticatorResponse:
+    def logout(self) -> XnasAuthenticatorResponse:
         # Remove reference to parent authenticator
         self.token_manager.destroy(self.token)
         # Explicit logout of this session
@@ -304,10 +304,10 @@ class TokenSessionManagerCredentials(SessionManagerCredentials):
 
 class TruenasNodeSessionManagerCredentials(SessionManagerCredentials):
     """ Authentication from other HA node """
-    def login(self) -> X-NASAuthenticatorResponse:
+    def login(self) -> XnasAuthenticatorResponse:
         return DEFAULT_LOGIN_SUCCESS
 
-    def logout(self) -> X-NASAuthenticatorResponse:
+    def logout(self) -> XnasAuthenticatorResponse:
         return DEFAULT_LOGOUT_SUCCESS
 
     def authorize(self, method, resource):

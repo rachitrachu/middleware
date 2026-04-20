@@ -1,6 +1,6 @@
 import datetime
 
-from truenas_crypto_utils.generate_self_signed import generate_self_signed_certificate
+from xnas_crypto_utils.generate_self_signed import generate_self_signed_certificate
 
 from middlewared.service import job, periodic, private, Service
 from middlewared.utils.time_utils import utc_now
@@ -22,7 +22,7 @@ class CertificateService(Service):
             system_cert = self.middleware.call_sync('certificate.get_instance', system_cert)
 
         system_cert_ids = []
-        tnc_config = self.middleware.call_sync('tn_connect.config')
+        tnc_config = self.middleware.call_sync('xnas_connect.config')
         if (
             system_cert
             and (
@@ -61,7 +61,7 @@ class CertificateService(Service):
             # renew cert
             self.logger.debug(f'Renewing certificate {cert["name"]}')
             if cert['id'] == tnc_config['certificate']:
-                self.middleware.create_task(self.middleware.call('tn_connect.acme.renew_cert'))
+                self.middleware.create_task(self.middleware.call('xnas_connect.acme.renew_cert'))
                 continue
             elif not cert.get('acme'):
                 cert_str, key = generate_self_signed_certificate()

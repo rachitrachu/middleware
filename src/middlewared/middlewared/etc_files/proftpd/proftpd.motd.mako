@@ -3,7 +3,7 @@
     if ftp["banner"]:
         banner = ftp["banner"]
     else:
-        banner = "Welcome to TrueNAS FTP Server"
+        banner = "Welcome to X-NAS FTP Server"
 
 %>\
 ${banner}

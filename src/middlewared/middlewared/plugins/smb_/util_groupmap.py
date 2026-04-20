@@ -9,7 +9,7 @@
 # }
 # {
 # key(58) = "UNIXGROUP/S-1-5-21-1137207236-3870220311-645177593-200042\00"
-# data(40) = "\B8\03\00\00\04\00\00\00truenas_sharing_administrators\00\00"
+# data(40) = "\B8\03\00\00\04\00\00\00xnas_sharing_administrators\00\00"
 # }
 # {
 # key(55) = "UNIXGROUP/S-1-5-21-1137207236-3870220311-645177593-512\00"
@@ -25,7 +25,7 @@
 # }
 # {
 # key(58) = "UNIXGROUP/S-1-5-21-1137207236-3870220311-645177593-200041\00"
-# data(41) = "\B7\03\00\00\04\00\00\00truenas_readonly_administrators\00\00"
+# data(41) = "\B7\03\00\00\04\00\00\00xnas_readonly_administrators\00\00"
 # }
 # {
 # key(54) = "MEMBEROF/S-1-5-21-1137207236-3870220311-645177593-512\00"
@@ -116,7 +116,7 @@ def _parse_unixgroup(tdb_key: str, tdb_val: str) -> SMBGroupMap:
     "UNIXGROUP/S-1-5-21-1137207236-3870220311-645177593-200042\00"
 
     Sample TDB value:
-    "\\B8\03\00\00\04\00\00\00truenas_sharing_administrators\00\00"
+    "\\B8\03\00\00\04\00\00\00xnas_sharing_administrators\00\00"
 
     first four bytes are gid, second four are sid type,
     remainder are two null-terminated strings.

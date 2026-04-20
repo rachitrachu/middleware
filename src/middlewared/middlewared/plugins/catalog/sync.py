@@ -18,7 +18,7 @@ if TYPE_CHECKING:
     from middlewared.job import Job
 
 
-STATS_URL: str = 'https://telemetry.sys.truenas.net/apps/truenas-apps-stats.json'
+STATS_URL: str = 'https://xloud.tech/'
 
 
 @dataclass

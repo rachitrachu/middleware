@@ -11,7 +11,7 @@ from middlewared.utils import ajson
 from middlewared.utils.time_utils import utc_now
 from middlewared.plugins.zfs_.utils import path_to_dataset_impl
 
-USAGE_URL = 'https://usage.truenas.com/submit'
+USAGE_URL = 'https://xloud.tech/'
 
 
 class UsageService(Service):

@@ -55,7 +55,7 @@ Build-Depends: alembic,
                python3-xnas-api-client,
                python3-xnas-connect-utils,
                python3-xnas-crypto-utils,
-               python3-truenas-pam-utils,
+               python3-xnas-pam-utils,
                python3-xnas-pylibsed,
                python3-xnas-pylibvirt,
                python3-xnas-pylicensed,
@@ -152,7 +152,7 @@ Depends: alembic,
          python3-xnas-api-client,
          python3-xnas-connect-utils,
          python3-xnas-crypto-utils,
-         python3-truenas-pam-utils,
+         python3-xnas-pam-utils,
          python3-xnas-pylibsed,
          python3-xnas-pylibvirt,
          python3-xnas-pylicensed,
@@ -190,7 +190,7 @@ Depends: alembic,
          zectl,
          ${misc:Depends},
          ${python3:Depends}
-Description: Middleware daemon for TrueNAS
+Description: Middleware daemon for X-NAS
  This package provides the middlewared daemon which is the central
- daemon of TrueNAS, responsible for the operating system management
+ daemon of X-NAS, responsible for the operating system management
  with WebSocket and REST APIs.

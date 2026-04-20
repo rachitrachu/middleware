@@ -29,7 +29,7 @@ class Client(TNClient):
         return
 
 
-class X-NAS_Server:
+class Xnas_Server:
     __slots__ = (
         '_ip',
         '_nodea_ip',
@@ -157,7 +157,7 @@ class X-NAS_Server:
         }
 
 
-truenas_server = X-NAS_Server()
+truenas_server = Xnas_Server()
 
 
 @contextlib.contextmanager

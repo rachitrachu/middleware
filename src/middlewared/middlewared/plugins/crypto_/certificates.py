@@ -1,8 +1,8 @@
 import datetime
 
-from truenas_crypto_utils.csr import generate_certificate_signing_request
-from truenas_crypto_utils.read import load_certificate, load_certificate_request, RE_CERTIFICATE
-from truenas_crypto_utils.validation import validate_certificate_with_key, validate_private_key
+from xnas_crypto_utils.csr import generate_certificate_signing_request
+from xnas_crypto_utils.read import load_certificate, load_certificate_request, RE_CERTIFICATE
+from xnas_crypto_utils.validation import validate_certificate_with_key, validate_private_key
 
 import middlewared.sqlalchemy as sa
 from middlewared.api import api_method
@@ -11,7 +11,7 @@ from middlewared.api.current import (
     CertificateUpdateResult, CertificateDeleteArgs, CertificateDeleteResult,
 )
 from middlewared.async_validators import validate_country
-from middlewared.plugins.truenas_connect.utils import TNC_CERT_PREFIX
+from middlewared.plugins.xnas_connect.utils import TNC_CERT_PREFIX
 from middlewared.service import CallError, CRUDService, job, private, ValidationErrors
 
 from .query_utils import normalize_cert_attrs
@@ -431,7 +431,7 @@ class CertificateService(CRUDService):
         if any(new.get(k) != old.get(k) for k in ('name', 'renew_days', 'add_to_trusted_store')):
 
             verrors = ValidationErrors()
-            tnc_config = await self.middleware.call('tn_connect.config')
+            tnc_config = await self.middleware.call('xnas_connect.config')
             if tnc_config['certificate'] == id_:
                 verrors.add(
                     'certificate_update.name',

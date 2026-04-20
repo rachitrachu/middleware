@@ -3,11 +3,11 @@ from __future__ import annotations
 from typing import Any, TYPE_CHECKING
 
 from acme import messages
-from truenas_acme_utils.client_utils import ACMEClientAndKeyData
-from truenas_acme_utils.event import event_callbacks
-from truenas_acme_utils.exceptions import CallError as AcmeUtilsCallError
-from truenas_acme_utils.issue_cert import issue_certificate as _issue_cert
-from truenas_crypto_utils.generate_utils import normalize_san
+from xnas_acme_utils.client_utils import ACMEClientAndKeyData
+from xnas_acme_utils.event import event_callbacks
+from xnas_acme_utils.exceptions import CallError as AcmeUtilsCallError
+from xnas_acme_utils.issue_cert import issue_certificate as _issue_cert
+from xnas_crypto_utils.generate_utils import normalize_san
 
 from middlewared.service import ServiceContext, ValidationErrors
 from middlewared.service_exception import CallError

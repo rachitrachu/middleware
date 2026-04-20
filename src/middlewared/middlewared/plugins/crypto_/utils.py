@@ -1,4 +1,4 @@
-from truenas_crypto_utils.key import export_private_key
+from xnas_crypto_utils.key import export_private_key
 
 
 # Cert locations

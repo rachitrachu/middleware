@@ -119,7 +119,7 @@ class BootEnvironmentService(Service):
                     "used_bytes": props["used"]["value"],
                     "used": format_size(props["used"]["value"]),
                     "keep": i["user_properties"].get("zectl:keep") == "True",
-                    "can_activate": i["user_properties"].get("truenas:kernel_version") != "-",
+                    "can_activate": i["user_properties"].get("xnas:kernel_version") != "-",
                 }
             )
         return filter_list(results, filters, options)

@@ -71,7 +71,7 @@ DEFAULT_LOGFORMAT = '[%(asctime)s] (%(levelname)s) %(name)s.%(funcName)s():%(lin
 FALLBACK_LOGFILE = '/var/log/fallback-middlewared.log'
 NETDATA_API_LOGFILE = '/var/log/netdata_api.log'
 NGINX_LOG_PATH = '/var/log/nginx'
-TRUENAS_CONNECT_LOGFILE = '/var/log/truenas_connect.log'
+TRUENAS_CONNECT_LOGFILE = '/var/log/xnas_connect.log'
 ZETTAREPL_LOGFILE = '/var/log/zettarepl.log'
 ZETTAREPL_LOGFORMAT = '[%(asctime)s] %(levelname)-8s [%(threadName)s] [%(name)s] %(message)s'
 
@@ -117,7 +117,7 @@ ALL_LOG_FILES = (
     TNLog('docker_image', DOCKER_IMAGE_LOGFILE),
     TNLog('failover', FAILOVER_LOGFILE),
     TNLog('netdata_api', NETDATA_API_LOGFILE),
-    TNLog('truenas_connect', TRUENAS_CONNECT_LOGFILE),
+    TNLog('xnas_connect', TRUENAS_CONNECT_LOGFILE),
     TNLog('zettarepl', ZETTAREPL_LOGFILE, ZETTAREPL_LOGFORMAT),
 )
 # Audit entries are inserted into audit databases in /audit rather than

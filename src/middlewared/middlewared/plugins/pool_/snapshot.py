@@ -149,7 +149,7 @@ class PoolSnapshotService(CRUDService):
 
         if include_holds:
             if snap.get('holds') and 'truenas' in snap['holds']:
-                entry['holds'] = {'truenas': 1}
+                entry['holds'] = {'xnas': 1}
             else:
                 entry['holds'] = {}
 

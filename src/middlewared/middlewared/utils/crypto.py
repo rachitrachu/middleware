@@ -9,7 +9,7 @@ from cryptit import cryptit
 from middlewared.utils.secrets import choice, token_urlsafe, token_hex
 
 from samba.crypto import md4_hash_blob
-from truenas_pyscram import CryptoDatum, generate_scram_auth_data
+from xnas_pyscram import CryptoDatum, generate_scram_auth_data
 
 
 # NOTE: these are lifted from cpython/Lib/uuid.py

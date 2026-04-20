@@ -7,7 +7,7 @@ Create Date: 2026-02-06 18:18:37.674898+00:00
 """
 from alembic import op
 import sqlalchemy as sa
-import truenas_pyscram
+import xnas_pyscram
 from base64 import b64encode, b64decode
 from middlewared.utils.pwenc import encrypt
 
@@ -32,9 +32,9 @@ def revoke_api_key(api_key, reason):
 
 
 def add_scram_data(api_key, iter, saltb64, hashb64):
-    key_hash = truenas_pyscram.CryptoDatum(b64decode(hashb64))
-    salt = truenas_pyscram.CryptoDatum(b64decode(saltb64))
-    auth_data = truenas_pyscram.generate_scram_auth_data(iterations=iter, salt=salt, salted_password=key_hash)
+    key_hash = xnas_pyscram.CryptoDatum(b64decode(hashb64))
+    salt = xnas_pyscram.CryptoDatum(b64decode(saltb64))
+    auth_data = xnas_pyscram.generate_scram_auth_data(iterations=iter, salt=salt, salted_password=key_hash)
     api_key['stored_key'] = encrypt(b64encode(bytes(auth_data.stored_key)).decode())
     api_key['server_key'] = encrypt(b64encode(bytes(auth_data.server_key)).decode())
     api_key['salt'] = encrypt(b64encode(bytes(salt)).decode())

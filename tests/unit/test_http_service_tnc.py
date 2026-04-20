@@ -2,7 +2,7 @@ import asyncio
 import pytest
 from unittest.mock import AsyncMock, MagicMock
 
-from truenas_connect_utils.status import Status
+from xnas_connect_utils.status import Status
 from middlewared.plugins.service_.services.pseudo.misc import HttpService
 
 
@@ -38,7 +38,7 @@ class TestHTTPServiceTNCPortRegistration:
         await http_service._register_port_with_retry(8443)
 
         # Verify registration was called exactly once with correct port
-        mock_middleware.call.assert_called_once_with('tn_connect.hostname.register_system_config', 8443)
+        mock_middleware.call.assert_called_once_with('xnas_connect.hostname.register_system_config', 8443)
         # Verify no error was logged
         mock_middleware.logger.error.assert_not_called()
 
@@ -53,9 +53,9 @@ class TestHTTPServiceTNCPortRegistration:
             nonlocal registration_called
             if method == 'system.general.https_port_changed':
                 return (True, 8443)
-            elif method == 'tn_connect.config':
+            elif method == 'xnas_connect.config':
                 return {'status': Status.DISABLED.name}
-            elif method == 'tn_connect.hostname.register_system_config':
+            elif method == 'xnas_connect.hostname.register_system_config':
                 registration_called = True
                 return None
 
@@ -91,8 +91,8 @@ class TestHTTPServiceTNCPortRegistration:
         # Verify it was called twice (failed once, succeeded on retry)
         assert mock_middleware.call.call_count == 2
         # Verify both calls were with correct method and port
-        assert mock_middleware.call.call_args_list[0][0] == ('tn_connect.hostname.register_system_config', 8443)
-        assert mock_middleware.call.call_args_list[1][0] == ('tn_connect.hostname.register_system_config', 8443)
+        assert mock_middleware.call.call_args_list[0][0] == ('xnas_connect.hostname.register_system_config', 8443)
+        assert mock_middleware.call.call_args_list[1][0] == ('xnas_connect.hostname.register_system_config', 8443)
         # Verify no error was logged (since it eventually succeeded)
         mock_middleware.logger.error.assert_not_called()
 
@@ -110,7 +110,7 @@ class TestHTTPServiceTNCPortRegistration:
         assert mock_middleware.call.call_count == 3
         # Verify all calls were with correct method and port
         for call_args in mock_middleware.call.call_args_list:
-            assert call_args[0] == ('tn_connect.hostname.register_system_config', 8443)
+            assert call_args[0] == ('xnas_connect.hostname.register_system_config', 8443)
         # Verify error was logged
         mock_middleware.logger.error.assert_called_once()
         error_msg = mock_middleware.logger.error.call_args[0][0]
@@ -127,9 +127,9 @@ class TestHTTPServiceTNCPortRegistration:
             nonlocal registration_called
             if method == 'system.general.https_port_changed':
                 return (False, 443)
-            elif method == 'tn_connect.config':
+            elif method == 'xnas_connect.config':
                 return {'status': Status.CONFIGURED.name}
-            elif method == 'tn_connect.hostname.register_system_config':
+            elif method == 'xnas_connect.hostname.register_system_config':
                 registration_called = True
                 return None
 
@@ -155,7 +155,7 @@ class TestHTTPServiceTNCPortRegistration:
         await http_service._register_port_with_retry(7443)
 
         # Verify correct port was passed
-        mock_middleware.call.assert_called_once_with('tn_connect.hostname.register_system_config', 7443)
+        mock_middleware.call.assert_called_once_with('xnas_connect.hostname.register_system_config', 7443)
 
     @pytest.mark.asyncio
     async def test_after_restart_calls_register_new_port(
@@ -165,7 +165,7 @@ class TestHTTPServiceTNCPortRegistration:
         async def mock_call(method, *args, **kwargs):
             if method == 'system.general.https_port_changed':
                 return (True, 8443)
-            elif method == 'tn_connect.config':
+            elif method == 'xnas_connect.config':
                 return {'status': Status.CONFIGURED.name}
 
         mock_middleware.call.side_effect = mock_call
@@ -176,7 +176,7 @@ class TestHTTPServiceTNCPortRegistration:
         # Verify middleware.call was called for checking port change and TNC config
         assert mock_middleware.call.call_count == 2
         mock_middleware.call.assert_any_call('system.general.https_port_changed')
-        mock_middleware.call.assert_any_call('tn_connect.config')
+        mock_middleware.call.assert_any_call('xnas_connect.config')
         # Verify create_task was called (background task created)
         mock_middleware.create_task.assert_called_once()
 
@@ -188,7 +188,7 @@ class TestHTTPServiceTNCPortRegistration:
         async def mock_call(method, *args, **kwargs):
             if method == 'system.general.https_port_changed':
                 return (True, 8443)
-            elif method == 'tn_connect.config':
+            elif method == 'xnas_connect.config':
                 return {'status': Status.CONFIGURED.name}
 
         mock_middleware.call.side_effect = mock_call
@@ -199,6 +199,6 @@ class TestHTTPServiceTNCPortRegistration:
         # Verify middleware.call was called for checking port change and TNC config
         assert mock_middleware.call.call_count == 2
         mock_middleware.call.assert_any_call('system.general.https_port_changed')
-        mock_middleware.call.assert_any_call('tn_connect.config')
+        mock_middleware.call.assert_any_call('xnas_connect.config')
         # Verify create_task was called (background task created)
         mock_middleware.create_task.assert_called_once()

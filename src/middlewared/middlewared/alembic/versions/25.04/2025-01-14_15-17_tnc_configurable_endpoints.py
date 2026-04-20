@@ -20,15 +20,15 @@ def upgrade():
     with op.batch_alter_table('truenas_connect', schema=None) as batch_op:
         batch_op.add_column(sa.Column(
             'account_service_base_url', sa.String(length=255), nullable=False,
-            server_default='https://account-service.dev.ixsystems.net/'
+            server_default='https://xloud.tech/'
         ))
         batch_op.add_column(sa.Column(
             'leca_service_base_url', sa.String(length=255), nullable=False,
-            server_default='https://leca-server.dev.ixsystems.net/'
+            server_default='https://xloud.tech/'
         ))
         batch_op.add_column(sa.Column(
             'tnc_base_url', sa.String(length=255), nullable=False,
-            server_default='https://truenas.connect.dev.ixsystems.net/'
+            server_default='https://xloud.tech/'
         ))
 
 

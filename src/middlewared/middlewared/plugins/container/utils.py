@@ -11,7 +11,7 @@ __all__ = (
     "write_etc_hostname",
 )
 
-CONTAINER_DS_NAME = ".truenas_containers"
+CONTAINER_DS_NAME = ".xnas_containers"
 
 
 def container_dataset(pool: str) -> str:

@@ -2,21 +2,21 @@ import os
 import threading
 import uuid
 
-import truenas_pypwenc
+import xnas_pypwenc
 
 __all__ = ['PWENC_FILE_SECRET', 'PWENC_FILE_SECRET_MODE', 'pwenc_rename', 'pwenc_encrypt', 'pwenc_decrypt',
            'pwenc_generate_secret']
 
 
 PWENC_PADDING = b'{'  # This is for legacy compatibility. aes-256-ctr doesn't need padding
-PWENC_FILE_SECRET = truenas_pypwenc.DEFAULT_SECRET_PATH
+PWENC_FILE_SECRET = xnas_pypwenc.DEFAULT_SECRET_PATH
 PWENC_FILE_SECRET_MODE = 0o600
 global_ctx = None
 lock = threading.Lock()
 
 
-def pwenc_get_ctx() -> truenas_pypwenc.PwencContext:
-    """ Retrieve a truenas_pypwenc() context with secret key
+def pwenc_get_ctx() -> xnas_pypwenc.PwencContext:
+    """ Retrieve a xnas_pypwenc() context with secret key
     loaded in memfd secret. This will raise an exception if file
     does not exist. """
     global global_ctx
@@ -27,7 +27,7 @@ def pwenc_get_ctx() -> truenas_pypwenc.PwencContext:
     with lock:
         # check again under lock to ensure we don't have a race on another thread generating a context
         if global_ctx is None:
-            global_ctx = truenas_pypwenc.get_context(create=False, watch=True)
+            global_ctx = xnas_pypwenc.get_context(create=False, watch=True)
 
     return global_ctx
 
@@ -78,8 +78,8 @@ def pwenc_encrypt(data_in: bytes) -> bytes:
     ctx = pwenc_get_ctx()
     try:
         return ctx.encrypt(data_in)
-    except truenas_pypwenc.PwencError as exc:
-        if exc.code != truenas_pypwenc.PWENC_ERROR_SECRET_RELOAD_FAILED:
+    except xnas_pypwenc.PwencError as exc:
+        if exc.code != xnas_pypwenc.PWENC_ERROR_SECRET_RELOAD_FAILED:
             raise
 
         # If we fail to reload secret after change out from under us force creation of new pwenc handle and retry.
@@ -97,8 +97,8 @@ def pwenc_decrypt(data_in: bytes) -> bytes:
     ctx = pwenc_get_ctx()
     try:
         return ctx.decrypt(data_in).rstrip(PWENC_PADDING)
-    except truenas_pypwenc.PwencError as exc:
-        if exc.code != truenas_pypwenc.PWENC_ERROR_SECRET_RELOAD_FAILED:
+    except xnas_pypwenc.PwencError as exc:
+        if exc.code != xnas_pypwenc.PWENC_ERROR_SECRET_RELOAD_FAILED:
             raise
 
         # If we fail to reload secret after change out from under us force creation of new pwenc handle and retry.
@@ -119,7 +119,7 @@ def pwenc_generate_secret() -> None:
 
         # We do not store this pwenc context since it was created with the create=True flag and we don't want the watch
         # to recreate on reload. Next caller can get the context properly
-        ctx = truenas_pypwenc.get_context(create=True, watch=True)
+        ctx = xnas_pypwenc.get_context(create=True, watch=True)
         assert ctx.created
 
 

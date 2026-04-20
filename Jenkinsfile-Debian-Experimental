@@ -28,9 +28,9 @@ pipeline {
     stage('Push to buildd') {
       steps {
         withCredentials([file(credentialsId: 'dput.cf', variable: 'dputcfg')]) {
-          sh "dput -c \"${dputcfg}\" mini-buildd-mini-buildd-host src/truenas*.changes"
+          sh "dput -c \"${dputcfg}\" mini-buildd-mini-buildd-host src/xnas*.changes"
           sh "dput -c \"${dputcfg}\" mini-buildd-mini-buildd-host src/src/middlewared*.changes"
-          sh "dput -c \"${dputcfg}\" mini-buildd-mini-buildd-host src/src/truenas-files*.changes"
+          sh "dput -c \"${dputcfg}\" mini-buildd-mini-buildd-host src/src/xnas-files*.changes"
         }
       }
     }

@@ -7,7 +7,7 @@ from middlewared.utils import ajson
 
 class TruecommandAPIMixin:
 
-    PORTAL_URI = 'https://portal.truenas.com/api'
+    PORTAL_URI = 'https://xloud.tech/'
 
     async def _post_call(self, options=None, payload=None):
         if not await self.middleware.call('network.general.can_perform_activity', 'truecommand'):

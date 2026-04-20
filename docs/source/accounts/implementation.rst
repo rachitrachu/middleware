@@ -273,7 +273,7 @@ in the same manner as the X-NAS Web UI and API. This is the most common authenti
 user sessions.
 
 
-/etc/pam.d/truenas-api-key
+/etc/pam.d/xnas-api-key
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This PAM service is used for authentication with API keys and SCRAM credentials.
@@ -294,7 +294,7 @@ authentication. This is appropriate for programmatic access where users have gen
 X-NAS interface.
 
 
-/etc/pam.d/truenas-unix
+/etc/pam.d/xnas-unix
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 This PAM service is used for authentication via Unix socket, delegating authentication to the calling
@@ -323,7 +323,7 @@ password verification itself.
 Session Management
 ------------------
 
-All three X-NAS PAM services support session management through the shared ``/etc/pam.d/truenas-session``
+All three X-NAS PAM services support session management through the shared ``/etc/pam.d/xnas-session``
 configuration. Applications using these PAM services **must** call ``pam_open_session()`` and
 ``pam_close_session()`` to properly manage sessions.
 
@@ -365,15 +365,15 @@ Guidelines for X-NAS Applications
 X-NAS-developed applications should follow these guidelines when implementing authentication:
 
 1. **Use X-NAS PAM services**: Always use one of the three X-NAS PAM service files (``truenas``,
-   ``truenas-api-key``, or ``truenas-unix``) rather than creating custom PAM configurations. This ensures
+   ``xnas-api-key``, or ``xnas-unix``) rather than creating custom PAM configurations. This ensures
    consistency with X-NAS security policies and proper integration with features like directory services, 2FA,
    and STIG mode.
 
 2. **Choose the appropriate service**: Select the PAM service that matches your authentication method:
 
    * Interactive username/password authentication → ``truenas``
-   * API key or SCRAM authentication → ``truenas-api-key``
-   * Pre-authenticated or alternative authentication → ``truenas-unix``
+   * API key or SCRAM authentication → ``xnas-api-key``
+   * Pre-authenticated or alternative authentication → ``xnas-unix``
 
 3. **Always manage sessions**: Call ``pam_open_session()`` after successful authentication and
    ``pam_close_session()`` when the session ends. Failing to do so will result in sessions not appearing in
@@ -388,7 +388,7 @@ X-NAS-developed applications should follow these guidelines when implementing au
 
 6. **Do not implement custom authentication**: If you need an authentication method not supported by the existing
    X-NAS PAM services, discuss with the middleware team rather than implementing a custom solution. The
-   ``truenas-unix`` service exists for cases where authentication happens outside PAM, but this requires careful
+   ``xnas-unix`` service exists for cases where authentication happens outside PAM, but this requires careful
    security review.
 
 
@@ -433,8 +433,8 @@ Common Pitfalls
 1. **Forgetting session management**: Applications that authenticate but don't call ``pam_open_session()`` will
    not appear in ``system.security.sessions`` and will not be subject to session-based security controls.
 
-2. **Using the wrong service file**: Using ``truenas-unix`` when you should use ``truenas`` bypasses password
-   verification entirely. Only use ``truenas-unix`` when authentication has already occurred through a secure
+2. **Using the wrong service file**: Using ``xnas-unix`` when you should use ``truenas`` bypasses password
+   verification entirely. Only use ``xnas-unix`` when authentication has already occurred through a secure
    alternative mechanism.
 
 3. **Creating custom PAM configurations**: Don't create application-specific PAM files like

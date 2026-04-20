@@ -192,7 +192,7 @@ class Enclosure:
                 # more R series
                 self.model = dmi_model.value
                 self.controller = True
-            case 'iX_X-NASR20p' | 'SMC_SC826-P' | 'iX_2012Sp' | 'iX_X-NASSMCSC826-P':
+            case 'iX_XnasR20p' | 'SMC_SC826-P' | 'iX_2012Sp' | 'iX_XnasSMCSC826-P':
                 # R20 series
                 self.model = dmi_model.value
                 self.controller = True

@@ -4,7 +4,7 @@ import os
 import pytest
 import shutil
 import tempfile
-import truenas_pypwenc
+import xnas_pypwenc
 
 from xnas_api_client import Client
 from middlewared.utils.db import FREENAS_DATABASE
@@ -142,7 +142,7 @@ def test__pwenc_generate_secret_creates_backup(backup_pwenc_and_db):
         # Verify the backup file exists and is readable
         new_backup = [b for b in new_backups if b not in existing_backups][0]
         assert os.path.exists(new_backup)
-        assert os.path.getsize(new_backup) == truenas_pypwenc.PWENC_BLOCK_SIZE
+        assert os.path.getsize(new_backup) == xnas_pypwenc.PWENC_BLOCK_SIZE
 
 
 @pytest.mark.parametrize('expected_mode,expected_uid,expected_gid', [
@@ -167,7 +167,7 @@ def test__pwenc_file_exists(backup_pwenc_and_db):
 
     # File should be exactly PWENC_BLOCK_SIZE bytes
     file_size = os.path.getsize(PWENC_FILE_SECRET)
-    assert file_size == truenas_pypwenc.PWENC_BLOCK_SIZE
+    assert file_size == xnas_pypwenc.PWENC_BLOCK_SIZE
 
 
 @pytest.mark.parametrize('cycle', range(3))
@@ -206,14 +206,14 @@ def test__pwenc_backup_files_cleanup(backup_pwenc_and_db):
             assert len(uuid_part) > 0
 
             # Backup files should have correct size
-            assert os.path.getsize(backup_file) == truenas_pypwenc.PWENC_BLOCK_SIZE
+            assert os.path.getsize(backup_file) == xnas_pypwenc.PWENC_BLOCK_SIZE
 
 
 def test__pwenc_rename_with_tmpdir(backup_pwenc_and_db, pwenc_test_file):
     """Test pwenc_rename functionality"""
     # Write test data to the test file
     with open(pwenc_test_file, 'wb') as f:
-        f.write(b'X' * truenas_pypwenc.PWENC_BLOCK_SIZE)
+        f.write(b'X' * xnas_pypwenc.PWENC_BLOCK_SIZE)
         f.flush()
 
     # Get list of existing backups
@@ -242,7 +242,7 @@ def test__pwenc_rename_fixes_permissions(backup_pwenc_and_db, pwenc_test_file, w
     """Test that pwenc_rename corrects file permissions"""
     # Write test data with wrong permissions
     with open(pwenc_test_file, 'wb') as f:
-        f.write(b'Y' * truenas_pypwenc.PWENC_BLOCK_SIZE)
+        f.write(b'Y' * xnas_pypwenc.PWENC_BLOCK_SIZE)
         f.flush()
 
     # Set wrong permissions
@@ -302,7 +302,7 @@ def test__pwenc_decrypt_invalid_data(backup_pwenc_and_db):
 def test__pwenc_filesystem_file_receive_blocked(backup_pwenc_and_db):
     """Test that filesystem.file_receive cannot be used to write pwenc secret"""
     # Create test data
-    test_data = b'Z' * truenas_pypwenc.PWENC_BLOCK_SIZE
+    test_data = b'Z' * xnas_pypwenc.PWENC_BLOCK_SIZE
     b64_data = base64.b64encode(test_data).decode()
 
     with Client(py_exceptions=True) as c:

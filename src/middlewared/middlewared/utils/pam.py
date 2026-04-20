@@ -13,7 +13,7 @@ class PAMModule(enum.StrEnum):
     OATH = 'pam_oath.so'
     UNIX = 'pam_unix.so'
     SSS = 'pam_sss.so'
-    TRUENAS = 'pam_truenas.so'
+    TRUENAS = 'pam_xnas.so'
     TTY_AUDIT = 'pam_tty_audit.so'
     WINBIND = 'pam_winbind.so'
 

@@ -109,9 +109,9 @@ from .system_reboot import *
 from .system_security import *
 from .system_general_timezone import *
 from .systemdataset import *
-from .tn_connect import *
+from .xnas_connect import *
 from .truecommand import *
-from .truenas import *
+from .xnas import *
 from .tunable import *
 from .update import *
 from .ups import *

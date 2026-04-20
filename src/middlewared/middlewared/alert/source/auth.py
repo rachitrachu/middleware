@@ -8,7 +8,7 @@ from middlewared.utils.audit import UNAUTHENTICATED
 from time import time
 
 
-URL = "https://www.truenas.com/docs/scale/scaletutorials/credentials/adminroles/"
+URL = "https://docs.xloud.tech/"
 MAX_LOGINS_LISTED = 100
 
 

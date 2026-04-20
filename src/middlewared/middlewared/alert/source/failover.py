@@ -26,7 +26,7 @@ class FailoverInterfaceNotFoundAlert(AlertClass):
     )
 
 
-class X-NASVersionsMismatchAlert(AlertClass):
+class XnasVersionsMismatchAlert(AlertClass):
     config = AlertClassConfig(
         category=AlertCategory.HA,
         level=AlertLevel.CRITICAL,
@@ -85,7 +85,7 @@ class FailoverAlertSource(AlertSource):
             local_version = await self.middleware.call('system.version')
             remote_version = await self.middleware.call('failover.call_remote', 'system.version')
             if local_version != remote_version:
-                return [Alert(X-NASVersionsMismatchAlert())]
+                return [Alert(XnasVersionsMismatchAlert())]
 
             local = await self.middleware.call('failover.vip.get_states')
             remote = await self.middleware.call('failover.call_remote', 'failover.vip.get_states')

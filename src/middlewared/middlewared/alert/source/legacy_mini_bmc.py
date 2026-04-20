@@ -3,10 +3,10 @@ from typing import Any
 from middlewared.alert.base import AlertClass, AlertClassConfig, AlertCategory, AlertLevel, AlertSource, Alert
 from middlewared.utils import ProductType
 
-URL = "https://www.truenas.com/docs/hardware/legacyhardware/miniseries/freenas-minis-2nd-gen/freenasminibmcwatchdog/"
+URL = "https://docs.xloud.tech/"
 
 
-class X-NASMiniBMCAlert(AlertClass):
+class XnasMiniBMCAlert(AlertClass):
     config = AlertClassConfig(
         category=AlertCategory.HARDWARE,
         level=AlertLevel.CRITICAL,
@@ -20,7 +20,7 @@ class X-NASMiniBMCAlert(AlertClass):
     )
 
 
-class X-NASMiniBMCAlertSource(AlertSource):
+class XnasMiniBMCAlertSource(AlertSource):
     products = (ProductType.COMMUNITY_EDITION,)
 
     async def check(self) -> list[Alert[Any]] | Alert[Any] | None:
@@ -34,6 +34,6 @@ class X-NASMiniBMCAlertSource(AlertSource):
                 except ValueError:
                     return None
 
-            return Alert(X-NASMiniBMCAlert())
+            return Alert(XnasMiniBMCAlert())
 
         return None

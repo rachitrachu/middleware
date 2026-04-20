@@ -12,8 +12,8 @@ SKEL_PATH = '/etc/skel/'  # TODO evaluate whether this is still needed
 # And so this default has been deprecated in favor of using /var/empty
 # which is an empty and immutable directory.
 DEFAULT_HOME_PATH = '/var/empty'
-TRUENAS_PAM_SERVICE = '/etc/pam.d/truenas'
-TRUENAS_PAM_API_KEY_SERVICE = '/etc/pam.d/truenas-api-key'
+XNAS_PAM_SERVICE = '/etc/pam.d/xnas'
+XNAS_PAM_API_KEY_SERVICE = '/etc/pam.d/xnas-api-key'
 NO_LOGIN_SHELL = '/usr/sbin/nologin'
 
 USERNS_IDMAP_DIRECT = -1
@@ -36,7 +36,7 @@ ALLOWED_BUILTIN_GIDS = frozenset({
 CONTAINER_ROOT_UID = 2147000001
 
 SYNTHETIC_CONTAINER_ROOT = {
-    'pw_name': 'truenas_container_unpriv_root',
+    'pw_name': 'xnas_container_unpriv_root',
     'pw_uid': CONTAINER_ROOT_UID,
     'pw_gid': 2147000001,
     'pw_gecos': 'Unprivileged root user for containers',

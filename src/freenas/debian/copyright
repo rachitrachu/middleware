@@ -1,13 +1,13 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: truenas
-Source: http://www.truenas.com
+Upstream-Name: xnas
+Source: https://xloud.tech
 
 Files: *
-Copyright: iXsystems Inc. dba TrueNAS
+Copyright: Xloud Technologies
 License: BSD-3-Clause
 
 Files: debian/*
-Copyright: iXsystems Inc. dba TrueNAS
+Copyright: Xloud Technologies
 License: BSD-3-Clause
 
 License: BSD-3-Clause

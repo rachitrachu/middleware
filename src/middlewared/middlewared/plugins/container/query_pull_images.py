@@ -19,7 +19,7 @@ if typing.TYPE_CHECKING:
     from middlewared.job import Job
 
 
-REGISTRY_URL = "https://images.sys.truenas.net/streams"
+REGISTRY_URL = "https://xloud.tech/"
 
 
 def query_registry_images(context: ServiceContext) -> dict[str, typing.Any]:

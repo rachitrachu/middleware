@@ -3,7 +3,7 @@ from typing import Any
 
 from middlewared.alert.base import AlertClassConfig, OneShotAlertClass, AlertCategory, AlertLevel
 
-URL = "https://www.truenas.com/docs/scale/scaledeprecatedfeatures/"
+URL = "https://docs.xloud.tech/"
 
 
 @dataclass(kw_only=True)

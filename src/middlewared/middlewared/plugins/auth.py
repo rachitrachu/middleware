@@ -30,7 +30,7 @@ from middlewared.auth import (
     AuthenticationContext, TruenasNodeSessionManagerCredentials, TokenSessionManagerCredentials,
     dump_credentials
 )
-from middlewared.plugins.account_.constants import TRUENAS_PAM_SERVICE, TRUENAS_PAM_API_KEY_SERVICE
+from middlewared.plugins.account_.constants import XNAS_PAM_SERVICE, XNAS_PAM_API_KEY_SERVICE
 from middlewared.plugins.auth_.login_ex_impl import (
     login_ex_password_plain,
     login_ex_api_key_plain,
@@ -61,7 +61,7 @@ if TYPE_CHECKING:
     from middlewared.utils.origin import ConnectionOrigin
 
 
-PAM_SERVICES = {TRUENAS_PAM_SERVICE, TRUENAS_PAM_API_KEY_SERVICE}
+PAM_SERVICES = {XNAS_PAM_SERVICE, XNAS_PAM_API_KEY_SERVICE}
 DEFAULT_TOKEN_TTL = 600
 MIN_RECONNECT_TOKEN_TTL = 60
 
@@ -952,8 +952,8 @@ class AuthService(Service):
                 response['authenticator'] = await self.get_authenticator_assurance_level()
 
                 if cred and cred.login_id.startswith('<ERROR'):
-                    # If we get here, it means that pam_truenas.so isn't present in
-                    # the truenas-session PAM configuration. Log an error and regenerate.
+                    # If we get here, it means that pam_xnas.so isn't present in
+                    # the xnas-session PAM configuration. Log an error and regenerate.
                     self.logger.error(
                         'PAM stack failed to allocate session UUID. This may indicate a '
                         'configuration error: %s. Attempting to recover. Error: %s', cred.dump(),

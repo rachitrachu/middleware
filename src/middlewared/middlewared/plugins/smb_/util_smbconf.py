@@ -53,7 +53,7 @@ EXCLUDED_IDMAP_ITEMS = frozenset(['name', 'range_low', 'range_high', 'idmap_back
 SAMBA_HA_LOCKDIR = os.path.join(SYSDATASET_PATH, 'samba4', 'lock')
 
 
-class X-NASVfsObjects(enum.StrEnum):
+class XnasVfsObjects(enum.StrEnum):
     # Ordering here determines order in which objects entered into
     # SMB configuration, which has functional impact on SMB server
     TRUENAS_AUDIT = 'truenas_audit'
@@ -96,13 +96,13 @@ def __order_vfs_objects(vfs_objects: set, fruit_enabled: bool):
 
     if fruit_enabled:
         # vfs_fruit must be globally enabled
-        vfs_objects.add(X-NASVfsObjects.FRUIT)
+        vfs_objects.add(XnasVfsObjects.FRUIT)
 
-    if X-NASVfsObjects.FRUIT in vfs_objects:
+    if XnasVfsObjects.FRUIT in vfs_objects:
         # vfs_fruit requires streams_xattr
-        vfs_objects.add(X-NASVfsObjects.STREAMS_XATTR)
+        vfs_objects.add(XnasVfsObjects.STREAMS_XATTR)
 
-    for obj in X-NASVfsObjects:
+    for obj in XnasVfsObjects:
         if obj in vfs_objects:
             vfs_objects_ordered.append(obj)
 
@@ -129,7 +129,7 @@ def __parse_share_fs_acl(share_path: str, vfs_objects: set) -> None:
             # We're relying on default samba POSIX ACL processing to handle ACLs.
             pass
         case FS_ACL_Type.NFS4:
-            vfs_objects.add(X-NASVfsObjects.IXNAS)
+            vfs_objects.add(XnasVfsObjects.IXNAS)
         case FS_ACL_Type.DISABLED:
             raise NotImplementedError
         case _:
@@ -187,17 +187,17 @@ def __apply_purpose_and_options(
 
     match config_in[share_field.PURPOSE]:
         case SMBSharePurpose.DEFAULT_SHARE | SMBSharePurpose.FCP_SHARE:
-            vfs_objects.add(X-NASVfsObjects.SHADOW_COPY_ZFS)
-            vfs_objects.add(X-NASVfsObjects.STREAMS_XATTR)
+            vfs_objects.add(XnasVfsObjects.SHADOW_COPY_ZFS)
+            vfs_objects.add(XnasVfsObjects.STREAMS_XATTR)
             out['posix locking'] = False
 
         case SMBSharePurpose.TIMEMACHINE_SHARE:
-            vfs_objects.add(X-NASVfsObjects.SHADOW_COPY_ZFS)
-            vfs_objects.add(X-NASVfsObjects.STREAMS_XATTR)
+            vfs_objects.add(XnasVfsObjects.SHADOW_COPY_ZFS)
+            vfs_objects.add(XnasVfsObjects.STREAMS_XATTR)
             out['fruit:time machine'] = True
             out['posix locking'] = False
             if opts[share_field.AUTO_SNAP]:
-                vfs_objects.add(X-NASVfsObjects.TMPROTECT)
+                vfs_objects.add(XnasVfsObjects.TMPROTECT)
             if opts[share_field.AUTO_DS]:
                 out['zfs_core:zfs_auto_create'] = True
             if opts[share_field.TIMEMACHINE_QUOTA]:
@@ -206,16 +206,16 @@ def __apply_purpose_and_options(
             out['spotlight'] = False
 
         case SMBSharePurpose.MULTIPROTOCOL_SHARE:
-            vfs_objects.add(X-NASVfsObjects.SHADOW_COPY_ZFS)
-            vfs_objects.add(X-NASVfsObjects.STREAMS_XATTR)
+            vfs_objects.add(XnasVfsObjects.SHADOW_COPY_ZFS)
+            vfs_objects.add(XnasVfsObjects.STREAMS_XATTR)
             out['posix locking'] = False
             out['oplocks'] = 'no'
             out['level2 oplocks'] = 'no'
             out['smb3 unix extensions'] = True
 
         case SMBSharePurpose.PRIVATE_DATASETS_SHARE:
-            vfs_objects.add(X-NASVfsObjects.SHADOW_COPY_ZFS)
-            vfs_objects.add(X-NASVfsObjects.STREAMS_XATTR)
+            vfs_objects.add(XnasVfsObjects.SHADOW_COPY_ZFS)
+            vfs_objects.add(XnasVfsObjects.STREAMS_XATTR)
             out['zfs_core:zfs_auto_create'] = True
             if opts[share_field.AUTO_QUOTA]:
                 out['zfs_core:dataset_auto_quota'] = f'{opts[share_field.AUTO_QUOTA]}G'
@@ -224,10 +224,10 @@ def __apply_purpose_and_options(
             out['nt acl support'] = opts[share_field.ACL]
             out['guest ok'] = opts[share_field.GUESTOK]
             if opts[share_field.STREAMS]:
-                vfs_objects.add(X-NASVfsObjects.STREAMS_XATTR)
+                vfs_objects.add(XnasVfsObjects.STREAMS_XATTR)
 
             if opts[share_field.RECYCLE]:
-                vfs_objects.add(X-NASVfsObjects.RECYCLE)
+                vfs_objects.add(XnasVfsObjects.RECYCLE)
                 out.update({
                     'recycle:repository': '.recycle/%D/%U' if ds_type is DSType.AD else '.recycle/%U',
                     'recycle:keeptree': True,
@@ -238,7 +238,7 @@ def __apply_purpose_and_options(
                 })
 
             if opts[share_field.SHADOWCOPY]:
-                vfs_objects.add(X-NASVfsObjects.SHADOW_COPY_ZFS)
+                vfs_objects.add(XnasVfsObjects.SHADOW_COPY_ZFS)
 
             if opts[share_field.DURABLEHANDLE]:
                 out['posix locking'] = False
@@ -254,21 +254,21 @@ def __apply_purpose_and_options(
                 acl_enabled = False
 
             if opts[share_field.FSRVP]:
-                vfs_objects.add(X-NASVfsObjects.ZFS_FSRVP)
+                vfs_objects.add(XnasVfsObjects.ZFS_FSRVP)
 
         case SMBSharePurpose.EXTERNAL_SHARE:
             # Parameters already applied when parsing share path
             acl_enabled = False
 
         case SMBSharePurpose.TIME_LOCKED_SHARE:
-            vfs_objects.add(X-NASVfsObjects.SHADOW_COPY_ZFS)
-            vfs_objects.add(X-NASVfsObjects.STREAMS_XATTR)
-            vfs_objects.add(X-NASVfsObjects.WORM)
+            vfs_objects.add(XnasVfsObjects.SHADOW_COPY_ZFS)
+            vfs_objects.add(XnasVfsObjects.STREAMS_XATTR)
+            vfs_objects.add(XnasVfsObjects.WORM)
             out['worm:grace_period'] = opts[share_field.WORM_GRACE]
 
         case SMBSharePurpose.VEEAM_REPOSITORY_SHARE:
-            vfs_objects.add(X-NASVfsObjects.SHADOW_COPY_ZFS)
-            vfs_objects.add(X-NASVfsObjects.STREAMS_XATTR)
+            vfs_objects.add(XnasVfsObjects.SHADOW_COPY_ZFS)
+            vfs_objects.add(XnasVfsObjects.STREAMS_XATTR)
             out['posix locking'] = False
             out['block size'] = VEEAM_REPO_BLOCKSIZE
 
@@ -301,10 +301,10 @@ def generate_smb_share_conf_dict(
 ) -> dict:
     # apply any presets to the config here
     fruit_enabled = smb_service_config['aapl_extensions']
-    vfs_objects = set([X-NASVfsObjects.ZFS_CORE])
+    vfs_objects = set([XnasVfsObjects.ZFS_CORE])
 
     if io_uring_enabled:
-        vfs_objects.add(X-NASVfsObjects.IO_URING)
+        vfs_objects.add(XnasVfsObjects.IO_URING)
 
     config_out = {
         'access based share enum': share_config[share_field.ABE],
@@ -325,7 +325,7 @@ def generate_smb_share_conf_dict(
     if share_config[share_field.OPTS].get(share_field.AAPL_MANGLING):
         # Apply SFM mangling to share. This takes different form depending
         # on whether fruit is enabled. The end result is the same.
-        vfs_objects.add(X-NASVfsObjects.CATIA)
+        vfs_objects.add(XnasVfsObjects.CATIA)
 
         if fruit_enabled:
             config_out.update({
@@ -340,8 +340,8 @@ def generate_smb_share_conf_dict(
 
     if share_config[share_field.OPTS].get(share_field.AFP):
         # Parameters for compatibility with how data was written by Netatalk
-        vfs_objects.add(X-NASVfsObjects.FRUIT)
-        vfs_objects.add(X-NASVfsObjects.CATIA)
+        vfs_objects.add(XnasVfsObjects.FRUIT)
+        vfs_objects.add(XnasVfsObjects.CATIA)
         config_out.update({
             'fruit:encoding': 'native',
             'fruit:metadata': 'netatalk',
@@ -352,7 +352,7 @@ def generate_smb_share_conf_dict(
         })
 
     if share_config[share_field.AUDIT][share_field.AUDIT_ENABLE]:
-        vfs_objects.add(X-NASVfsObjects.TRUENAS_AUDIT)
+        vfs_objects.add(XnasVfsObjects.TRUENAS_AUDIT)
         for key in (share_field.AUDIT_WATCH_LIST, share_field.AUDIT_IGNORE_LIST):
             if not share_config[share_field.AUDIT][key]:
                 continue

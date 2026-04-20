@@ -1,4 +1,4 @@
-from truenas_crypto_utils.generate_self_signed import generate_self_signed_certificate
+from xnas_crypto_utils.generate_self_signed import generate_self_signed_certificate
 
 from middlewared.service import private, Service
 

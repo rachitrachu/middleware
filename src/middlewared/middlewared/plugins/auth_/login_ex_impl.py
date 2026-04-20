@@ -13,7 +13,7 @@ from middlewared.auth import (
 from middlewared.service import CallError
 from middlewared.utils.account.authenticator import (
     ApiKeyPamAuthenticator, TokenPamAuthenticator, UserPamAuthenticator, AccountFlag,
-    ScramPamAuthenticator, X-NASAuthenticatorResponse, X-NASAuthenticatorStage,
+    ScramPamAuthenticator, XnasAuthenticatorResponse, XnasAuthenticatorStage,
 )
 from middlewared.utils.account.oath import OATH_FILE
 from middlewared.utils.auth import AuthMech, CURRENT_AAL
@@ -85,7 +85,7 @@ def login_ex_password_plain(
     auth_ctx: AuthenticationContext,
     auth_data: dict[str, str],
 ) -> tuple[
-    X-NASAuthenticatorResponse,
+    XnasAuthenticatorResponse,
     LoginPasswordSessionManagerCredentials | LoginOnetimePasswordSessionManagerCredentials | None
 ]:
     """ Handle authentication request with username and password. """
@@ -97,8 +97,8 @@ def login_ex_password_plain(
 
     if not _auth_ctx_check(middleware, app=app, auth_ctx=auth_ctx, cred_type=cred_type, oath_file_check=True):
         sleep(CURRENT_AAL.get_delay_interval())
-        resp = X-NASAuthenticatorResponse(
-            stage=X-NASAuthenticatorStage.AUTH,
+        resp = XnasAuthenticatorResponse(
+            stage=XnasAuthenticatorStage.AUTH,
             code=PAMCode.PAM_ABORT,
             reason='Failed authentication configuration precheck'
         )
@@ -120,8 +120,8 @@ def login_ex_password_plain(
         sleep(CURRENT_AAL.get_delay_interval())
         # Prevent use of this PAM handle
         auth_ctx.pam_hdl.end()
-        resp = X-NASAuthenticatorResponse(
-            stage=X-NASAuthenticatorStage.AUTH,
+        resp = XnasAuthenticatorResponse(
+            stage=XnasAuthenticatorStage.AUTH,
             code=PAMCode.PAM_AUTH_ERR,
             reason='User does not have two factor authentication enabled.'
         )
@@ -144,8 +144,8 @@ def login_ex_password_plain(
                 )
         else:
             auth_ctx.pam_hdl.end()
-            resp = X-NASAuthenticatorResponse(
-                stage=X-NASAuthenticatorStage.AUTH,
+            resp = XnasAuthenticatorResponse(
+                stage=XnasAuthenticatorStage.AUTH,
                 code=PAMCode.PAM_PERM_DENIED,
                 reason='User lacks API access.'
             )
@@ -181,7 +181,7 @@ def login_ex_api_key_plain(
     app: App,
     auth_ctx: AuthenticationContext,
     auth_data: dict[str, str],
-) -> tuple[X-NASAuthenticatorResponse, ApiKeySessionManagerCredentials | None]:
+) -> tuple[XnasAuthenticatorResponse, ApiKeySessionManagerCredentials | None]:
     """ Handle authentication request with raw API key. """
     _login_ex_base_args_check(middleware, app, auth_ctx)
     auth_ctx.pam_hdl = ApiKeyPamAuthenticator(username=auth_data['username'], origin=app.origin)
@@ -191,8 +191,8 @@ def login_ex_api_key_plain(
     # API keys never have OATH plumbing
     if not _auth_ctx_check(middleware, app=app, auth_ctx=auth_ctx, cred_type=cred_type, oath_file_check=False):
         sleep(CURRENT_AAL.get_delay_interval())
-        resp = X-NASAuthenticatorResponse(
-            stage=X-NASAuthenticatorStage.AUTH,
+        resp = XnasAuthenticatorResponse(
+            stage=XnasAuthenticatorStage.AUTH,
             code=PAMCode.PAM_ABORT,
             reason='Failed authentication configuration precheck'
         )
@@ -216,15 +216,15 @@ def login_ex_api_key_plain(
         # have a key in the user's keyring. There's no way to differentiate
         # at PAM level because both fail with ENOKEY.
         if key['expires_at']:
-            resp = X-NASAuthenticatorResponse(
-                stage=X-NASAuthenticatorStage.AUTH,
+            resp = XnasAuthenticatorResponse(
+                stage=XnasAuthenticatorStage.AUTH,
                 code=PAMCode.PAM_CRED_EXPIRED,
                 reason='Api key is expired'
             )
 
         elif key['revoked']:
-            resp = X-NASAuthenticatorResponse(
-                stage=X-NASAuthenticatorStage.AUTH,
+            resp = XnasAuthenticatorResponse(
+                stage=XnasAuthenticatorStage.AUTH,
                 code=PAMCode.PAM_AUTH_ERR,
                 reason='API key is revoked'
             )
@@ -242,8 +242,8 @@ def login_ex_api_key_plain(
             middleware.call_sync('api_key.revoke', key_id, 'Attempt to use over an insecure transport')
             sleep(CURRENT_AAL.get_delay_interval())
 
-            resp = X-NASAuthenticatorResponse(
-                stage=X-NASAuthenticatorStage.AUTH,
+            resp = XnasAuthenticatorResponse(
+                stage=XnasAuthenticatorStage.AUTH,
                 code=PAMCode.PAM_CRED_EXPIRED,
                 reason='API key revoked due to insecure transport'
             )
@@ -255,8 +255,8 @@ def login_ex_api_key_plain(
                 cred = ApiKeySessionManagerCredentials(user_info, key, CURRENT_AAL.level, auth_ctx.pam_hdl)
             else:
                 auth_ctx.pam_hdl.end()
-                resp = X-NASAuthenticatorResponse(
-                    stage=X-NASAuthenticatorStage.AUTH,
+                resp = XnasAuthenticatorResponse(
+                    stage=XnasAuthenticatorStage.AUTH,
                     code=PAMCode.PAM_PERM_DENIED,
                     reason='User lacks API access.'
                 )
@@ -279,7 +279,7 @@ def login_ex_oath_token(
     app: App,
     auth_ctx: AuthenticationContext,
     auth_data: dict[str, str],
-) -> tuple[X-NASAuthenticatorResponse, LoginTwofactorSessionManagerCredentials | None]:
+) -> tuple[XnasAuthenticatorResponse, LoginTwofactorSessionManagerCredentials | None]:
     """ Handle continuation of auth with OATH token. """
     _login_ex_base_args_check(middleware, app, auth_ctx)
     cred = None
@@ -288,8 +288,8 @@ def login_ex_oath_token(
     # OATH token authentication requires OATH file
     if not _auth_ctx_check(middleware, app=app, auth_ctx=auth_ctx, cred_type=cred_type, oath_file_check=True):
         sleep(CURRENT_AAL.get_delay_interval())
-        resp = X-NASAuthenticatorResponse(
-            stage=X-NASAuthenticatorStage.AUTH,
+        resp = XnasAuthenticatorResponse(
+            stage=XnasAuthenticatorStage.AUTH,
             code=PAMCode.PAM_ABORT,
             reason='Failed authentication configuration precheck'
         )
@@ -314,8 +314,8 @@ def login_ex_oath_token(
             )
         else:
             sleep(CURRENT_AAL.get_delay_interval())
-            resp = X-NASAuthenticatorResponse(
-                stage=X-NASAuthenticatorStage.AUTH,
+            resp = XnasAuthenticatorResponse(
+                stage=XnasAuthenticatorStage.AUTH,
                 code=PAMCode.PAM_PERM_DENIED,
                 reason='User lacks API access.'
             )
@@ -347,7 +347,7 @@ def login_ex_token_plain(
     auth_ctx: AuthenticationContext,
     token_manager: TokenManager,
     auth_data: dict[str, str],
-) -> tuple[X-NASAuthenticatorResponse, TokenSessionManagerCredentials | None]:
+) -> tuple[XnasAuthenticatorResponse, TokenSessionManagerCredentials | None]:
     """ Handle authentication with legacy auth tokens. This need to be replaced
     in the future with a more secure method. """
     _login_ex_base_args_check(middleware, app, auth_ctx)
@@ -367,8 +367,8 @@ def login_ex_token_plain(
             },
             'error': 'Invalid token',
         }, False)
-        resp = X-NASAuthenticatorResponse(
-            stage=X-NASAuthenticatorStage.AUTH,
+        resp = XnasAuthenticatorResponse(
+            stage=XnasAuthenticatorStage.AUTH,
             code=PAMCode.PAM_AUTH_ERR,
             reason='Invalid token'
         )
@@ -383,8 +383,8 @@ def login_ex_token_plain(
             },
             'error': 'Bad token',
         }, False)
-        resp = X-NASAuthenticatorResponse(
-            stage=X-NASAuthenticatorStage.AUTH,
+        resp = XnasAuthenticatorResponse(
+            stage=XnasAuthenticatorStage.AUTH,
             code=PAMCode.PAM_AUTH_ERR,
             reason='Bad token'
         )
@@ -429,7 +429,7 @@ def login_ex_scram(
     app: App,
     auth_ctx: AuthenticationContext,
     auth_data: dict[str, str],
-) -> tuple[X-NASAuthenticatorResponse, ApiKeySessionManagerCredentials | UserSessionManagerCredentials | None]:
+) -> tuple[XnasAuthenticatorResponse, ApiKeySessionManagerCredentials | UserSessionManagerCredentials | None]:
     """ Handle authentication request with SCRAM authentication. """
     _login_ex_base_args_check(middleware, app, auth_ctx)
     cred: ApiKeySessionManagerCredentials | UserSessionManagerCredentials | None = None
@@ -445,8 +445,8 @@ def login_ex_scram(
             # SCRAM authentication never has OATH plumbing
             if not _auth_ctx_check(middleware, app=app, auth_ctx=auth_ctx, cred_type=cred_type, oath_file_check=False):
                 sleep(CURRENT_AAL.get_delay_interval())
-                resp = X-NASAuthenticatorResponse(
-                    stage=X-NASAuthenticatorStage.AUTH,
+                resp = XnasAuthenticatorResponse(
+                    stage=XnasAuthenticatorStage.AUTH,
                     code=PAMCode.PAM_ABORT,
                     reason='Failed authentication configuration precheck'
                 )
@@ -466,8 +466,8 @@ def login_ex_scram(
             # SCRAM authentication never has OATH plumbing
             if not _auth_ctx_check(middleware, app=app, auth_ctx=auth_ctx, cred_type=cred_type, oath_file_check=False):
                 sleep(CURRENT_AAL.get_delay_interval())
-                resp = X-NASAuthenticatorResponse(
-                    stage=X-NASAuthenticatorStage.AUTH,
+                resp = XnasAuthenticatorResponse(
+                    stage=XnasAuthenticatorStage.AUTH,
                     code=PAMCode.PAM_ABORT,
                     reason='Failed authentication configuration precheck'
                 )

@@ -1,5 +1,5 @@
 [Unit]
-Description=Execute TrueNAS custom pre-init tasks
+Description=Execute X-NAS custom pre-init tasks
 DefaultDependencies=no
 
 Before=network-pre.target

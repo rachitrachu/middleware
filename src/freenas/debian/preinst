@@ -17,5 +17,5 @@ for file in \
     /usr/lib/tmpfiles.d/nut-client.conf \
     /usr/lib/tmpfiles.d/nut-common.tmpfiles
 do
-    dpkg-divert --add --package truenas-files --rename --divert "/var/trash/$(echo "$file" | sed "s/\//_/g")" "$file"
+    dpkg-divert --add --package xnas-files --rename --divert "/var/trash/$(echo "$file" | sed "s/\//_/g")" "$file"
 done
